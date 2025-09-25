@@ -181,19 +181,5 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 
 ## 📬 Contact
 
-For inquiries or support, contact: [yourname@email.com](mailto:yourname@email.com)
-
-```
-
----
-
-### ✅ What to Do Next:
-
-- Save the file as `README.md` in your project root.
-- Replace placeholders like:
-  - `your-username` in the GitHub repo URL.
-  - `yourname@email.com` in the contact section.
-- Update the **Planned Features** list as your app progresses.
-
-Would you like help setting up the Redux store folder or initial route structure next?
+For inquiries or support, contact us: [montaserismail20@gmail.com, mohamed.turki111@gmail.com, anas.dev000@gmail.com, tarekhamdy7469@gmail.com]
 ```
