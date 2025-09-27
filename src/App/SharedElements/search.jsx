@@ -23,7 +23,7 @@ import { FaSearch } from "react-icons/fa";
  * Example Usage:
  * <Search myClass="border rounded-md" placeholder="Search products..." />
  */
-export function Search({ myClass, style, placeholder }) {
+export default function Search({ divClass, inputClass, style, placeholder }) {
   const navigate = useNavigate(); // Hook for programmatic navigation
   const [keyword, setKeyword] = useState(""); // Local input state
 
@@ -49,7 +49,7 @@ export function Search({ myClass, style, placeholder }) {
   return (
     <div
       className={`relative flex items-center gap-2 w-full max-w-md ${
-        myClass || ""
+        divClass || ""
       }`}
       style={style}
     >
@@ -59,7 +59,7 @@ export function Search({ myClass, style, placeholder }) {
       {/* Search input field */}
       <Input
         type="text"
-        myClass={`pl-10 ${myClass || ""}`} // Padding to prevent overlap with icon
+        myClass={`pl-10 ${inputClass || ""}`} // Padding to prevent overlap with icon
         placeholder={placeholder || "Search..."}
         name="Search"
         value={keyword}
