@@ -79,7 +79,7 @@ console.log("Current theme:", myTheme);
           {/*Search*/}
           <Search
             divClass="rounded-full border border-gray-200 hover:border-gray-400 w-full sm:w-64 md:w-80 lg:w-96 overflow-hidden"
-            inputClass="border-none focus:outline-none focus:ring-0 px-4 py-2 text-black placeholder-gray-400"
+            inputClass="border-none focus:outline-none focus:ring-0 px-4 py-2 text-black placeholder-gray-400  w-full sm:w-64 md:w-80 lg:w-96"
             placeholder={content.Search + "..."}
           />
           {/* Notifications */}
