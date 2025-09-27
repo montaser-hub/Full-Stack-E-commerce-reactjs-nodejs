@@ -8,7 +8,7 @@ function App() {
   const { lang } = useSelector((state) => state.myLang); // "en" or "ar"
   return (
     <>
-       <div className={myTheme === "dark" ? "dark bg-neutral-900 text-white" : "bg-white text-black"} dir={lang === "ar" ? "rtl" : "ltr"}>
+      <div className={myTheme === "dark" ? "dark bg-neutral-900 text-white" : "bg-white text-black"} dir={lang === "ar" ? "rtl" : "ltr"}>
       <BrowserRouter>
         <Header />
         <Routes>

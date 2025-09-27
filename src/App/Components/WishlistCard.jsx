@@ -1,3 +1,4 @@
+import Button from "../SharedElements/Button";
 function WishlistCard(props) {
   const getStockStatus = (stock) => {
     if (stock === 0) {
@@ -34,15 +35,18 @@ function WishlistCard(props) {
         </div>
       </div>
       <div className="absolute bottom-4 left-4 right-4 flex gap-2">
-        <button 
-          className="flex-1 h-10 flex items-center justify-center font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 disabled:opacity-40"
-          disabled={!stockStatus.isEnabled}
-        >
-          Move to Cart
-        </button>
-        <button className="flex-1 h-10 flex items-center justify-center font-medium text-neutral-900 bg-white border border-gray-200 rounded-md hover:bg-gray-100 disabled:opacity-40">
-          Remove
-        </button>
+          <Button
+          myClass="flex-1 h-10 flex items-center justify-center font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 disabled:opacity-40"
+          onClick={() => console.log('Move to Cart clicked!')}
+          status={!stockStatus.isEnabled}
+          content="Move to Cart"
+        />
+        <Button
+          myClass="flex-1 h-10 flex items-center justify-center font-medium text-neutral-900 bg-white border border-gray-200 rounded-md hover:bg-gray-100 disabled:opacity-40"
+          onClick={() => console.log('Remove clicked!')}
+          status={false}
+          content="Remove"
+        />
       </div>
     </div>
   );
