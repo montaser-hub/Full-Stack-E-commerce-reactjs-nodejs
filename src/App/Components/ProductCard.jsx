@@ -5,6 +5,7 @@ import Button from "../SharedElements/Button";
 import { FiShoppingCart } from "react-icons/fi";
 
 function ProductCard(props) {
+    
 const [liked, setLiked] = useState(false); 
 
 return (
@@ -48,5 +49,4 @@ return (
     </div>
 );
 }
-
 export default ProductCard;
