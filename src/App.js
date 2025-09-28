@@ -10,13 +10,30 @@ import { useSelector } from "react-redux";
 // Layouts & Pages
 import ErrorPage from "./App/Pages/ErrorPage";
 import Home from "./App/Pages/Home";
+import DashboardHome from "./App/Pages/Admin/DashboardHome";
+import ManageProducts from "./App/Pages/Admin/ManageProducts";
+import ManageOrders from "./App/Pages/Admin/ManageOrders";
+import ManageCategories from "./App/Pages/Admin/ManageCategories";
+import Settings from "./App/Pages/Admin/Settings";
+import Analytics from "./App/Pages/Admin/Analytics";
+
 import RouteLayout from "./App/Layout/RootLayout";
+import DashboardLayout from "./App/Layout/DashboardLayout";
 
 // Define router
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<RouteLayout />}>
       <Route index element={<Home />} />
+      <Route path="dashboard" element={<DashboardLayout />}>
+        {/* Dashboard Pages */}
+        <Route index element={<DashboardHome />} />
+        <Route path="products" element={<ManageProducts />} />
+        <Route path="orders" element={<ManageOrders />} />
+        <Route path="categories" element={<ManageCategories />} />
+        <Route path="settings" element={<Settings />} />
+        <Route path="analytics" element={<Analytics />} />
+      </Route>
       {/* Error page */}
       <Route path="*" element={<ErrorPage />} />
     </Route>
