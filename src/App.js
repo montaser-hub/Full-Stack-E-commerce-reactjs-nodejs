@@ -19,12 +19,15 @@ import Analytics from "./App/Pages/Admin/Analytics";
 
 import RouteLayout from "./App/Layout/RootLayout";
 import DashboardLayout from "./App/Layout/DashboardLayout";
+import Cart from "./App/Pages/Cart";
 
 // Define router
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<RouteLayout />}>
       <Route index element={<Home />} />
+      <Route path="cart" element={<Cart />} />
+
       <Route path="dashboard" element={<DashboardLayout />}>
         {/* Dashboard Pages */}
         <Route index element={<DashboardHome />} />
