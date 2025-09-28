@@ -1,21 +1,65 @@
 import "./App.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import {
+  createBrowserRouter,
+  createRoutesFromElements,
+  Route,
+  RouterProvider,
+} from "react-router-dom";
+import { useSelector } from "react-redux";
 import Footer from "./App/Components/Footer";
 
-function App() {
+// Layouts & Pages
+import ErrorPage from "./App/Pages/ErrorPage";
+import Home from "./App/Pages/Home";
+import DashboardHome from "./App/Pages/Admin/DashboardHome";
+import ManageProducts from "./App/Pages/Admin/ManageProducts";
+import ManageOrders from "./App/Pages/Admin/ManageOrders";
+import ManageCategories from "./App/Pages/Admin/ManageCategories";
+import Settings from "./App/Pages/Admin/Settings";
+import Analytics from "./App/Pages/Admin/Analytics";
+
+import RouteLayout from "./App/Layout/RootLayout";
+import DashboardLayout from "./App/Layout/DashboardLayout";
+import Cart from "./App/Pages/Cart";
+
+// Define router
+const router = createBrowserRouter(
+  createRoutesFromElements(
+    <Route path="/" element={<RouteLayout />}>
+      <Route index element={<Home />} />
+      <Route path="cart" element={<Cart />} />
+
+      <Route path="dashboard" element={<DashboardLayout />}>
+        {/* Dashboard Pages */}
+        <Route index element={<DashboardHome />} />
+        <Route path="products" element={<ManageProducts />} />
+        <Route path="orders" element={<ManageOrders />} />
+        <Route path="categories" element={<ManageCategories />} />
+        <Route path="settings" element={<Settings />} />
+        <Route path="analytics" element={<Analytics />} />
+      </Route>
+      {/* Error page */}
+      <Route path="*" element={<ErrorPage />} />
+    </Route>
+  )
+);
+
+const App = () => {
+  const myTheme = useSelector((state) => state.theme); // "light" or "dark"
+  const { lang } = useSelector((state) => state.myLang); // "en" or "ar"
+
   return (
-    <>
-      <BrowserRouter>
-        <Routes>
-          <Route
-            path="/"
-            element={<p className="text-3xl text-red-500">Home</p>}
-          />
-        </Routes>
-        <Footer />
-      </BrowserRouter>
-    </>
+    <div
+      className={
+        myTheme === "dark"
+          ? "dark bg-neutral-900 text-white"
+          : "bg-white text-black"
+      }
+      dir={lang === "ar" ? "rtl" : "ltr"}
+    >
+      <RouterProvider router={router} />
+    </div>
   );
-}
+};
 
 export default App;
