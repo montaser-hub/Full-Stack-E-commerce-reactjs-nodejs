@@ -16,7 +16,7 @@ export default function Navbar() {
 
   const changeTheme = () => dispatch(toggleTheme());
   const changeLang = () => dispatch(toggleLang());
-console.log("Current theme:", myTheme);
+
   return (
     <nav className="relative w-full bg-white dark:bg-neutral-900 shadow">
       {/* Grid wrapper */}

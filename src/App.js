@@ -6,11 +6,10 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import { useSelector } from "react-redux";
-import Footer from "./App/Components/Footer";
 
 // Layouts & Pages
 import ErrorPage from "./App/Pages/ErrorPage";
-import Home from "./App/Pages/Home";
+// import Home from "./App/Pages/Home";
 import DashboardHome from "./App/Pages/Admin/DashboardHome";
 import ManageProducts from "./App/Pages/Admin/ManageProducts";
 import ManageOrders from "./App/Pages/Admin/ManageOrders";
@@ -26,7 +25,7 @@ import Cart from "./App/Pages/Cart";
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<RouteLayout />}>
-      <Route index element={<Home />} />
+      <Route index element={<h1>Home</h1>} />
       <Route path="cart" element={<Cart />} />
 
       <Route path="dashboard" element={<DashboardLayout />}>

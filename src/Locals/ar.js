@@ -1,4 +1,3 @@
-import Search from "../App/SharedElements/search";
 
 const ar = {
   Home: "الرئيسية",
