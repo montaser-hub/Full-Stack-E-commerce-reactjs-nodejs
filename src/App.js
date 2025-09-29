@@ -20,6 +20,8 @@ import Analytics from "./App/Pages/Admin/Analytics";
 import RouteLayout from "./App/Layout/RootLayout";
 import DashboardLayout from "./App/Layout/DashboardLayout";
 import Cart from "./App/Pages/Cart";
+import Login from "./App/Pages/Login";
+import Register from "./App/Pages/Register";
 
 // Define router
 const router = createBrowserRouter(
@@ -27,6 +29,10 @@ const router = createBrowserRouter(
     <Route path="/" element={<RouteLayout />}>
       <Route index element={<h1>Home</h1>} />
       <Route path="cart" element={<Cart />} />
+            <Route path="login" element={<Login />} />
+                        <Route path="register" element={<Register />} />
+
+
 
       <Route path="dashboard" element={<DashboardLayout />}>
         {/* Dashboard Pages */}
