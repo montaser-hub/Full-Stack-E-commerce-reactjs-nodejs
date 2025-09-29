@@ -89,7 +89,7 @@ export default function Navbar() {
             placeholder={content.Search + "..."}
           />
           {/*HeartIcon*/}
-    <Link className="relative inline-block" to="/Favorites">
+    <Link className="relative inline-block" to="/Wishlist">
       <button className="btn btn-primary relative">
         <FaHeart className="w-5 h-5" />
       </button>

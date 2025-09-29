@@ -31,7 +31,8 @@ function Wishlist() {
               key={item.id}
               id={item.id}
               image={item.image}
-              title={item.title.length > 20 ? `${item.title.slice(0, 20)}...` : item.title}
+              title={item.title}
+              description={item.description}
               price={item.price}
               oldPrice={item.oldPrice} 
               stock={item.stock}

@@ -59,7 +59,7 @@ function ProductCard(props) {
                         title={props.title} 
                         content={
                         <div>
-                            <span className="font-bold">{props.title.length > 20 ? `${props.title.slice(0, 20)}...` : props.title}</span>
+                            <span className="font-bold">{props.title.length > 15 ? `${props.title.slice(0, 15)}...` : props.title}</span>
                             <p className="text-sm">{props.description.length > 20 ? `${props.description.slice(0, 20)}...` : props.description}</p>
                         </div>
                         }

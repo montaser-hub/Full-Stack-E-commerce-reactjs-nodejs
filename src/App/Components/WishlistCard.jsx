@@ -2,6 +2,8 @@
 import { FiShoppingCart } from "react-icons/fi";
 import Button from "../SharedElements/Button";
 
+import ForwardTo from "../SharedElements/ForwardTo"; 
+
 function WishlistCard(props) {
 const getStockStatus = (stock) => {
     if (stock === 0) {
@@ -27,7 +29,19 @@ return (
     </div>
     <div className="p-4 flex flex-col justify-between flex-1">
         <div>
-        <h3 className="text-neutral-900 text-lg font-semibold">{props.title}</h3>
+         <h3 className="text-neutral-900 text-lg font-semibold">
+                            <ForwardTo
+                                to={`/products/${props.id}`} 
+                                myClass="block truncate hover:text-blue-600 transition-colors duration-200"
+                                title={props.title} 
+                                content={
+                                <div>
+                                    <span className="font-bold">{props.title.length > 15 ? `${props.title.slice(0, 15)}...` : props.title}</span>
+                                    <p className="text-sm">{props.description.length > 20 ? `${props.description.slice(0, 20)}...` : props.description}</p>
+                                </div>
+                                }
+                            />
+                            </h3>
         <div className="flex items-center gap-2 mt-2">
             <span className="text-gray-400 text-sm line-through">{props.oldPrice}</span>
             <span className="text-blue-600 text-xl font-bold">{props.price}</span>
