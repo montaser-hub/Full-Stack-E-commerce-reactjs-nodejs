@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { toggleLang, toggleTheme } from "../../ReduxToolkit/Store";
 import { useSelector, useDispatch } from "react-redux";
 import Search from "../SharedElements/search.jsx";
@@ -63,12 +63,16 @@ export default function Navbar() {
           <ul className="grid gap-3 px-4 py-4 lg:flex lg:gap-6 lg:p-0">
             {["Home", "Wishlist", "Cart", "Orders"].map((key) => (
               <li key={key}>
-                <Link
-                  to={`/${key}`}
-                  className="block px-2 py-1 text-black/60 transition hover:text-black dark:text-white dark:hover:text-white"
-                >
+                <NavLink
+                  to={ `/${key}` }
+                  className={ ( { isActive } ) =>
+                    isActive
+                      ? "block px-2 py-1 font-bold underline text-blue-700  dark:text-white dark:hover:text-white"
+                      : "block px-2 py-1 font-bold  text-black/60 transition  hover:text-black dark:text-white dark:hover:text-white"
+                  }
+                      >
                   {content[key]}
-                </Link>
+                </NavLink>
               </li>
             ))}
           </ul>
