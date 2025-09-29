@@ -1,10 +1,10 @@
 /**
  * Button Component
  * ----------------------------
- * A reusable button wrapper with Bootstrap styling.
+ * A reusable button wrapper with.
  *
  * Props:
- * - color:   Bootstrap color variant (e.g., "primary", "secondary", "danger").
+ * - color:   tailwind color variant.
  * - myClass: Additional custom classes for styling (string).
  * - onClick: Function to execute when the button is clicked.
  * - status:  Boolean to disable the button (true = disabled).
@@ -22,7 +22,7 @@
 export default function Button({ color, myClass, onClick, status, content }) {
   return (
     <button
-      className={`${myClass} `}
+      className={`${myClass} ${color}`}
       onClick={onClick}
       disabled={status}
     >

@@ -6,7 +6,6 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import { useSelector } from "react-redux";
-import Footer from "./App/Components/Footer";
 
 // Layouts & Pages
 import ErrorPage from "./App/Pages/ErrorPage";

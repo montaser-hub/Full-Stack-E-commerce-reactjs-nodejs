@@ -1,5 +1,5 @@
 import { useState } from "react";
-import CartItem from "../Components/CartItem";
+import ShoppingCard from "../Components/ShoppingCard";
 import OrderSummary from "../Components/OrderSummary";
 import { orderItems } from "../Data/orderItems";
 
@@ -40,7 +40,7 @@ const Cart = () => {
     <div className="p-4 grid grid-cols-1 lg:grid-cols-3 gap-6">
       <div className="lg:col-span-2 space-y-4">
         {cartItems.map((item) => (
-          <CartItem
+          <ShoppingCard
             key={item.id}
             src={item.src}
             alt={item.alt}
