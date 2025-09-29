@@ -1,85 +1,52 @@
-import WishlistCard from "../Components/WishlistCard";
-
-// Sample data for the products in the wishlist
-const wishlistItems = [
-    {
-        image: 'timeless-elegance-smartwatch.jpg',
-        discount: '17% OFF',
-        title: 'Timeless Elegance Smartwatch',
-        price: '$189.99',
-        oldprice: '$229.99',
-        stock: 50, // In stock
-    },
-    {
-        image: 'acoustic-bliss-headphones.jpg',
-        title: 'Acoustic Bliss Noise Cancelling Headphones',
-        price: '$149.99',
-        stock: 2, // Low stock
-    },
-    {
-        image: 'urban-explorer-backpack.jpg',
-        discount: '20% OFF',
-        title: 'Urban Explorer Designer Backpack',
-        price: '$79.99',
-        oldprice: '$99.99',
-        stock: 30, // In stock
-    },
-    {
-        image: 'brewmaster-coffee-maker.jpg',
-        title: 'BrewMaster Smart Coffee Maker',
-        price: '$120.00',
-        stock: 10, // In stock
-    },
-    {
-        image: 'vitality-pro-fitness-tracker.jpg',
-        discount: '14% OFF',
-        title: 'Vitality Pro Fitness Tracker',
-        price: '$59.99',
-        oldprice: '$69.99',
-        stock: 0, 
-    },
-    {
-        image: 'soundwave-bluetooth-speaker.jpg',
-        title: 'SoundWave Portable Bluetooth Speaker',
-        price: '$45.00',
-        stock: 25, // In stock
-    },
-    {
-        image: 'infinitypad-tablet-pro.jpg',
-        discount: '9% OFF',
-        title: 'InfinityPad Tablet Pro',
-        price: '$499.00',
-        oldprice: '$549.00',
-        stock: 40, // In stock
-    },
-    {
-        image: 'hydraflow-eco-bottle.jpg',
-        title: 'HydraFlow Eco Bottle',
-        price: '$25.00',
-        stock: 15, // In stock
-    },
-];
+// Wishlist.jsx
+import { useSelector, useDispatch } from "react-redux";
+import WishlistCard from "../Components/WishlistCard"; 
+import { removeFavorite } from "../../ReduxToolkit/Store"; 
+import Text from "../SharedElements/Text";
 
 function Wishlist() {
-    return (
-        <div className="p-8 bg-gray-100 min-h-screen">
-            <h1 className="text-3xl font-bold text-neutral-900 mb-2">Your Wishlist &#40;({wishlistItems.length} items)&#41;</h1>
-            <p className="text-gray-600 mb-8">Here are the products you've saved for later. Ready to make them yours?</p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 justify-items-center">
-                {wishlistItems.map((item, index) => (
-                    <WishlistCard
-                        key={index}
-                        image={item.image}
-                        discount={item.discount}
-                        title={item.title}
-                        price={item.price}
-                        oldprice={item.oldprice}
-                        stock={item.stock}
-                    />
-                ))}
-            </div>
+  const dispatch = useDispatch();
+  const wishlistItems = useSelector((state) => state.myFavorites.favoriteProducts );
+
+  const handleRemove = (productId) => {
+    dispatch(removeFavorite(productId));
+  };
+  
+  return (
+    <div className="p-8 bg-gray-100 dark:bg-gray-900 min-h-screen">
+      <Text as="h1" content={`Your Wishlist (${wishlistItems.length} items)`} MyClass="text-3xl font-bold text-neutral-900 dark:text-white mb-2" />
+      
+      <Text as="p" MyClass="text-gray-600 dark:text-gray-400 mb-8" 
+        content={
+            wishlistItems.length > 0
+              ? "Here are the products you've saved for later. Ready to make them yours?"
+              : "Your wishlist is empty. Start adding products you love!"
+        }
+      />
+      
+      {wishlistItems.length > 0 ? (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 justify-items-center">
+          {wishlistItems.map((item) => (
+            <WishlistCard
+              key={item.id}
+              id={item.id}
+              image={item.image}
+              title={item.title.length > 20 ? `${item.title.slice(0, 20)}...` : item.title}
+              price={item.price}
+              oldPrice={item.oldPrice} 
+              stock={item.stock}
+              discount={item.discount}
+              onRemove={handleRemove} 
+            />
+          ))}
         </div>
-    );
+      ) : (
+        <div className="flex justify-center items-center h-64 border border-dashed rounded-lg">
+            <Text as="p" content="No items found in your Wishlist." MyClass="text-gray-500 italic" />
+        </div>
+      )}
+    </div>
+  );
 }
 
 export default Wishlist;

@@ -1,8 +1,38 @@
-import { Link } from "react-router-dom";
 import { FaFacebook, FaInstagram, FaLinkedinIn, FaTwitter, FaTiktok } from "react-icons/fa";
 import { TiSocialGooglePlus } from "react-icons/ti";
+import FooterLinks from "./FooterLinks";
+import SocialLinks from "./FooterIcons";
 
 function Footer() {
+
+    const productsLinks = [
+        { label: "Chairs" },
+        { label: "Tables" },
+        { label: "Desks" },
+        { label: "Doors" },
+        { label: "Full Rooms" },
+    ];
+    const aboutLinks = [
+        { label: "Staff" },
+        { label: "Team" },
+        { label: "Careers" },
+        { label: "Reviews" },
+    ];
+    const customerLinks = [
+        { label: "Log in" },
+        { label: "Register" },
+        { label: "Contact Us" },
+        { label: "Help & Support" },
+    ];
+    const socialLinks = [
+        { icon: <TiSocialGooglePlus />, href: "#" },
+        { icon: <FaFacebook />, href: "#" },
+        { icon: <FaTwitter />, href: "#" },
+        { icon: <FaInstagram />, href: "#" },
+        { icon: <FaLinkedinIn />, href: "#" },
+        { icon: <FaTiktok />, href: "#" },
+    ];
+
     return (
         <footer className="w-full bg-gradient-to-r from-[#f0f1f3] to-[#e6ebf1] font-sans">
             <section className="px-6 md:px-12 lg:px-24 py-8">
@@ -15,9 +45,7 @@ function Footer() {
                 </div>
                 </div>
             </section>
-
             <hr className="border-[#C1C7CD]" />
-
             <section className="px-6 md:px-12 lg:px-24 py-10">
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 text-[#404040] text-center md:text-left">
                 <div>
@@ -34,50 +62,18 @@ function Footer() {
                         <li>Return Policy</li>
                     </ul>
                 </div>
-                <div>
-                    <h3 className="font-semibold text-lg mb-3">Products</h3>
-                    <ul className="space-y-2 text-sm">
-                        <li><Link to="#" className="hover:text-[#5757e8]">Chairs</Link></li>
-                        <li><Link to="#" className="hover:text-[#5757e8]">Tables</Link></li>
-                        <li><Link to="#" className="hover:text-[#5757e8]">Desks</Link></li>
-                        <li><Link to="#" className="hover:text-[#5757e8]">Doors</Link></li>
-                        <li><Link to="#" className="hover:text-[#5757e8]">Full Rooms</Link></li>
-                    </ul>
-                </div>
-                <div>
-                    <h3 className="font-semibold text-lg mb-3">About</h3>
-                    <ul className="space-y-2 text-sm">
-                        <li><Link to="#" className="hover:text-[#5757e8]">Staff</Link></li>
-                        <li><Link to="#" className="hover:text-[#5757e8]">Team</Link></li>
-                        <li><Link to="#" className="hover:text-[#5757e8]">Careers</Link></li>
-                        <li><Link to="#" className="hover:text-[#5757e8]">Reviews</Link></li>
-                    </ul>
-                </div>
-                <div>
-                    <h3 className="font-semibold text-lg mb-3">Customer</h3>
-                    <ul className="space-y-2 text-sm">
-                        <li><Link to="#" className="hover:text-[#5757e8]">Log in</Link></li>
-                        <li><Link to="#" className="hover:text-[#5757e8]">Register</Link></li>
-                        <li><Link to="#" className="hover:text-[#5757e8]">Contact Us</Link></li>
-                        <li><Link to="#" className="hover:text-[#5757e8]">Help & Support</Link></li>
-                    </ul>
-                </div>
+                    <FooterLinks title="Products" links={productsLinks} />
+                    <FooterLinks title="About" links={aboutLinks} />
+                    <FooterLinks title="Customer" links={customerLinks} />
                 </div>
             </section>
-
-
             <section className="bg-[#a7c7e5] text-[#404040] py-4 px-6 md:px-12 lg:px-24">
                 <div className="flex flex-col md:flex-row justify-between items-center gap-3 md:gap-0">
                     <p className="text-sm text-center md:text-left">
                         © 2025 WOODY. All rights reserved.
                     </p>
                     <div className="flex gap-5 text-2xl">
-                        <Link to="#" className="hover:text-[#5757e8]"><TiSocialGooglePlus /></Link>
-                        <Link to="#" className="hover:text-[#5757e8]"><FaFacebook /></Link>
-                        <Link to="#" className="hover:text-[#5757e8]"><FaTwitter /></Link>
-                        <Link to="#" className="hover:text-[#5757e8]"><FaInstagram /></Link>
-                        <Link to="#" className="hover:text-[#5757e8]"><FaLinkedinIn /></Link>
-                        <Link to="#" className="hover:text-[#5757e8]"><FaTiktok /></Link>
+                        <SocialLinks links={socialLinks} />
                     </div>
                 </div>
             </section>

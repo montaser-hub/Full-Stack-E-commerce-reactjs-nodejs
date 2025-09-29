@@ -20,6 +20,7 @@ import Analytics from "./App/Pages/Admin/Analytics";
 import RouteLayout from "./App/Layout/RootLayout";
 import DashboardLayout from "./App/Layout/DashboardLayout";
 import Cart from "./App/Pages/Cart";
+import Wishlist from "./App/Pages/Wishlist";
 
 // Define router
 const router = createBrowserRouter(
@@ -27,6 +28,7 @@ const router = createBrowserRouter(
     <Route path="/" element={<RouteLayout />}>
       <Route index element={<Home />} />
       <Route path="cart" element={<Cart />} />
+      <Route path="wishlist" element={<Wishlist />} />
 
       <Route path="dashboard" element={<DashboardLayout />}>
         {/* Dashboard Pages */}
