@@ -100,12 +100,17 @@ function Register() {
   };
 
   return (
-    <div className={`min-h-screen flex items-center justify-center ${myTheme === "dark" ? "bg-neutral-900" : "bg-gray-100"}`}>
-      <div className={`bg-white dark:bg-neutral-800 p-8 rounded-xl shadow-md w-full max-w-md`}>
+    <div
+      className={`min-h-screen flex items-center justify-center ${
+        myTheme === "dark" ? "bg-neutral-900" : "bg-gray-100"
+      }`}
+    >
+      <div
+        className={`bg-white dark:bg-neutral-800 p-8 rounded-xl shadow-md w-full max-w-md`}
+      >
         {/* Logo */}
         <img
           src={myTheme === "dark" ? "/logo-white.png" : "/logo-balck.png"}
-
           alt="Logo"
           className="h-12 w-12 rounded-full mx-auto"
           loading="lazy"
@@ -119,7 +124,11 @@ function Register() {
         />
         <Text
           as="p"
-          content={content["Enter your details below to create your ShopSmart account."]}
+          content={
+            content[
+              "Enter your details below to create your ShopSmart account."
+            ]
+          }
           MyClass="text-center text-sm text-gray-500 dark:text-gray-400 mb-6"
         />
 
@@ -262,7 +271,7 @@ function Register() {
 
           {/* Submit */}
           <Button
-            color="bg-blue-600 hover:bg-blue-700 text-white"
+            color="bg-[rgb(67,94,72)] hover:bg-[rgb(57,84,62)] text-white"
             myClass="w-full font-medium py-2 px-4 rounded-md transition"
             onClick={handleSubmit}
             status={
@@ -291,7 +300,7 @@ function Register() {
                 {content["Already have an account? "]}
                 <Link
                   to="/login"
-                  className="text-blue-600 hover:underline dark:text-blue-400"
+                  className="text-blue-600 hover:underline dark:text-white"
                 >
                   {content["Login here"]}
                 </Link>

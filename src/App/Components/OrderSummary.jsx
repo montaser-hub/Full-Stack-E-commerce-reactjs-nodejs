@@ -70,7 +70,7 @@ const OrderSummary = ({
 
       {showButton && (
         <button
-          className="mt-6 w-full bg-[#4148c5] hover:bg-[#636AE8FF] py-2 rounded-lg"
+          className="mt-6 w-full bg-[rgb(67,94,72)] hover:bg-[rgb(57,84,62)]  py-2 rounded-lg text-white"
           onClick={onPlaceOrder}
         >
           Place Order
