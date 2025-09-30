@@ -74,15 +74,15 @@ export default function Navbar() {
                       >
                   {content[key]}
                 </NavLink>
+                {/* Counter */}
+                {key === "Wishlist" && favoriteProductsCount > 0 && (
+                <span className="absolute top-5 left-[14.5rem] rounded-full bg-red-600 px-1.5 py-0.5 text-[0.6rem] font-bold text-white">
+                  {favoriteProductsCount}
+                </span>
+                )}
               </li>
             ))}
           </ul>
-          {/* Counter */}
-            {favoriteProductsCount > 0 && (
-            <span className="absolute top-5 left-[14.5rem] rounded-full bg-red-600 px-1.5 py-0.5 text-[0.6rem] font-bold text-white">
-              {favoriteProductsCount}
-            </span>
-            )}
         </div>
 
         {/* Right: Actions */}
