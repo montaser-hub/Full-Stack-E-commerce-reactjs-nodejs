@@ -24,7 +24,7 @@ import { Link } from "react-router-dom";
 export default function ForwardTo({ to, myClass, content, ...rest }) {
   return (
     <Link className={myClass} to={to} {...rest}>
-      {content}{" "}
+      {content}
     </Link>
   );
 }

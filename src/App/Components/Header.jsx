@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { toggleLang, toggleTheme } from "../../ReduxToolkit/Store";
 import { useSelector, useDispatch } from "react-redux";
+import { FaHeart } from "react-icons/fa";
 import Search from "../SharedElements/search.jsx";
 
 
@@ -16,6 +17,7 @@ export default function Navbar() {
 
   const changeTheme = () => dispatch(toggleTheme());
   const changeLang = () => dispatch(toggleLang());
+  const favoriteProductsCount = useSelector((state) => state.myFavorites.favoriteProducts.length );
 
   return (
     <nav className="relative w-full bg-white dark:bg-neutral-900 shadow">
@@ -86,6 +88,17 @@ export default function Navbar() {
             inputClass="border-none focus:outline-none focus:ring-0 px-4 py-2 text-black placeholder-gray-400  w-full sm:w-64 md:w-80 lg:w-96"
             placeholder={content.Search + "..."}
           />
+          {/*HeartIcon*/}
+    <Link className="relative inline-block" to="/Wishlist">
+      <button className="btn btn-primary relative">
+        <FaHeart className="w-5 h-5" />
+      </button>
+      {favoriteProductsCount > 0 && (
+        <span className="absolute -top-3 -right-3 rounded-full bg-red-600 px-2 py-0.5 text-[0.65rem] font-bold text-white">
+          {favoriteProductsCount}
+        </span>
+      )}
+    </Link>
           {/* Notifications */}
           <div className="relative">
             <button
