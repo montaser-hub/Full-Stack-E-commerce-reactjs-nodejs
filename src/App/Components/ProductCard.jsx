@@ -40,9 +40,9 @@ const handleToggleFavorite = () => {
 };
 
 return (
-  <div className="relative w-60 bg-white rounded-lg bordershadow-md hover:shadow-lg transition-shadow duration-300  dark:bg-gray-800">
+  <div className="relative w-60 bg-white rounded-lg bordershadow-md hover:shadow-lg transition-shadow duration-300  dark:bg-neutral-800">
     {/* Image And Heart Icon*/}
-    <div className="relative w-full h-60 rounded-t-lg overflow-hidden flex items-center justify-center bg-gray-50  dark:bg-gray-800">
+    <div className="relative w-full h-60 rounded-t-lg overflow-hidden flex items-center justify-center bg-gray-50  dark:bg-neutral-800">
       <img
         src={props.image}
         alt={props.title}

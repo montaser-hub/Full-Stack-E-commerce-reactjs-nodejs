@@ -27,7 +27,7 @@ export default function Home() {
   }, [] );
     
   return (
-    <main className="bg-gray-50 dark:bg-gray-900 min-h-screen py-8 px-4 md:px-8">
+    <main className="bg-gray-50 dark:bg-neutral-900 min-h-screen py-8 px-4 md:px-8">
       {/* Hero / Slider Placeholder */}
       <section className="w-full h-40 md:h-56 bg-gradient-to-r from-rose-500 to-blue-500 rounded-2xl shadow-md mb-8 flex items-center justify-center">
         <h1 className="text-2xl md:text-4xl font-bold text-white">
@@ -37,7 +37,7 @@ export default function Home() {
 
       <div className="flex flex-col md:flex-row gap-8">
         {/* Sidebar (Desktop) */}
-        <aside className="hidden md:block w-64 shrink-0 bg-white dark:bg-gray-800 rounded-2xl shadow-md p-6 space-y-6">
+        <aside className="hidden md:block w-64 shrink-0 bg-white dark:bg-neutral-800 rounded-2xl shadow-md p-6 space-y-6">
           <div className="flex items-center justify-between">
             <Text as="h1" content="Filters" MyClass="text-xl font-semibold" />
             <ForwardTo
@@ -68,7 +68,7 @@ export default function Home() {
         <div className="md:hidden">
           <button
             onClick={() => setShowFilters(!showFilters)}
-            className="w-full flex items-center justify-between px-4 py-3 bg-white dark:bg-gray-800 rounded-lg shadow-md text-gray-700 dark:text-gray-200 font-medium"
+            className="w-full flex items-center justify-between px-4 py-3 bg-white dark:bg-neutral-800 rounded-lg shadow-md text-gray-700 dark:text-gray-200 font-medium"
           >
             Filters
             <span>{showFilters ? "▲" : "▼"}</span>
