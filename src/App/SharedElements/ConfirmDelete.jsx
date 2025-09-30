@@ -35,17 +35,17 @@ export default function ConfirmDelete({ onConfirm, onCancel }) {
       <Text
         as="h2"
         content="Are you sure?"
-        MyClass="text-xl font-bold text-gray-800"
+        MyClass="text-xl font-bold text-gray-800 dark:text-white"
       />
       <Text
         as="p"
         content="This action cannot be undone."
-        MyClass="text-sm text-gray-600"
+        MyClass="text-sm dark:text-white text-gray-600"
       />
       <div className="flex gap-4">
         <button
           onClick={onCancel}
-          className="px-4 py-2 rounded-md border border-gray-300 text-gray-600 hover:bg-gray-100"
+          className="px-4 py-2 rounded-md border border-gray-300 text-gray-600  dark:text-white dark:bg-neutral-800 dark:border-neutral-700 hover:bg-gray-100"
         >
           Cancel
         </button>

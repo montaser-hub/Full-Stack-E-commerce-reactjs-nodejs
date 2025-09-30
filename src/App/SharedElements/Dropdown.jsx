@@ -58,9 +58,7 @@ export default function Dropdown({
     <div className={`relative text-left ${myClass}`}>
       {/* Optional Label */}
       {label && (
-        <label className="block text-sm font-semibold mb-1 text-gray-700">
-          {label}
-        </label>
+        <label className="block text-sm font-semibold mb-1">{label}</label>
       )}
 
       {/* Dropdown Button */}
@@ -68,17 +66,17 @@ export default function Dropdown({
         type="button"
         onClick={() => setIsOpen(!isOpen)}
         className="w-[200px] h-[40px] flex justify-between items-center px-3 pr-9
-                   text-sm font-normal text-[#242524] bg-white border border-[#EBEBEA]
+                   text-sm font-normal dark:bg-neutral-800 border dark:border-neutral-700
                    rounded-md shadow-sm focus:outline-none"
       >
         <span>{getDisplayValue()}</span>
-        <FaChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#242524]" />
+        <FaChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#242524] dark:text-[#ffffff]" />
       </button>
 
       {/* Dropdown Menu */}
       {isOpen && (
         <div
-          className="absolute mt-1 w-[200px] bg-white border border-[#EBEBEA]
+          className="absolute mt-1 w-[200px] bg-white border border-[#EBEBEA]  text-gray-600  dark:text-white dark:bg-neutral-800 dark:border-neutral-700
                      rounded-md shadow-lg z-10 p-2 space-y-1 max-h-[250px] overflow-auto"
         >
           {isSelect ? (
@@ -91,10 +89,10 @@ export default function Dropdown({
                     onChange(opt.value);
                     setIsOpen(false);
                   }}
-                  className={`px-3 py-2 text-sm cursor-pointer hover:bg-gray-100 rounded ${
+                  className={`px-3 py-2 text-sm cursor-pointer hover:bg-gray-100 dark:hover:bg-neutral-700 rounded ${
                     opt.value === value
-                      ? "font-medium text-[#242524]"
-                      : "text-gray-600"
+                      ? "text-[#242524] dark:text-[#ffffff] font-bold"
+                      : "text-gray-600 dark:text-white"
                   }`}
                 >
                   {opt.label}

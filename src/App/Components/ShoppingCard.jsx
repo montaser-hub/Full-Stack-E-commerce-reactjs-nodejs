@@ -27,7 +27,7 @@ const ShoppingCard = ({
 
   return (
     <>
-      <div className="bg-white rounded-lg shadow p-6 border-b sm:flex sm:items-center sm:justify-between">
+      <div className="bg-white dark:text-white dark:bg-neutral-800 dark:border-neutral-700 rounded-lg shadow p-6 border-b sm:flex sm:items-center sm:justify-between">
         <div className="flex items-center space-x-4 sm:w-1/3 py-2">
           <div className="sm:w-16 sm:h-16 w-full">
             <img
@@ -37,8 +37,8 @@ const ShoppingCard = ({
             />
           </div>
           <div>
-            <p className="font-medium text-gray-900">{productName}</p>
-            <p className="text-gray-600 text-sm">Price: {price}</p>
+            <p className="font-medium text-gray-900 dark:text-white">{productName}</p>
+            <p className="text-gray-600 text-sm dark:text-white">Price: {price}</p>
           </div>
         </div>
 
@@ -46,16 +46,16 @@ const ShoppingCard = ({
           <div className="flex items-center space-x-2">
             <button
               onClick={() => onUpdate(quantity - 1)}
-              className="px-3 py-1 rounded border border-gray-300 hover:bg-gray-100"
+              className="px-3 py-1 rounded border border-gray-300 hover:bg-gray-100 dark:hover:bg-neutral-600"
             >
               <FaMinus />
             </button>
-            <span className="px-4 py-1 border border-gray-300 rounded">
+            <span className="px-4 py-1 border border-gray-300 rounded ">
               {quantity}
             </span>
             <button
               onClick={() => onUpdate(quantity + 1)}
-              className="px-3 py-1 rounded border border-gray-300 hover:bg-gray-100"
+              className="px-3 py-1 rounded border border-gray-300 hover:bg-gray-100 dark:hover:bg-neutral-600"
             >
               <FaPlus />
             </button>

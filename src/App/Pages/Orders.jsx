@@ -92,7 +92,7 @@ export default function Orders() {
           <Search
             placeholder="Search by Order ID or Product Name..."
             divClass="w-full sm:w-[320px]"
-            inputClass="h-[40px] border border-[#EBEBEA] rounded-md text-sm w-full"
+            inputClass="h-[40px] border border-[#EBEBEA] dark:bg-neutral-800 dark:border-neutral-700 dark:text-white rounded-md text-sm w-full"
           />
           <Dropdown
             type="select"

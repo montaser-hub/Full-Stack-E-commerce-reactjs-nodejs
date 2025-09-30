@@ -38,10 +38,10 @@ export default function Modal({ isOpen, onClose, children }) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
-      <div className="bg-white rounded-lg shadow-lg p-6 max-w-lg w-full relative">
+      <div className="bg-white dark:bg-neutral-900 dark:border-neutral-700 rounded-lg shadow-lg p-6 max-w-lg w-full relative">
         {/* Close Button */}
         <button
-          className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
+          className="absolute top-2 right-2 text-gray-500 dark:text-white hover:text-gray-700"
           onClick={onClose}
         >
           <FaTimes />

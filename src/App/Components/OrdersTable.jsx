@@ -8,9 +8,9 @@ export default function OrdersTable({ orders }) {
   const [selectedOrder, setSelectedOrder] = useState(null);
 
   return (
-    <div className="w-full border border-[#EBEBEA] rounded-lg shadow-sm overflow-hidden">
+    <div className="w-full border dark:bg-neutral-800 dark:border-neutral-700 rounded-lg shadow-sm overflow-hidden">
       {/* ===== Desktop Table Header ===== */}
-      <div className="hidden md:flex justify-between bg-gray-50 px-6 py-3 text-sm font-semibold text-gray-600">
+      <div className="hidden md:flex justify-between dark:bg-neutral-900 dark:border-neutral-900 px-6 py-3 text-sm font-semibold ">
         <div className="w-[150px]">Order ID</div>
         <div className="w-[200px]">Products</div>
         <div className="w-[100px]">Total</div>
@@ -28,11 +28,11 @@ export default function OrdersTable({ orders }) {
           </div>
 
           {/* Mobile Card */}
-          <div className="block md:hidden border-b border-[#EBEBEA] p-4 space-y-3">
+          <div className="block md:hidden border-b dark:bg-neutral-800 dark:border-neutral-700 p-4 space-y-3">
             {/* Header: ID + Date */}
             <div className="flex justify-between items-center">
-              <span className="font-semibold text-gray-800">{order.id}</span>
-              <span className="text-sm text-gray-500">{order.date}</span>
+              <span className="font-semibold">{order.id}</span>
+              <span className="text-sm">{order.date}</span>
             </div>
 
             {/* Products */}
@@ -42,14 +42,14 @@ export default function OrdersTable({ orders }) {
                   key={i}
                   src={item.src}
                   alt={item.productName}
-                  className="w-8 h-8 rounded-full border-2 border-white -ml-2 first:ml-0"
+                  className="w-8 h-8 rounded-full border-2 border-white dark:bg-neutral-800 dark:border-neutral-700 -ml-2 first:ml-0"
                 />
               ))}
             </div>
 
             {/* Total + Status */}
             <div className="flex justify-between items-center">
-              <span className="font-medium text-gray-800">${order.total}</span>
+              <span className="font-medium">${order.total}</span>
               <span
                 className={`px-3 py-1 rounded-full text-xs capitalize ${
                   order.status === "completed"
@@ -67,7 +67,7 @@ export default function OrdersTable({ orders }) {
 
             {/* Payment */}
             <div className="flex justify-between items-center text-sm">
-              <span className="text-gray-700 capitalize">
+              <span className=" capitalize">
                 {order.paymentMethodType}
               </span>
               <span

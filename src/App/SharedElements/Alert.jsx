@@ -87,7 +87,7 @@ export default function Alert({
 
   return (
     <div
-      className={`fixed top-4 right-4 z-50 flex items-center gap-3 px-4 py-3 rounded-lg shadow-md animate-slide-in ${style.bg} ${style.text}`}
+      className={`fixed top-16 right-4 z-50 flex items-center gap-3 px-4 py-3 rounded-lg shadow-md animate-slide-in ${style.bg} ${style.text}`}
     >
       {style.icon}
       <span className="text-sm font-medium">{message}</span>

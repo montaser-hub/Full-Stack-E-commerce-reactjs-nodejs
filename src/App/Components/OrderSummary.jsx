@@ -13,27 +13,31 @@ const OrderSummary = ({
   onPlaceOrder,
 }) => {
   const summaryRows = [
-    { label: "Subtotal", value: subtotal, className: "text-gray-600" },
-    { label: "Shipping", value: shipping, className: "text-gray-600" },
-    { label: "Tax (8%)", value: tax, className: "text-gray-600" },
+    {
+      label: "Subtotal",
+      value: subtotal,
+      className: "text-gray-600 dark:text-white",
+    },
+    { label: "Shipping", value: shipping, className: "text-gray-600 dark:text-white" },
+    { label: "Tax (8%)", value: tax, className: "text-gray-600 dark:text-white" },
     { label: "Discount", value: discount, className: "text-red-500" },
     {
       label: "Order Total",
       value: total,
-      className: "text-lg font-bold text-[#4148c5]",
+      className: "text-lg font-bold text-[#4148c5] dark:text-white",
       labelClass: "text-lg font-bold",
     },
   ];
 
   return (
-    <div className="bg-white shadow-md rounded-lg p-6 w-full max-w-md flex flex-col">
+    <div className="bg-white  text-gray-600  dark:text-white dark:bg-neutral-800 dark:border-neutral-700 shadow-md rounded-lg p-6 w-full max-w-md flex flex-col">
       <Text as="h2" content="Order Summary" MyClass="text-xl font-bold mb-4" />
 
       {showDescription && (
         <Text
           as="p"
           content="Review your items and total cost before placing the order."
-          MyClass="text-gray-500 text-sm mb-4"
+          MyClass="text-gray-500 dark:text-white text-sm mb-4"
         />
       )}
 
@@ -66,7 +70,7 @@ const OrderSummary = ({
 
       {showButton && (
         <button
-          className="mt-6 w-full bg-[#4148c5] hover:bg-[#636AE8FF] text-white py-2 rounded-lg"
+          className="mt-6 w-full bg-[#4148c5] hover:bg-[#636AE8FF] py-2 rounded-lg"
           onClick={onPlaceOrder}
         >
           Place Order
