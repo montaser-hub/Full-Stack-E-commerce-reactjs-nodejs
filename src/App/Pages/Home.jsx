@@ -42,7 +42,7 @@ export default function Home() {
             <Text as="h1" content="Filters" MyClass="text-xl font-semibold" />
             <ForwardTo
               content="Clear All"
-              myClass="text-sm text-blue-600 hover:underline"
+              myClass="text-sm text-blue-600 hover:underline dark:text-gray-200"
               to="#"
               onClick={() => setSelectedCategories([])}
             />
