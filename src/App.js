@@ -20,6 +20,7 @@ import Analytics from "./App/Pages/Admin/Analytics";
 import RouteLayout from "./App/Layout/RootLayout";
 import DashboardLayout from "./App/Layout/DashboardLayout";
 import Cart from "./App/Pages/Cart";
+import Orders from "./App/Pages/Orders";
 import Login from "./App/Pages/Login";
 import Register from "./App/Pages/Register";
 import Wishlist from "./App/Pages/Wishlist";
@@ -30,9 +31,12 @@ const router = createBrowserRouter(
     <Route path="/" element={<RouteLayout />}>
       <Route path="register" element={<Register />} />
       <Route path="login" element={<Login />} />
-      <Route index element={<Home />} />
+      <Route path="home" element={<Home />} />
+      <Route path="cart" element={<Cart />} />
       <Route path="wishlist" element={<Wishlist />} />
       <Route path="cart" element={<Cart />} />
+      <Route path="orders" element={<Orders />} />
+
 
       <Route path="dashboard" element={<DashboardLayout />}>
         {/* Dashboard Pages */}

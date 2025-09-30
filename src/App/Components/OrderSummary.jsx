@@ -1,12 +1,41 @@
 import ItemsOrder from "../SharedElements/ItemsOrder";
+import Text from "../SharedElements/Text";
 
-const OrderSummary = ({ items, subtotal, shipping, tax, discount, total }) => {
+const OrderSummary = ({
+  items,
+  subtotal,
+  shipping,
+  tax,
+  discount,
+  total,
+  showDescription = true,
+  showButton = true,
+  onPlaceOrder,
+}) => {
+  const summaryRows = [
+    { label: "Subtotal", value: subtotal, className: "text-gray-600" },
+    { label: "Shipping", value: shipping, className: "text-gray-600" },
+    { label: "Tax (8%)", value: tax, className: "text-gray-600" },
+    { label: "Discount", value: discount, className: "text-red-500" },
+    {
+      label: "Order Total",
+      value: total,
+      className: "text-lg font-bold text-[#4148c5]",
+      labelClass: "text-lg font-bold",
+    },
+  ];
+
   return (
     <div className="bg-white shadow-md rounded-lg p-6 w-full max-w-md flex flex-col">
-      <h2 className="text-xl font-bold mb-4">Order Summary</h2>
-      <p className="text-gray-500 text-sm mb-4">
-        Review your items and total cost before placing the order.
-      </p>
+      <Text as="h2" content="Order Summary" MyClass="text-xl font-bold mb-4" />
+
+      {showDescription && (
+        <Text
+          as="p"
+          content="Review your items and total cost before placing the order."
+          MyClass="text-gray-500 text-sm mb-4"
+        />
+      )}
 
       <div className="flex-1 max-h-64 overflow-y-auto pr-2 space-y-2">
         {items.map((item, index) => (
@@ -21,32 +50,28 @@ const OrderSummary = ({ items, subtotal, shipping, tax, discount, total }) => {
         ))}
       </div>
 
+      {/* Summary Section */}
       <div className="mt-4 space-y-2">
-        <div className="flex justify-between">
-          <p className="text-gray-600">Subtotal</p>
-          <p className="font-medium text-gray-600">{subtotal}</p>
-        </div>
-        <div className="flex justify-between">
-          <p className="text-gray-600">Shipping</p>
-          <p className="font-medium text-gray-600">{shipping}</p>
-        </div>
-        <div className="flex justify-between">
-          <p className="text-gray-600">Tax (8%)</p>
-          <p className="font-medium text-gray-600">{tax}</p>
-        </div>
-        <div className="flex justify-between">
-          <p className="text-red-500">Discount</p>
-          <p className="font-medium text-red-500">{discount}</p>
-        </div>
-        <div className="flex justify-between">
-          <p className="text-lg font-bold">Order Total</p>
-          <p className="text-lg font-bold text-[#4148c5]">{total}</p>
-        </div>
+        {summaryRows.map((row, index) => (
+          <div key={index} className="flex justify-between">
+            <Text
+              as="p"
+              content={row.label}
+              MyClass={row.labelClass || row.className}
+            />
+            <Text as="p" content={row.value} MyClass={row.className} />
+          </div>
+        ))}
       </div>
 
-      <button className="mt-6 w-full bg-[#4148c5] hover:bg-[#636AE8FF] text-white py-2 rounded-lg">
-        Place Order
-      </button>
+      {showButton && (
+        <button
+          className="mt-6 w-full bg-[#4148c5] hover:bg-[#636AE8FF] text-white py-2 rounded-lg"
+          onClick={onPlaceOrder}
+        >
+          Place Order
+        </button>
+      )}
     </div>
   );
 };

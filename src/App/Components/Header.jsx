@@ -2,8 +2,9 @@ import { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { toggleLang, toggleTheme } from "../../ReduxToolkit/Store";
 import { useSelector, useDispatch } from "react-redux";
+import Search from "../SharedElements/search";
 import { FaHeart } from "react-icons/fa";
-import Search from "../SharedElements/search.jsx";
+
 
 
 export default function Navbar() {
