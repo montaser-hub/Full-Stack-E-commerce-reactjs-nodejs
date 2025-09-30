@@ -3,6 +3,7 @@ import ForwardTo from "../SharedElements/ForwardTo";
 import Dropdown from "../SharedElements/Dropdown";
 import ProductCard from "../Components/ProductCard";
 import { useState, useEffect } from "react";
+import Pagination from "../Components/Pagination";
 
 export default function Home() {
   const [products, setProducts] = useState([]);
@@ -124,7 +125,9 @@ export default function Home() {
           </div>
 
           {/* Pagination */}
-          <div className="mt-8 flex justify-center"></div>
+          <div className="mt-8 flex justify-center">
+            <Pagination />
+          </div>
         </section>
       </div>
     </main>
