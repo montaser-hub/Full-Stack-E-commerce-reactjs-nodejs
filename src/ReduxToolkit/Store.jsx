@@ -31,8 +31,24 @@ const langSlice = createSlice({
   },
 });
 
+const loaderSlice = createSlice({
+  name: "loader",
+  initialState: {
+    isLoading: false,
+  },
+  reducers: {
+    showLoader: (state) => {
+      state.isLoading = true;
+    },
+    hideLoader: (state) => {
+      state.isLoading = false;
+    },
+  },
+});
+
 export const { toggleLang } = langSlice.actions; // button click -> action dispatch
 export const { toggleTheme } = themeSlice.actions; // button click -> action dispatch
+export const { showLoader, hideLoader } = loaderSlice.actions;
 // Favorites
 const initialState = {
   favoriteProducts: [],
@@ -66,6 +82,7 @@ const Store = configureStore({
     theme: themeSlice.reducer,
     myLang: langSlice.reducer,
     myFavorites: favoritesSlice.reducer,
+    loader: loaderSlice.reducer,
   },
 });
 

@@ -24,6 +24,7 @@ import Orders from "./App/Pages/Orders";
 import Login from "./App/Pages/Login";
 import Register from "./App/Pages/Register";
 import Wishlist from "./App/Pages/Wishlist";
+import Loader from "../src/App/SharedElements/spinner.jsx";
 
 // Define router
 const router = createBrowserRouter(
@@ -66,6 +67,7 @@ const App = () => {
       }
       dir={lang === "ar" ? "rtl" : "ltr"}
     >
+      <Loader />
       <RouterProvider router={router} />
     </div>
   );
