@@ -40,107 +40,115 @@ const handleToggleFavorite = () => {
 };
 
 return (
-    <div className="relative w-60 bg-white rounded-lg border border-gray-200 shadow-md hover:shadow-lg transition-shadow duration-300">
+  <div className="relative w-60 bg-white rounded-lg bordershadow-md hover:shadow-lg transition-shadow duration-300  dark:bg-gray-800">
     {/* Image And Heart Icon*/}
-    <div className="relative w-full h-60 rounded-t-lg overflow-hidden flex items-center justify-center bg-gray-50">
-        <img 
-        src={props.image} 
-        alt={props.title} 
-        className="max-h-full max-w-full object-contain mx-auto transition-transform duration-300 hover:scale-105" 
-        loading="lazy" 
-        />
-        <Button
+    <div className="relative w-full h-60 rounded-t-lg overflow-hidden flex items-center justify-center bg-gray-50  dark:bg-gray-800">
+      <img
+        src={props.image}
+        alt={props.title}
+        className="max-h-full max-w-full object-contain mx-auto transition-transform duration-300 hover:scale-105"
+        loading="lazy"
+      />
+      <Button
         myClass="absolute top-2 right-2 flex items-center justify-center w-10 h-10 bg-white/70 rounded-full border border-gray-300 hover:bg-white/90 shadow-sm"
         onClick={handleToggleFavorite}
         content={
-            isFavorite ? (
+          isFavorite ? (
             <HiHeart className="w-5 h-5 text-rose-500 transition-colors duration-200" />
-            ) : (
+          ) : (
             <CiHeart className="w-5 h-5 text-neutral-900 hover:text-rose-500 transition-colors duration-200" />
-            )
+          )
         }
-        />      
+      />
     </div>
 
     {/* Details */}
-    <div className="p-4 flex flex-col justify-between h-[220px]">
-        <div>
-        <Text 
-            as="h3" 
-            MyClass="text-neutral-900 text-lg font-semibold"
-            content={ 
+    <div className="p-4 flex flex-col justify-between h-[220px] ">
+      <div>
+        <Text
+          as="h3"
+          MyClass="text-neutral-900 text-lg font-semibold  dark:text-white"
+          content={
             <ForwardTo
-                to={`/products/${props.id}`} 
-                myClass="block truncate hover:text-blue-600 transition-colors duration-200"
-                title={props.title} 
-                content={ 
+              to={`/products/${props.id}`}
+              myClass="block truncate hover:text-blue-600 transition-colors duration-200"
+              title={props.title}
+              content={
                 <div>
-                    <Text 
-                    as="span" 
-                    content={props.title.length > 15 ? `${props.title.slice(0, 15)}...` : props.title} 
-                    MyClass="font-bold block" 
-                    />
-                    <Text 
-                    as="p" 
-                    content={props.description.length > 20 ? `${props.description.slice(0, 20)}...` : props.description} 
-                    MyClass="text-sm mt-1" 
-                    />
+                  <Text
+                    as="span"
+                    content={
+                      props.title.length > 15
+                        ? `${props.title.slice(0, 15)}...`
+                        : props.title
+                    }
+                    MyClass="font-bold block"
+                  />
+                  <Text
+                    as="p"
+                    content={
+                      props.description.length > 20
+                        ? `${props.description.slice(0, 20)}...`
+                        : props.description
+                    }
+                    MyClass="text-sm mt-1"
+                  />
                 </div>
-                }
+              }
             />
-            }
+          }
         />
 
         <div className="flex items-center justify-between mt-2">
-            <div className="flex items-center gap-2">
-            <Text 
-                as="span" 
-                content={props.oldPrice} 
-                MyClass="text-gray-400 text-sm line-through"
+          <div className="flex items-center gap-2">
+            <Text
+              as="span"
+              content={props.oldPrice}
+              MyClass="text-gray-400 text-sm line-through"
             />
-            <Text 
-                as="span" 
-                content={props.Price} 
-                MyClass="text-blue-600 text-xl font-bold"
+            <Text
+              as="span"
+              content={props.Price}
+              MyClass="text-blue-600 text-xl font-bold"
             />
-            </div>
+          </div>
         </div>
 
         <div className="mt-2">
-            <Text 
-            as="span" 
-            content={stockStatus.text} 
-            MyClass={`text-sm px-2 py-1 rounded-full font-semibold ${stockStatus.color}`} 
-            />
+          <Text
+            as="span"
+            content={stockStatus.text}
+            MyClass={`text-sm px-2 py-1 rounded-full font-semibold ${stockStatus.color}`}
+          />
         </div>
-        </div>
+      </div>
 
-        {/* Add to Cart */}
-        <div className="mt-4 w-full">
+      {/* Add to Cart */}
+      <div className="mt-4 w-full">
         <Button
-            myClass={`w-full h-12 flex items-center justify-center gap-2 font-medium 
+          myClass={`w-full h-12 flex items-center justify-center gap-2 font-medium 
                     bg-gradient-to-r from-pink-500 to-rose-500 
                     rounded-xl shadow-md 
                     hover:from-pink-600 hover:to-rose-600 
                     active:scale-95 transition-all duration-200`}
-            onClick={() => console.log('Move to Cart clicked!')}
-            status={!stockStatus.isEnabled}
-            content={
+          onClick={() => console.log("Move to Cart clicked!")}
+          status={!stockStatus.isEnabled}
+          content={
             <Text
-                as="span"
-                MyClass="flex items-center justify-center gap-2 w-full text-white"
-                content={
+              as="span"
+              MyClass="flex items-center justify-center gap-2 w-full text-white"
+              content={
                 <>
-                    <FiShoppingCart className="w-5 h-5" />
-                    Add to Cart
+                  <FiShoppingCart className="w-5 h-5" />
+                  Add to Cart
                 </>
-                }
+              }
             />
-            }
+          }
         />
-        </div>
+      </div>
     </div>
-    </div>
+  </div>
 );
 }
 
