@@ -28,7 +28,7 @@ function Wishlist() {
   };
 
   return (
-    <div className="p-8 bg-gray-100 dark:bg-gray-900 min-h-screen">
+    <div className="p-8 bg-gray-100 dark:bg-neutral-900 min-h-screen">
       {/* page title  */}
       <Text
         as="h1"
@@ -66,7 +66,7 @@ function Wishlist() {
           ))}
         </div>
       ) : (
-        <div className="flex justify-center items-center h-64 border border-dashed rounded-lg">
+        <div className="flex justify-center items-center h-64  rounded-lg">
           <Text
             as="p"
             content="No items found in your Wishlist."
