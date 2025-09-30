@@ -29,7 +29,6 @@ const en = {
   "Password must be at least 6 characters.": "Password must be at least 6 characters.",
   "Forgot Password?": "Forgot Password?",
   "Sign In": "Sign In",
-  "Don't have an account? Register here.": "Don't have an account? Register here.",
 
   // Register
   "Create Account": "Create Account",
@@ -43,7 +42,11 @@ const en = {
   "Re-enter your password": "Re-enter your password",
   Role: "Role",
   "Select your role": "Select your role",
-  "Already have an account? Login here.": "Already have an account? Login here."
+  AccountExists: "Already have an account?",
+Here: "Login here.",
+ DontHaveAccount: "Don't have an account?",
+ "user": "User",
+ "admin": "Admin",
 };
 
 export default en;

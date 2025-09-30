@@ -1,4 +1,3 @@
-import { useState } from "react";
 
 /**
  * Input Component
@@ -39,7 +38,9 @@ import { useState } from "react";
  */
 
 
-
+import { BiSolidHide } from "react-icons/bi";
+import { BiSolidShow } from "react-icons/bi";
+import { useState } from "react";
 
 
 export function Input({
@@ -50,11 +51,8 @@ export function Input({
   value,
   name,
   onChange,
-  onKeyDown,
   showToggle = false,
   children,
-  error, // ✅ الرسالة بتيجي هنا
-  icon,
 }) {
   const [showPassword, setShowPassword] = useState(false);
 
@@ -74,12 +72,10 @@ export function Input({
           name={name}
           value={value ?? ""}
           onChange={onChange}
-          onKeyDown={onKeyDown}
           className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${myClass}`}
         >
           {children}
         </select>
-        {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
       </div>
     );
   }
@@ -103,7 +99,6 @@ export function Input({
           placeholder={placeholder}
           value={value ?? ""}
           onChange={onChange}
-          onKeyDown={onKeyDown}
           className={`w-full pr-10 ${myClass}`}
         />
 
@@ -112,18 +107,17 @@ export function Input({
             className="absolute right-2 top-1/2 -translate-y-1/2 cursor-pointer select-none z-10"
             onClick={() => setShowPassword(!showPassword)}
           >
-            {showPassword ? "🙈" : "👁️"}
+           
+            {showPassword ? (
+              < BiSolidShow className ="text-gray-500" />
+            ) : (
+              < BiSolidHide className="text-gray-500" />
+            ) }
           </span>
         )}
 
-        {icon && (
-          <span className="absolute right-2 top-1/2 -translate-y-1/2 z-10">
-            {icon}
-          </span>
-        )}
       </div>
 
-      {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
     </div>
   );
 }
