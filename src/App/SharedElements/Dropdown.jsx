@@ -58,26 +58,30 @@ export default function Dropdown({
     <div className={`relative text-left ${myClass}`}>
       {/* Optional Label */}
       {label && (
-        <label className="block text-sm font-semibold mb-1">{label}</label>
+        <label className="block text-sm font-semibold mb-1 text-gray-700 dark:text-white">
+          {label}
+        </label>
       )}
 
       {/* Dropdown Button */}
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className="w-[200px] h-[40px] flex justify-between items-center px-3 pr-9
-                   text-sm font-normal dark:bg-neutral-800 border dark:border-neutral-700
-                   rounded-md shadow-sm focus:outline-none"
+        className="w-full min-h-[40px] flex justify-between items-center  px-3 pr-9
++            text-sm font-normal text-[#242524] bg-white border border-[#EBEBEA] dark:text-white
++            rounded-md shadow-sm focus:outline-none dark:bg-neutral-800 dark:border-neutral-600"
       >
-        <span>{getDisplayValue()}</span>
-        <FaChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#242524] dark:text-[#ffffff]" />
+        <span className="text-[#242524] dark:text-gray-200 flex flex-wrap gap-1 whitespace-normal break-words">
+          {getDisplayValue()}
+        </span>
+        <FaChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#242524] dark:text-white" />
       </button>
 
       {/* Dropdown Menu */}
       {isOpen && (
         <div
-          className="absolute mt-1 w-[200px] bg-white border border-[#EBEBEA]  text-gray-600  dark:text-white dark:bg-neutral-800 dark:border-neutral-700
-                     rounded-md shadow-lg z-10 p-2 space-y-1 max-h-[250px] overflow-auto"
+          className="absolute mt-1 w-[200px] bg-white border border-[#EBEBEA]
+                     rounded-md shadow-lg z-10 p-2 space-y-1 max-h-[250px] overflow-auto dark:bg-neutral-800 dark:border-neutral-600  dark:text-white"
         >
           {isSelect ? (
             // Simple Select Mode
@@ -89,9 +93,9 @@ export default function Dropdown({
                     onChange(opt.value);
                     setIsOpen(false);
                   }}
-                  className={`px-3 py-2 text-sm cursor-pointer hover:bg-gray-100 dark:hover:bg-neutral-700 rounded ${
+                  className={`px-3 py-2 text-sm cursor-pointer hover:bg-gray-100 rounded  dark:hover:bg-gray-700 ${
                     opt.value === value
-                      ? "text-[#242524] dark:text-[#ffffff] font-bold"
+                      ? "font-medium text-[#242524] dark:text-white"
                       : "text-gray-600 dark:text-white"
                   }`}
                 >
@@ -129,7 +133,7 @@ export default function Dropdown({
                   />
                   <label
                     htmlFor={`${name}-${opt.value}`}
-                    className="text-sm text-gray-700 cursor-pointer"
+                    className="text-sm text-gray-700 cursor-pointer dark:text-white"
                   >
                     {opt.text}
                   </label>
