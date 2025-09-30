@@ -63,7 +63,7 @@ export default function Navbar() {
           } absolute top-full left-0 w-full bg-white dark:bg-neutral-900 lg:static lg:w-auto lg:grid lg:grid-cols-1`}
         >
           <ul className="grid gap-3 px-4 py-4 lg:flex lg:gap-6 lg:p-0">
-            {["Home", "Wishlist", "Cart", "Orders"].map((key) => (
+            {["Home", "Wishlist", "Cart", "Orders","Login","Register"].map((key) => (
               <li key={key}>
                 <NavLink
                   to={ `/${key}` }
