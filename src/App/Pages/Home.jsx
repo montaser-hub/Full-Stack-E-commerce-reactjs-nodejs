@@ -4,12 +4,13 @@ import Dropdown from "../SharedElements/Dropdown";
 import ProductCard from "../Components/ProductCard";
 import { useState, useEffect } from "react";
 import Pagination from "../Components/Pagination";
+import { axiosInstance } from "../AxiosInstance/AxiosInstance";
 
 export default function Home() {
   const [products, setProducts] = useState([]);
+  const [meta, setMeta] = useState({ total: 0, page: 1 });
   const [showFilters, setShowFilters] = useState(false);
   const [selectedCategories, setSelectedCategories] = useState([]);
-
 
   const categories = [
     "Dinning",
@@ -22,11 +23,17 @@ export default function Home() {
   ];
 
   useEffect(() => {
-    fetch("https://fakestoreapi.com/products")
-      .then((res) => res.json())
-      .then((data) => setProducts(data));
-  }, [] );
-    
+    axiosInstance
+      .get("/products/") 
+      .then((res) => {
+        setProducts(res.data.data);
+        setMeta(res.data.totalProducts);
+      })
+      .catch((err) => {
+        console.error("Error fetching products:", err);
+      });
+  }, [meta.page]);
+
   return (
     <main className="bg-gray-50 dark:bg-neutral-900 min-h-screen py-8 px-4 md:px-8">
       {/* Hero / Slider Placeholder */}
@@ -111,15 +118,15 @@ export default function Home() {
         {/* Products Grid */}
         <section className="flex-1">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {products.map((product) => (
+            {products.map((product, index) => (
               <ProductCard
-                key={product.id}
-                id={product.id}
-                image={product.image}
-                title={product.title}
-                description={product.description}
-                oldPrice={`$${(product.price * 1.2).toFixed(2)}`}
-                Price={`$${product.price}`}
+                key={index}
+                id={product?.id}
+                image={product?.images[0]}
+                title={product?.name}
+                description={product?.description}
+                oldPrice={`$${(product?.price * 1.2).toFixed(2)}`}
+                Price={`$${product?.price}`}
               />
             ))}
           </div>
