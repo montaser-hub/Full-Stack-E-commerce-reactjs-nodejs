@@ -1,17 +1,21 @@
+import { useState } from "react";
+
 /**
  * Input Component
  * -----------------------------
- * A reusable input field with optional label.
+ * A reusable input field with optional label, supporting text, email, password, and select types.
  *
  * Props:
  * - label:       Label text displayed above the input (optional).
- * - type:        Input type (e.g., "text", "email", "password", etc.).
+ * - type:        Input type (e.g., "text", "email", "password", "select", etc.).
  * - myClass:     Extra CSS/Tailwind classes for styling (optional).
  * - placeholder: Placeholder text inside the input (optional).
  * - value:       Controlled value for the input field.
  * - name:        The input's name attribute (used for forms).
  * - onChange:    Function handler for change events (required for controlled inputs).
  * - onKeyDown:   Optional handler for keydown events (e.g., handling "Enter").
+ * - showToggle:  Boolean to show/hide password toggle for password inputs (default: false).
+ * - children:    Options for select type (required if type is "select").
  *
  * Example Usage:
  * <Input
@@ -22,31 +26,80 @@
  *   value={email}
  *   onChange={(e) => setEmail(e.target.value)}
  * />
+ * <Input
+ *   label="Role"
+ *   type="select"
+ *   name="role"
+ *   value={role}
+ *   onChange={(e) => setRole(e.target.value)}
+ * >
+ *   <option value="user">user</option>
+ *   <option value="admin">admin</option>
+ * </Input>
  */
-export function Input( { label, type = "text", myClass = "", placeholder, value, name, onChange, onKeyDown } ) {
+export function Input({ label, type = "text", myClass = "", placeholder, value, name, onChange, onKeyDown, showToggle = false, children }) {
+  const [showPassword, setShowPassword] = useState(false);
+
+  if (type === "select") {
+    return (
+      <div className="relative w-full">
+        {label && (
+          <label
+            htmlFor={name}
+            className="mb-1 text-sm font-medium text-gray-700 dark:text-gray-300"
+          >
+            {label}
+          </label>
+        )}
+        <select
+          id={name}
+          name={name}
+          value={value ?? ""}
+          onChange={onChange}
+          onKeyDown={onKeyDown}
+          className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${myClass}`}
+        >
+          {children}
+        </select>
+      </div>
+    );
+  }
+
   return (
-     <div className="flex flex-col w-full">
+    <div className="relative w-full">
       {/* Label (optional) */}
       {label && (
         <label
           htmlFor={name}
-          className="mb-1 text-sm font-medium text-gray-700"
+          className="mb-1 text-sm font-medium text-gray-700 dark:text-gray-300"
         >
           {label}
         </label>
       )}
 
       {/* Input field */}
-      <input
-        id={name}
-        type={type}
-        name={name}
-        placeholder={placeholder}
-        value={value ?? ""}
-        onChange={onChange}
-        onKeyDown={onKeyDown}
-        className={`${myClass}`}
-      />
+      <div className="relative">
+        <input
+          id={name}
+          type={type === "password" && showPassword ? "text" : type}
+          name={name}
+          placeholder={placeholder}
+          value={value ?? ""}
+          onChange={onChange}
+          onKeyDown={onKeyDown}
+          className={`w-full pr-10 ${myClass}`} // Add padding-right to accommodate icon
+        />
+        {/* Show/Hide Password Toggle (for password inputs) */}
+        {type === "password" && showToggle && (
+          <span
+            className="absolute right-2 top-1/2 -translate-y-1/2 cursor-pointer select-none z-10"
+            onClick={() => setShowPassword(!showPassword)}
+            aria-label={showPassword ? `Hide ${label || "password"}` : `Show ${label || "password"}`}
+          >
+            {showPassword ? "🙈" : "👁️"}
+          </span>
+        )}
+      </div>
     </div>
   );
 }
