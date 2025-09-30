@@ -76,7 +76,7 @@ function Footer() {
         </div>
       </section>
       <hr className="border-[#C1C7CD] dark:border-neutral-700" />
-      <section className="bg-[#6a7e91] dark:text-white dark:bg-neutral-800 dark:border-neutral-700 py-4 px-6 md:px-12 lg:px-24">
+      <section className="bg-[rgb(157,179,161)] dark:text-white dark:bg-neutral-800 dark:border-neutral-700 py-4 px-6 md:px-12 lg:px-24">
         <div className="flex flex-col md:flex-row justify-between items-center gap-3 md:gap-0">
           <p className="text-sm text-center md:text-left">
             © 2025 WOODY. All rights reserved.
