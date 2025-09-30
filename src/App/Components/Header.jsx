@@ -48,7 +48,7 @@ export default function Navbar() {
           </button>
 
           {/* Logo */}
-          <Link to="/" className="flex items-center">
+          <Link to="/Home" className="flex items-center">
             <img
               src={myTheme === "dark" ? "/logo-white.png" : "/logo-balck.png"}
               alt="Logo"

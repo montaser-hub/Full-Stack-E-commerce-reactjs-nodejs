@@ -95,7 +95,6 @@ export default function Orders() {
             inputClass="h-[40px] border border-[#EBEBEA] rounded-md text-sm w-full"
           />
           <Dropdown
-            label="Order Status"
             type="select"
             options={[
               { value: "all", label: "All Orders" },
