@@ -2,6 +2,7 @@ import { FaFacebook, FaInstagram, FaLinkedinIn, FaTwitter, FaTiktok } from "reac
 import { TiSocialGooglePlus } from "react-icons/ti";
 import FooterLinks from "./FooterLinks";
 import SocialLinks from "./FooterIcons";
+import Text from "../SharedElements/Text";
 
 function Footer() {
 
@@ -13,16 +14,16 @@ function Footer() {
         { label: "Full Rooms" },
     ];
     const aboutLinks = [
-        { label: "Staff" },
-        { label: "Team" },
-        { label: "Careers" },
-        { label: "Reviews" },
+        { label: "Staff" , href: "#" },
+        { label: "Team" , href: "#" },
+        { label: "Careers" , href: "#" },
+        { label: "Reviews" , href: "#" },
     ];
     const customerLinks = [
-        { label: "Log in" },
-        { label: "Register" },
-        { label: "Contact Us" },
-        { label: "Help & Support" },
+        { label: "Log in" , href: "#" },
+        { label: "Register" , href: "#" },
+        { label: "Contact Us" , href: "#" },
+        { label: "Help & Support" , href: "#" },
     ];
     const socialLinks = [
         { icon: <TiSocialGooglePlus />, href: "#" },
@@ -38,10 +39,16 @@ function Footer() {
             <section className="px-6 md:px-12 lg:px-24 py-8">
                 <div className="flex flex-col md:flex-row justify-between items-center gap-4 md:gap-0">
                 <div className="text-center md:text-left">
-                    <h1 className="text-3xl font-extrabold text-[#3b3b3b]">WOODY</h1>
-                    <p className="text-[rgb(108,184,169)] font-medium text-sm md:text-base">
-                        For Natural Furniture
-                    </p>
+                    <Text 
+                        as="h1" 
+                        content="WOODY" 
+                        MyClass="text-3xl font-extrabold text-[#3b3b3b]" 
+                    />
+                    <Text 
+                        as="p" 
+                        content="For Natural Furniture" 
+                        MyClass="text-[rgb(108,184,169)] font-medium text-sm md:text-base" 
+                    />
                 </div>
                 </div>
             </section>
@@ -49,17 +56,27 @@ function Footer() {
             <section className="px-6 md:px-12 lg:px-24 py-10">
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 text-[#404040] text-center md:text-left">
                 <div>
-                    <h3 className="font-semibold text-lg mb-3">Description</h3>
-                    <p className="text-sm leading-relaxed">
-                    A small team built this site for trading modern furniture which is environmentally friendly and sustainable.
-                    </p>
+                    <Text 
+                        as="h3" 
+                        content="Description" 
+                        MyClass="font-semibold text-lg mb-3" 
+                    />
+                    <Text 
+                        as="p" 
+                        content="A small team built this site for trading modern furniture which is environmentally friendly and sustainable." 
+                        MyClass="text-sm leading-relaxed" 
+                    />
                 </div>
                 <div>
-                    <h3 className="font-semibold text-lg mb-3">Services</h3>
+                    <Text 
+                        as="h3" 
+                        content="Services" 
+                        MyClass="font-semibold text-lg mb-3" 
+                    />
                     <ul className="space-y-2 text-sm">
-                        <li>Buy & Sell</li>
-                        <li>Reservation</li>
-                        <li>Return Policy</li>
+                        <li><Text as="span" content="Buy & Sell" /></li> 
+                        <li><Text as="span" content="Reservation" /></li> 
+                        <li><Text as="span" content="Return Policy" /></li> 
                     </ul>
                 </div>
                     <FooterLinks title="Products" links={productsLinks} />
@@ -69,9 +86,11 @@ function Footer() {
             </section>
             <section className="bg-[#a7c7e5] text-[#404040] py-4 px-6 md:px-12 lg:px-24">
                 <div className="flex flex-col md:flex-row justify-between items-center gap-3 md:gap-0">
-                    <p className="text-sm text-center md:text-left">
-                        © 2025 WOODY. All rights reserved.
-                    </p>
+                    <Text 
+                        as="p" 
+                        content="© 2025 WOODY. All rights reserved." 
+                        MyClass="text-sm text-center md:text-left" 
+                    />
                     <div className="flex gap-5 text-2xl">
                         <SocialLinks links={socialLinks} />
                     </div>

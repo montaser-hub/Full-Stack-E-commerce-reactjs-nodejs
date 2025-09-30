@@ -1,14 +1,19 @@
 import { Link } from "react-router-dom";
+import Text from "../SharedElements/Text"; 
 
 function FooterLinks({ title, links }) {
 return (
     <div>
-    <h3 className="font-semibold text-lg mb-3">{title}</h3>
+    <Text 
+        as="h3" 
+        content={title} 
+        MyClass="font-semibold text-lg mb-3" 
+    />
     <ul className="space-y-2 text-sm">
         {links.map((link, idx) => (
         <li key={idx}>
             <Link to={link.href } className="hover:text-[#5757e8]">
-            {link.label}
+            <Text as="span" content={link.label} /> 
             </Link>
         </li>
         ))}
