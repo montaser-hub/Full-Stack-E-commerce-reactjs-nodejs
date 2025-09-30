@@ -4,9 +4,6 @@ import { Input } from "../SharedElements/Input";
 import Button from "../SharedElements/Button";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
-import { toggleLang } from "../../ReduxToolkit/Store";
-import { toggleTheme } from "../../ReduxToolkit/Store";
 
 function Login() {
   const [info, setInfo] = useState({
@@ -18,58 +15,52 @@ function Login() {
     password: "",
   });
   const myTheme = useSelector((state) => state.theme);
-  const { lang, content } = useSelector((state) => state.myLang);
-  const dispatch = useDispatch();
+  const { content } = useSelector((state) => state.myLang);
 
-  const changeTheme = () => dispatch(toggleTheme());
-  const changeLang = () => dispatch(toggleLang());
+   function validateField(name, value) {
+    let error = "";
 
-  const handleForm = (e) => {
-    const { name, value } = e.target;
     if (name === "email") {
-      setInfo({ ...info, email: value });
-      setErrors({
-        ...errors,
-        email:
-          value.length === 0
-            ? content["Email is required."]
-            : !/^[\w.-]+@[\w.-]+\.[a-zA-Z]{2,}$/.test(value)
-            ? content["Email is not valid."]
-            : "",
-      });
-    } else if (name === "password") {
-      setInfo({ ...info, password: value });
-      setErrors({
-        ...errors,
-        password:
-          value.length === 0
-            ? content["Password must be at least 6 characters."]
-            : value.length < 6
-            ? content["Password must be at least 6 characters."]
-            : "",
-      });
+      if (!value) error = "Email is required";
+      else if (!/^[\w.-]+@[\w.-]+\.[a-zA-Z]{2,}$/.test(value))
+        error = "Invalid email format";
     }
-  };
 
-  const handleSubmit = (e) => {
+    if (name === "password") {
+      if (!value) error = "Password is required";
+      else if (value.length < 6)
+        error = "Password must be at least 6 characters";
+    }
+
+    setErrors((prev) => ({ ...prev, [name]: error }));
+    return error;
+  }
+
+  function handleChange(e) {
+    const { name, value } = e.target;
+    setInfo((prev) => ({ ...prev, [name]: value }));
+    validateField(name, value);
+  }
+
+  function handleSubmit(e) {
     e.preventDefault();
-    if (!errors.email && !errors.password && info.email && info.password) {
+
+    const emailError = validateField("email", info.email);
+    const passwordError = validateField("password", info.password);
+
+    if (!emailError && !passwordError) {
+      alert("Login Successful ✅");
       console.log("Form submitted:", info);
     }
-  };
+  }
+
 
   return (
-    <div
-      className={`min-h-screen flex items-center justify-center ${
-        myTheme === "dark" ? "bg-neutral-900" : "bg-gray-100"
-      }`}
-    >
-      <div
-        className={`bg-white dark:bg-neutral-800 p-8 rounded-xl shadow-md w-full max-w-md`}
-      >
+    <div className={`min-h-screen flex items-center justify-center ${myTheme === "dark" ? "bg-neutral-900" : "bg-gray-100"}`}>
+      <div className={`bg-white dark:bg-neutral-800 p-8 rounded-xl shadow-md w-full max-w-md`}>
         {/* Logo */}
         <img
-          src={myTheme === "dark" ? "/logo-white.png" : "/logo-balck.png"}
+              src={myTheme === "dark" ? "/logo-white.png" : "/logo-balck.png"}
           alt="Logo"
           className="h-12 w-12 rounded-full mx-auto"
           loading="lazy"
@@ -90,63 +81,64 @@ function Login() {
         {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* Email */}
-          <div>
-            <Input
-              label={content["Email / Username"]}
-              type="text"
-              name="email"
-              value={info.email}
-              onChange={handleForm}
-              myClass={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                errors.email
-                  ? "border-red-500"
-                  : info.email
-                  ? "border-green-500"
-                  : "border-gray-300"
-              } dark:bg-neutral-700 dark:text-white`}
-              placeholder={content["Enter your email"]}
-            />
-            {errors.email && (
-              <Text
-                as="p"
-                content={errors.email}
-                MyClass="text-red-500 text-sm mt-1"
-              />
-            )}
-          </div>
+          {/* Email */}
+<div>
+  <Input
+    label={content["Email / Username"]}
+    type="text"
+    name="email"
+    value={info.email}
+    onChange={handleChange}  // <-- updated
+    myClass={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+      errors.email
+        ? "border-red-500"
+        : info.email
+        ? "border-green-500"
+        : "border-gray-300"
+    } dark:bg-neutral-700 dark:text-white`}
+    placeholder={content["Enter your email"]}
+  />
+  {errors.email && (
+    <Text
+      as="p"
+      content={errors.email}
+      MyClass="text-red-500 text-sm mt-1"
+    />
+  )}
+</div>
 
-          {/* Password */}
-          <div>
-            <Input
-              label={content["Password"]}
-              type="password"
-              name="password"
-              value={info.password}
-              onChange={handleForm}
-              myClass={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                errors.password
-                  ? "border-red-500"
-                  : info.password
-                  ? "border-green-500"
-                  : "border-gray-300"
-              } dark:bg-neutral-700 dark:text-white`}
-              placeholder={content["Enter your password"]}
-              showToggle={true}
-            />
-            {errors.password && (
-              <Text
-                as="p"
-                content={errors.password}
-                MyClass="text-red-500 text-sm mt-1"
-              />
-            )}
-          </div>
+{/* Password */}
+<div>
+  <Input
+    label={content["Password"]}
+    type="password"
+    name="password"
+    value={info.password}
+    onChange={handleChange}  // <-- updated
+    myClass={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+      errors.password
+        ? "border-red-500"
+        : info.password
+        ? "border-green-500"
+        : "border-gray-300"
+    } dark:bg-neutral-700 dark:text-white`}
+    placeholder={content["Enter your password"]}
+    showToggle={true}
+  />
+  {errors.password && (
+    <Text
+      as="p"
+      content={errors.password}
+      MyClass="text-red-500 text-sm mt-1"
+    />
+  )}
+</div>
 
           {/* Forgot Password */}
           <div className="text-right">
             <Link
               to="#"
-              className="text-sm text-blue-600 hover:underline dark:text-white"
+              className="text-sm text-blue-600 hover:underline dark:text-blue-400"
             >
               {content["Forgot Password?"]}
             </Link>
@@ -154,7 +146,7 @@ function Login() {
 
           {/* Submit */}
           <Button
-            color="bg-[rgb(67,94,72)] hover:bg-[rgb(57,84,62)]  text-white"
+            color="bg-blue-600 hover:bg-blue-700 text-white"
             myClass="w-full font-medium py-2 px-4 rounded-md transition"
             onClick={handleSubmit}
             status={
@@ -171,12 +163,9 @@ function Login() {
             MyClass="text-sm text-gray-600 dark:text-gray-300"
             content={
               <>
-                {content["Don't have an account? "]}{" "}
-                <Link
-                  to="/register"
-                  className="text-blue-600 hover:underline dark:text-wihte"
-                >
-                  {content["Register here"]}
+               Don't have an account? {" "}
+                <Link to="/register" className="text-blue-600 hover:underline dark:text-blue-400">
+                  Register here
                 </Link>
                 .
               </>
