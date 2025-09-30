@@ -33,12 +33,41 @@ const langSlice = createSlice({
 
 export const { toggleLang } = langSlice.actions; // button click -> action dispatch
 export const { toggleTheme } = themeSlice.actions; // button click -> action dispatch
+// Favorites
+const initialState = {
+  favoriteProducts: [],
+};
+
+const favoritesSlice = createSlice({
+  name: "favorites",
+  initialState,
+  reducers: {
+    addFavorite: (state, action) => {
+      const productExists = state.favoriteProducts.some(
+        (product) => product.id === action.payload.id
+      );
+      if (!productExists) {
+        state.favoriteProducts.push(action.payload);
+      }
+    },
+    removeFavorite: (state, action) => {
+      state.favoriteProducts = state.favoriteProducts.filter(
+        (product) => product.id !== action.payload
+      );
+    },
+  },
+});
+
+export const { addFavorite, removeFavorite } = favoritesSlice.actions;
+
 
 const Store = configureStore({
   reducer: {
     theme: themeSlice.reducer,
     myLang: langSlice.reducer,
+    myFavorites: favoritesSlice.reducer,
   },
 });
+
 
 export default Store;

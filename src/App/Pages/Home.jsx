@@ -111,9 +111,10 @@ export default function Home() {
             {products.map((product) => (
               <ProductCard
                 key={product.id}
+                id={product.id} 
                 image={product.image}
                 title={product.title}
-                description={product.description.substring(0, 60) + "..."}
+                description={product.description}
                 oldPrice={`$${(product.price * 1.2).toFixed(2)}`}
                 Price={`$${product.price}`}
               />

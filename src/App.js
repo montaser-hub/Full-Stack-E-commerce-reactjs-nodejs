@@ -21,6 +21,7 @@ import RouteLayout from "./App/Layout/RootLayout";
 import DashboardLayout from "./App/Layout/DashboardLayout";
 import Cart from "./App/Pages/Cart";
 import Orders from "./App/Pages/Orders";
+import Wishlist from "./App/Pages/Wishlist";
 
 // Define router
 const router = createBrowserRouter(
@@ -30,6 +31,8 @@ const router = createBrowserRouter(
       <Route path="home" element={<Home />} />
       <Route path="cart" element={<Cart />} />
       <Route path="orders" element={<Orders />} />
+      <Route path="wishlist" element={<Wishlist />} />
+
 
       <Route path="dashboard" element={<DashboardLayout />}>
         {/* Dashboard Pages */}
