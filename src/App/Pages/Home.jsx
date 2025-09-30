@@ -7,6 +7,8 @@ import { useState, useEffect } from "react";
 export default function Home() {
   const [products, setProducts] = useState([]);
   const [showFilters, setShowFilters] = useState(false);
+  const [selectedCategories, setSelectedCategories] = useState([]);
+
 
   const categories = [
     "Dinning",
@@ -42,7 +44,7 @@ export default function Home() {
               content="Clear All"
               myClass="text-sm text-blue-600 hover:underline"
               to="#"
-              onClick={() => {}}
+              onClick={() => setSelectedCategories([])}
             />
           </div>
 
@@ -56,8 +58,8 @@ export default function Home() {
               name="category"
               type="checkbox"
               options={categories.map((c) => ({ value: c, text: c }))}
-              selected={[]}
-              onChange={() => {}}
+              selected={selectedCategories}
+              onChange={setSelectedCategories}
             />
           </div>
         </aside>
@@ -111,7 +113,7 @@ export default function Home() {
             {products.map((product) => (
               <ProductCard
                 key={product.id}
-                id={product.id} 
+                id={product.id}
                 image={product.image}
                 title={product.title}
                 description={product.description}

@@ -6,7 +6,7 @@ import {
 import { useState } from "react";
 import StatCard from "../Components/StatOrdersCard";
 import Text from "../SharedElements/Text";
-import Dropdown from "../SharedElements/DropdownSelect.jsx";
+import Dropdown from "../SharedElements/Dropdown.jsx";
 import Search from "../SharedElements/search.jsx";
 import OrdersTable from "../Components/OrdersTable";
 import { orders as initialOrders, stats } from "../Data/orderItems";
@@ -95,6 +95,8 @@ export default function Orders() {
             inputClass="h-[40px] border border-[#EBEBEA] rounded-md text-sm w-full"
           />
           <Dropdown
+            label="Order Status"
+            type="select"
             options={[
               { value: "all", label: "All Orders" },
               { value: "pending", label: "Pending" },
