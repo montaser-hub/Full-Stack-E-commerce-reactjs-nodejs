@@ -1,4 +1,4 @@
-import Search from "../App/SharedElements/search";
+// import Search from "../App/SharedElements/search";
 
 const en = {
   Home: "Home",
