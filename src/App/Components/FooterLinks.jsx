@@ -12,7 +12,10 @@ return (
     <ul className="space-y-2 text-sm">
         {links.map((link, idx) => (
         <li key={idx}>
-            <Link to={link.href } className="hover:text-[#5757e8]">
+            <Link
+            to={link.href}
+            className="hover:text-[#5757e8] transition-colors duration-300 ease-in-out"
+            >
             <Text as="span" content={link.label} /> 
             </Link>
         </li>
@@ -23,3 +26,4 @@ return (
 }
 
 export default FooterLinks;
+
