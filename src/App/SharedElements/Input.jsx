@@ -37,7 +37,25 @@ import { useState } from "react";
  *   <option value="admin">admin</option>
  * </Input>
  */
-export function Input({ label, type = "text", myClass = "", placeholder, value, name, onChange, onKeyDown, showToggle = false, children }) {
+
+
+
+
+
+export function Input({
+  label,
+  type = "text",
+  myClass = "",
+  placeholder,
+  value,
+  name,
+  onChange,
+  onKeyDown,
+  showToggle = false,
+  children,
+  error, // ✅ الرسالة بتيجي هنا
+  icon,
+}) {
   const [showPassword, setShowPassword] = useState(false);
 
   if (type === "select") {
@@ -61,13 +79,13 @@ export function Input({ label, type = "text", myClass = "", placeholder, value, 
         >
           {children}
         </select>
+        {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
       </div>
     );
   }
 
   return (
     <div className="relative w-full">
-      {/* Label (optional) */}
       {label && (
         <label
           htmlFor={name}
@@ -77,7 +95,6 @@ export function Input({ label, type = "text", myClass = "", placeholder, value, 
         </label>
       )}
 
-      {/* Input field */}
       <div className="relative">
         <input
           id={name}
@@ -87,19 +104,26 @@ export function Input({ label, type = "text", myClass = "", placeholder, value, 
           value={value ?? ""}
           onChange={onChange}
           onKeyDown={onKeyDown}
-          className={`w-full pr-10 ${myClass}`} // Add padding-right to accommodate icon
+          className={`w-full pr-10 ${myClass}`}
         />
-        {/* Show/Hide Password Toggle (for password inputs) */}
+
         {type === "password" && showToggle && (
           <span
             className="absolute right-2 top-1/2 -translate-y-1/2 cursor-pointer select-none z-10"
             onClick={() => setShowPassword(!showPassword)}
-            aria-label={showPassword ? `Hide ${label || "password"}` : `Show ${label || "password"}`}
           >
             {showPassword ? "🙈" : "👁️"}
           </span>
         )}
+
+        {icon && (
+          <span className="absolute right-2 top-1/2 -translate-y-1/2 z-10">
+            {icon}
+          </span>
+        )}
       </div>
+
+      {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
     </div>
   );
 }

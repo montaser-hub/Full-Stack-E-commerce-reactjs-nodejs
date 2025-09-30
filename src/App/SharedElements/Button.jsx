@@ -1,27 +1,27 @@
 /**
  * Button Component
  * ----------------------------
- * A reusable button wrapper with.
+ * A reusable button wrapper.
  *
  * Props:
- * - color:   tailwind color variant.
+ * - type:    Button type (button | submit | reset).
+ * - color:   Tailwind color variant.
  * - myClass: Additional custom classes for styling (string).
  * - onClick: Function to execute when the button is clicked.
  * - status:  Boolean to disable the button (true = disabled).
  * - content: The text or JSX to render inside the button.
- *
- * Example:
- * <Button
- *   color="primary"
- *   myClass="px-4 py-2"
- *   onClick={() => alert("Clicked!")}
- *   status={false}
- *   content="Submit"
- * />
  */
-export default function Button({ color, myClass, onClick, status, content }) {
+export default function Button({ 
+  type = "button", 
+  color, 
+  myClass, 
+  onClick, 
+  status, 
+  content 
+}) {
   return (
     <button
+      type={type}   // ✅ مهم علشان الفورم يشتغل
       className={`${myClass} ${color}`}
       onClick={onClick}
       disabled={status}
