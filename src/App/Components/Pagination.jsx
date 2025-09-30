@@ -45,7 +45,7 @@ export default function Pagination({ totalPages = 1, maxVisiblePages = 5 }) {
     `min-w-[36px] h-9 flex items-center justify-center rounded-md transition 
      ${
        isActive
-         ? "bg-[#4148c5] text-white font-semibold shadow-md"
+         ? "bg-[rgb(67,94,72)] text-white font-semibold shadow-md"
          : "bg-white text-gray-700 hover:bg-gray-100 dark:bg-neutral-800 dark:text-gray-200 dark:hover:bg-neutral-700"
      }`;
 

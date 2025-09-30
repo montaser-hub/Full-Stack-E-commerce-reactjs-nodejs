@@ -68,7 +68,7 @@ export default function Navbar() {
                   to={ `/${key}` }
                   className={ ( { isActive } ) =>
                     isActive
-                      ? "block px-2 py-1 font-bold underline text-blue-700  dark:text-white dark:hover:text-white"
+                      ? "block px-2 py-1 font-bold underline text-[rgb(67,94,72)]  dark:text-white dark:hover:text-white"
                       : "block px-2 py-1 font-bold  text-black/60 transition  hover:text-black dark:text-white dark:hover:text-white"
                   }
                       >

@@ -127,9 +127,9 @@ return (
       <div className="mt-4 w-full">
         <Button
           myClass={`w-full h-12 flex items-center justify-center gap-2 font-medium 
-                    bg-gradient-to-r from-pink-500 to-rose-500 
+                    bg-gradient-to-r from-[rgb(67,94,72)] to-[rgb(87,114,92)]
                     rounded-xl shadow-md 
-                    hover:from-pink-600 hover:to-rose-600 
+                    hover:from-[rgb(57,84,62)] hover:to-[rgb(77,104,82)] 
                     active:scale-95 transition-all duration-200`}
           onClick={() => console.log("Move to Cart clicked!")}
           status={!stockStatus.isEnabled}

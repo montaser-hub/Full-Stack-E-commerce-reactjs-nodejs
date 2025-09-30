@@ -8,7 +8,6 @@ import {
 import { TiSocialGooglePlus } from "react-icons/ti";
 import FooterLinks from "./FooterLinks";
 import SocialLinks from "./FooterIcons";
-import Text from "../SharedElements/Text";
 
 function Footer() {
   const productsLinks = [
