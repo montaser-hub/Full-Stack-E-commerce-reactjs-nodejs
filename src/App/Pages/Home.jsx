@@ -8,7 +8,7 @@ import { axiosInstance } from "../AxiosInstance/AxiosInstance";
 
 export default function Home() {
   const [products, setProducts] = useState([]);
-  const [meta, setMeta] = useState({ total: 0, page: 1 });
+  const [meta, setMeta] = useState({ total: 0, page: 1, limit:8 });
   const [showFilters, setShowFilters] = useState(false);
   const [selectedCategories, setSelectedCategories] = useState([]);
 
@@ -24,16 +24,20 @@ export default function Home() {
 
   useEffect(() => {
     axiosInstance
-      .get("/products/") 
+      .get(`/products?page=${meta.page}&limit=${meta.limit}`)
       .then((res) => {
         setProducts(res.data.data);
-        setMeta(res.data.totalProducts);
+        setMeta((prev) => ({
+          ...prev,
+          total: res.data.totalProducts,
+        }));
       })
       .catch((err) => {
         console.error("Error fetching products:", err);
       });
-  }, [meta.page]);
-
+  }, [meta.page, meta.limit]);
+  
+  const totalPages = Math.ceil(meta.total / meta.limit);
   return (
     <main className="bg-gray-50 dark:bg-neutral-900 min-h-screen py-8 px-4 md:px-8">
       {/* Hero / Slider Placeholder */}
@@ -121,19 +125,24 @@ export default function Home() {
             {products.map((product, index) => (
               <ProductCard
                 key={index}
-                id={product?.id}
+                id={product?._id}
                 image={product?.images[0]}
                 title={product?.name}
                 description={product?.description}
                 oldPrice={`$${(product?.price * 1.2).toFixed(2)}`}
                 Price={`$${product?.price}`}
+                stock={product?.quantity}
               />
             ))}
           </div>
 
           {/* Pagination */}
           <div className="mt-8 flex justify-center">
-            <Pagination />
+            <Pagination
+              totalPages={totalPages}
+              currentPage={meta.page}
+              setCurrentPage={(page) => setMeta((prev) => ({ ...prev, page }))}
+            />
           </div>
         </section>
       </div>

@@ -18,7 +18,7 @@ const getStockStatus = (stock) => {
     }
 };
 
-const stockStatus = getStockStatus(10);
+const stockStatus = getStockStatus(props.stock);
 const dispatch = useDispatch();
 const favoriteProducts = useSelector((state) => state.myFavorites.favoriteProducts);
 const isFavorite = favoriteProducts.some(product => product.id === props.id);
@@ -33,7 +33,7 @@ const handleToggleFavorite = () => {
         description: props.description,
         price: props.Price, 
         oldPrice: props.oldPrice,
-        stock: 10,
+        stock: props.stock,
         discount: null 
     }));
     }

@@ -1,8 +1,6 @@
-import { useState } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
-export default function Pagination({ totalPages = 1, maxVisiblePages = 5 }) {
-  const [currentPage, setCurrentPage] = useState(1);
+export default function Pagination({ totalPages = 1, maxVisiblePages = 5, currentPage, setCurrentPage}) {
 
   const next = () => {
     if (currentPage < totalPages) setCurrentPage(currentPage + 1);
@@ -66,10 +64,10 @@ export default function Pagination({ totalPages = 1, maxVisiblePages = 5 }) {
 
       {/* Page Numbers */}
       <div className="flex items-center gap-2">
-        {pages.map((page, idx) =>
+        {pages.map((page, index) =>
           page === "..." ? (
             <span
-              key={`dots-${idx}`}
+              key={`dots-${index}`}
               className="px-2 text-gray-500 dark:text-gray-400"
             >
               ...
