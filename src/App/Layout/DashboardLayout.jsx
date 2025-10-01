@@ -1,4 +1,11 @@
 import { NavLink, Outlet } from "react-router-dom";
+import { MdOutlineDashboard } from "react-icons/md";
+import { IoCubeOutline } from "react-icons/io5";
+import { GrCubes } from "react-icons/gr";
+import { LuShoppingCart } from "react-icons/lu";
+import { FaChartLine } from "react-icons/fa6";
+import { HiOutlineCog6Tooth } from "react-icons/hi2";
+import Text from "../SharedElements/Text.jsx";
 
 const DashboardLayout = () => {
   return (
@@ -9,6 +16,21 @@ const DashboardLayout = () => {
           <ul className="space-y-2">
             <li>
               <NavLink
+                to="/dashboard"
+                className={({ isActive }) =>
+                  isActive
+                    ? "block rounded px-3 py-2 font-bold bg-[#4148c5] text-white "
+                    : "block rounded px-3 py-2 font-bold text-[#848484] hover:bg-[#bababa] hover:text-white"
+                }
+              > 
+                <div className="flex items-center gap-2">
+                  <MdOutlineDashboard className="text-xl" /> 
+                  <Text as="p" content="Dashboard" />
+                </div>
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
                 to="/dashboard/products"
                 className={({ isActive }) =>
                   isActive
@@ -16,7 +38,10 @@ const DashboardLayout = () => {
                     : "block rounded px-3 py-2 font-bold text-[#848484] hover:bg-[#bababa] hover:text-white"
                 }
               >
-                Manage Products
+                <div className="flex items-center gap-2">
+                <IoCubeOutline className="text-xl" />
+                <Text as="p" content="Manage Products" />
+                </div>
               </NavLink>
             </li>
             <li>
@@ -28,7 +53,10 @@ const DashboardLayout = () => {
                     : "block rounded px-3 py-2 font-bold text-[#848484] hover:bg-[#bababa] hover:text-white"
                 }
               >
-                Manage Orders
+                <div className="flex items-center gap-2">
+                <GrCubes className="text-xl" />
+                <Text as="p" content="Manage Categories" />
+                </div>
               </NavLink>
             </li>
             <li>
@@ -40,7 +68,10 @@ const DashboardLayout = () => {
                     : "block rounded px-3 py-2 font-bold text-[#848484] hover:bg-[#bababa] hover:text-white"
                 }
               >
-                Manage Categories
+                <div className="flex items-center gap-2">
+                <LuShoppingCart className="text-xl" />
+                <Text as="p" content="Manage Orders" />
+                </div>
               </NavLink>
             </li>
             <li>
@@ -52,7 +83,10 @@ const DashboardLayout = () => {
                     : "block rounded px-3 py-2 font-bold text-[#848484] hover:bg-[#bababa] hover:text-white"
                 }
               >
-                Analytics
+                <div className="flex items-center gap-2">
+                <FaChartLine className="text-xl" />
+                <Text as="p" content="Analytics" />
+                </div>
               </NavLink>
             </li>
             <li>
@@ -64,7 +98,10 @@ const DashboardLayout = () => {
                     : "block rounded px-3 py-2 font-bold text-[#848484] hover:bg-[#bababa] hover:text-white"
                 }
               >
-                Settings
+                <div className="flex items-center gap-2">
+                <HiOutlineCog6Tooth className="text-xl" />
+                <Text as="p" content="Settings" />
+                </div>
               </NavLink>
             </li>
           </ul>
