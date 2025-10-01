@@ -4,6 +4,7 @@ import Text from "../../SharedElements/Text";
 import Button from "../../SharedElements/Button";
 import ManageCategoryRow from "../../Components/ManageCategories";
 import Pagination from "../../Components/Pagination";
+import { useSelector } from "react-redux";
 
 export default function ManageCategories() {
   const [categories, setCategories] = useState([]);
@@ -11,12 +12,13 @@ export default function ManageCategories() {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
+  const myTheme = useSelector((state) => state.theme);
+
   useEffect(() => {
     axiosInstance
       .get(`/categories?page=${currentPage}&limit=5`)
       .then((res) => {
         setCategories(res.data.data || []);
-        // Handle cases where totalCategories might be missing or invalid
         const total = res.data.totalCategories || res.data.total || 0;
         setTotalPages(Math.ceil(total / 5) || 1);
       })
@@ -30,14 +32,28 @@ export default function ManageCategories() {
   );
 
   return (
-    <div className="min-h-screen bg-gray-100 p-6">
+    <div
+      className={`min-h-screen p-6 ${
+        myTheme === "dark" ? "bg-neutral-900" : "bg-gray-100"
+      }`}
+    >
       <div className="p-6">
-        <div className="bg-white p-6 rounded-lg shadow-md">
+        <div
+          className={`p-6 rounded-xl shadow-md ${
+            myTheme === "dark" ? "bg-neutral-800" : "bg-white"
+          }`}
+        >
           {/* Header */}
           <div className="flex justify-between items-center mb-6">
-            <Text as="h1" content="Manage Categories" MyClass="text-xl font-bold" />
+            <Text
+              as="h1"
+              content="Manage Categories"
+              MyClass={`text-xl font-bold ${
+                myTheme === "dark" ? "text-gray-200" : "text-gray-800"
+              }`}
+            />
             <Button
-              myClass="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+              myClass="bg-blue-600 text-white px-4 py-2 rounded-xl shadow-md hover:bg-blue-700 active:scale-95 transition-all"
               content="Create Category"
             />
           </div>
@@ -49,43 +65,77 @@ export default function ManageCategories() {
               placeholder="Search categories..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full p-2 border rounded"
+              className={`w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 
+                ${
+                  myTheme === "dark"
+                    ? "bg-neutral-700 text-white border-neutral-600 placeholder-gray-400"
+                    : "bg-white text-black border-gray-300 placeholder-gray-500"
+                }`}
             />
           </div>
 
           {/* Table */}
-          <table className="w-full">
-            <thead>
-              <tr className="bg-gray-100">
-                <th className="p-2 text-left">Name</th>
-                <th className="p-2 text-left">Description</th>
-                <th className="p-2 text-left">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredCategories.length > 0 ? (
-                filteredCategories.map((cat) => (
-                  <ManageCategoryRow key={cat._id} cat={cat} />
-                ))
-              ) : (
-                <tr>
-                  <td colSpan="3" className="p-2 text-center">
-                    No categories found
-                  </td>
+          <div className="overflow-x-auto rounded-lg">
+            <table className="w-full border-collapse">
+              <thead>
+                <tr
+                  className={`${
+                    myTheme === "dark" ? "bg-neutral-700" : "bg-gray-100"
+                  }`}
+                >
+                  <th
+                    className={`p-2 text-left ${
+                      myTheme === "dark" ? "text-gray-200" : "text-gray-700"
+                    }`}
+                  >
+                    Name
+                  </th>
+                  <th
+                    className={`p-2 text-left ${
+                      myTheme === "dark" ? "text-gray-200" : "text-gray-700"
+                    }`}
+                  >
+                    Description
+                  </th>
+                  <th
+                    className={`p-2 text-left ${
+                      myTheme === "dark" ? "text-gray-200" : "text-gray-700"
+                    }`}
+                  >
+                    Actions
+                  </th>
                 </tr>
-              )}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {filteredCategories.length > 0 ? (
+                  filteredCategories.map((cat) => (
+                    <ManageCategoryRow key={cat._id} cat={cat} />
+                  ))
+                ) : (
+                  <tr>
+                    <td
+                      colSpan="3"
+                      className={`p-2 text-center ${
+                        myTheme === "dark" ? "text-gray-400" : "text-gray-600"
+                      }`}
+                    >
+                      No categories found
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
 
           {/* Pagination */}
-          <Pagination
-            totalPages={totalPages}
-            currentPage={currentPage}
-            setCurrentPage={(page) => {
-              setCurrentPage(page);
-            }}
-            maxVisiblePages={5}
-          />
+          <div className="mt-6">
+            <Pagination
+              totalPages={totalPages}
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+              maxVisiblePages={5}
+            />
+          </div>
         </div>
       </div>
     </div>
