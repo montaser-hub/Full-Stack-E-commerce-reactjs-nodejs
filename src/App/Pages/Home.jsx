@@ -10,7 +10,7 @@ import HeroSlider from "../Components/HeroSlider.jsx";
 export default function Home() {
   const topRef = useRef(null);
   const [products, setProducts] = useState([]);
-  const [meta, setMeta] = useState({ total: 0, page: 1, limit:8 });
+  const [meta, setMeta] = useState({ total: 0, page: 1, limit: 8 });
   const [showFilters, setShowFilters] = useState(false);
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -24,30 +24,43 @@ export default function Home() {
     "/7.JPG",
     "/8.JPG",
   ];
-  useEffect( () => {
-    axiosInstance.get( "/categories" ).then( ( res ) => {
-      const categoriesNames = res.data.data.map( ( category ) => category.name );
-      setCategories(categoriesNames);
-    } );
-    
+  // 1 Fetch categories once on mount
+  useEffect(() => {
     axiosInstance
-      .get(`/products?page=${meta.page}&limit=${meta.limit}`)
+      .get("/categories")
       .then((res) => {
+        const categories = res.data.data.map((category) => ({
+          id: category._id,
+          name: category.name,
+        }));
+        setCategories(categories);
+      })
+      .catch((err) => console.error("Error fetching categories:", err));
+  }, []);
+
+  // 2 Fetch products whenever page, limit, or filters change
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        let query = `/products?page=${meta.page}&limit=${meta.limit}`;
+
+        if (selectedCategories.length > 0) {
+          query += selectedCategories.map((id) => `&categoryId=${id}`).join("");
+        }
+        const res = await axiosInstance.get(query);
         setProducts(res.data.data);
         setMeta((prev) => ({
           ...prev,
           total: res.data.totalProducts,
         }));
-      })
-      .catch((err) => {
+      } catch(err){
         console.error("Error fetching products:", err);
-      });
-    
-    if (meta.page) {
-      topRef.current?.scrollIntoView({ behavior: "smooth" });
-    }
-  }, [meta.page, meta.limit]);
-      
+      }
+    };
+
+    fetchProducts();
+  }, [meta.page, meta.limit, selectedCategories]);
+
   const totalPages = Math.ceil(meta.total / meta.limit);
   return (
     <main
@@ -74,7 +87,7 @@ export default function Home() {
             <Dropdown
               name="category"
               type="checkbox"
-              options={categories.map((c) => ({ value: c, text: c }))}
+              options={categories.map((c) => ({ value: c.id, text: c.name }))}
               selected={selectedCategories}
               onChange={setSelectedCategories}
             />
@@ -115,9 +128,9 @@ export default function Home() {
                 <Dropdown
                   name="category"
                   type="checkbox"
-                  options={categories.map((c) => ({ value: c, text: c }))}
-                  selected={[]}
-                  onChange={() => {}}
+                  options={categories.map((c) => ({ value: c.id, text: c.name }))}
+                  selected={selectedCategories}
+                  onChange={setSelectedCategories}
                 />
               </div>
             </div>
@@ -146,7 +159,12 @@ export default function Home() {
             <Pagination
               totalPages={totalPages}
               currentPage={meta.page}
-              setCurrentPage={(page) => setMeta((prev) => ({ ...prev, page }))}
+              setCurrentPage={(page) => {
+                setMeta((prev) => ({ ...prev, page }));
+                if (page > 1) {
+                  topRef.current?.scrollIntoView({ behavior: "smooth" });
+                }
+              } }
             />
           </div>
         </section>
