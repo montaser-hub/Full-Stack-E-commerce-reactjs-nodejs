@@ -4,12 +4,15 @@ import Text from "../../SharedElements/Text";
 import Button from "../../SharedElements/Button";
 import ManageOrderRow from "../../Components/ManageOrders";
 import Pagination from "../../Components/Pagination";
+import { useSelector } from "react-redux";
 
 export default function ManageOrdersPage() {
   const [orders, setOrders] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+
+  const myTheme = useSelector((state) => state.theme);
 
   useEffect(() => {
     axiosInstance
@@ -30,14 +33,28 @@ export default function ManageOrdersPage() {
   );
 
   return (
-    <div className="min-h-screen bg-gray-100 p-6">
+    <div
+      className={`min-h-screen p-6 ${
+        myTheme === "dark" ? "bg-neutral-900" : "bg-gray-100"
+      }`}
+    >
       <div className="p-6">
-        <div className="bg-white p-6 rounded-lg shadow-md">
+        <div
+          className={`p-6 rounded-xl shadow-md ${
+            myTheme === "dark" ? "bg-neutral-800" : "bg-white"
+          }`}
+        >
           {/* Header */}
           <div className="flex justify-between items-center mb-6">
-            <Text as="h1" content="Manage Orders" MyClass="text-xl font-bold" />
+            <Text
+              as="h1"
+              content="Manage Orders"
+              MyClass={`text-xl font-bold ${
+                myTheme === "dark" ? "text-gray-200" : "text-gray-800"
+              }`}
+            />
             <Button
-              myClass="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+              myClass="bg-blue-600 text-white px-4 py-2 rounded-xl shadow-md hover:bg-blue-700 active:scale-95 transition-all"
               content="Create Order"
             />
           </div>
@@ -49,36 +66,68 @@ export default function ManageOrdersPage() {
               placeholder="Search orders..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full p-2 border rounded"
+              className={`w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 
+                ${
+                  myTheme === "dark"
+                    ? "bg-neutral-700 text-white border-neutral-600 placeholder-gray-400"
+                    : "bg-white text-black border-gray-300 placeholder-gray-500"
+                }`}
             />
           </div>
 
           {/* Table */}
-          <table className="w-full">
-            <thead>
-              <tr className="bg-gray-100">
-                <th className="p-2 text-left">Order ID</th>
-                <th className="p-2 text-left">Customer</th>
-                <th className="p-2 text-left">Total</th>
-                <th className="p-2 text-left">Status</th>
-                <th className="p-2 text-left">Date</th>
-                <th className="p-2 text-left">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredOrders.map((order) => (
-                <ManageOrderRow key={order._id} order={order} />
-              ))}
-            </tbody>
-          </table>
+          <div className="overflow-x-auto rounded-lg">
+            <table className="w-full border-collapse">
+              <thead>
+                <tr
+                  className={`${
+                    myTheme === "dark" ? "bg-neutral-700" : "bg-gray-100"
+                  }`}
+                >
+                  {["Order ID", "Customer", "Total", "Status", "Date", "Actions"].map(
+                    (head) => (
+                      <th
+                        key={head}
+                        className={`p-2 text-left ${
+                          myTheme === "dark" ? "text-gray-200" : "text-gray-700"
+                        }`}
+                      >
+                        {head}
+                      </th>
+                    )
+                  )}
+                </tr>
+              </thead>
+              <tbody>
+                {filteredOrders.length > 0 ? (
+                  filteredOrders.map((order) => (
+                    <ManageOrderRow key={order._id} order={order} />
+                  ))
+                ) : (
+                  <tr>
+                    <td
+                      colSpan="6"
+                      className={`p-2 text-center ${
+                        myTheme === "dark" ? "text-gray-400" : "text-gray-600"
+                      }`}
+                    >
+                      No orders found
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
 
           {/* Pagination */}
-          <Pagination
-            totalPages={totalPages}
-            currentPage={currentPage}
-            setCurrentPage={setCurrentPage}
-            maxVisiblePages={5}
-          />
+          <div className="mt-6">
+            <Pagination
+              totalPages={totalPages}
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+              maxVisiblePages={5}
+            />
+          </div>
         </div>
       </div>
     </div>
