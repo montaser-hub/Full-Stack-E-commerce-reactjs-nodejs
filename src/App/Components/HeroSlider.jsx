@@ -11,7 +11,7 @@ const HeroSlider = ({ images, interval = 4000 }) => {
   }, [images.length, interval]);
 
   return (
-    <section className="relative w-full h-80 md:h-100 lg:h-[500px] shadow-md mb-12 object-contain overflow-hidden">
+    <section className="relative z-0 w-full h-80 md:h-100 lg:h-[500px] shadow-md mb-12 object-contain overflow-hidden">
       {images.map((img, index) => (
         <img
           key={index}
