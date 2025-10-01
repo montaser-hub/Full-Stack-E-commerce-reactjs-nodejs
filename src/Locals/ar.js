@@ -24,6 +24,7 @@ const ar = {
   Input1: "البريد الإلكتروني / اسم المستخدم",
   emailPlaceHolder: "أدخل بريدك الإلكتروني",
   emailRequired: "البريد الإلكتروني مطلوب.",
+  
   Input2: "كلمة المرور",
   passwordPlaceHolder: "أدخل كلمة المرور الخاصة بك",
   passErrLength: "يجب أن تكون كلمة المرور على الأقل 6 أحرف.",
@@ -39,6 +40,10 @@ const ar = {
   inputemail: "البريد الإلكتروني",
   regEmailPlaceholder: "أدخل عنوان بريدك الإلكتروني",
   regpassword: "كلمة المرور",
+  reqpassword: " كلمة المرور مطلوبة",
+   reqname: "اسم المستخدم مطلوب",
+   unmatch:"كلمة المرور غير متطابقة",
+   roleRequired:"الدور مطلوب",
   regpasswordPlaceholder: "أنشئ كلمة مرور",
   confirmPassword: "تأكيد كلمة المرور",
   confirmPasswordPlaceholder: "أعد إدخال كلمة المرور",

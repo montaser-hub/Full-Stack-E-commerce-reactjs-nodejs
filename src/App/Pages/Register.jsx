@@ -29,7 +29,7 @@ function Register() {
     let error = "";
 
     if (name === "name") {
-      if (!value) error = "Name is required";
+      if (!value) error = content.reqname;
     }
     if (name === "email") {
       if (!value) error = content.emailRequired;
@@ -37,16 +37,16 @@ function Register() {
         error = "Email is not valid.";
     }
     if (name === "password") {
-      if (!value) error = "Create a password";
+      if (!value) error = content.reqpassword;
       else if (value.length < 6)
-        error = "Password must be at least 6 characters.";
+        error = content.passErrLength;
     }
     if (name === "confirmPassword") {
-      if (!value) error = "Re-enter your password";
-      else if (value !== info.password) error = "Passwords do not match";
+      if (!value) error = content.reqpassword;
+      else if (value !== info.password) error = content.unmatch;
     }
     if (name === "role") {
-      if (!value) error = "Select your role";
+      if (!value) error = content.roleRequired;
     }
 
     setErrors((prev) => ({ ...prev, [name]: error }));
