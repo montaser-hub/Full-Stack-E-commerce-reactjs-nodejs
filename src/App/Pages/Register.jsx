@@ -177,8 +177,8 @@ function Register() {
               } dark:bg-neutral-700 dark:text-white`}
             >
               <option value="">{content["Select your role"]}</option>
-              <option value="User">User</option>
-              <option value="Admin">Admin</option>
+              <option value="User">{content["user"]}</option>
+              <option value="Admin">{content["admin"]}</option>
             </Input>
             {errors.role && <Text as="p" content={errors.role} MyClass="text-red-500 text-sm mt-1" />}
           </div>
@@ -211,9 +211,9 @@ function Register() {
             MyClass="text-sm text-gray-600 dark:text-gray-300"
             content={
               <>
-                Already have an account?{" "}
+                {content["AccountExists"]}
                 <Link to="/login" className="text-blue-600 hover:underline dark:text-blue-400">
-                  Login here
+                {content["Here"]}
                 </Link>.
               </>
             }
