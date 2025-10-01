@@ -198,6 +198,7 @@ export default function Orders() {
         </div>
         <div className="flex flex-col sm:flex-row gap-4 sm:items-center">
           <Search
+            context="orders"
             placeholder="Search by order ID or product name..."
             divClass="w-full sm:w-[320px]"
             inputClass="h-[40px] border border-[#EBEBEA] dark:bg-neutral-800 dark:border-neutral-700 dark:text-white rounded-md text-sm w-full"

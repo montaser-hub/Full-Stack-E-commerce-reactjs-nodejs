@@ -84,25 +84,6 @@ const Cart = () => {
     }
   };
 
-  const handlePlaceOrder = async () => {
-    try {
-      await axiosInstance.post("/carts", {
-        titleCart: "Shopping Cart",
-        items: [],
-      });
-      await fetchCart();
-      setAlert({
-        type: "success",
-        message: "Cart cleared successfully!",
-      });
-    } catch (err) {
-      console.error("Error clearing cart:", err.response?.data);
-      setAlert({
-        type: "error",
-        message: err.response?.data?.message || "Failed to clear cart.",
-      });
-    }
-  };
 
   const subtotal = totalPrice;
   const shipping = 20;
@@ -146,7 +127,7 @@ const Cart = () => {
             />
           ))}
         </div>
-        <div>
+        <div className="flex flex-col items-center justify-center">
           <OrderSummary
             items={cartItems}
             subtotal={`$${subtotal}`}
@@ -154,12 +135,12 @@ const Cart = () => {
             tax={`$${tax}`}
             discount={`-$${discount}`}
             total={`$${total}`}
-            onPlaceOrder={handlePlaceOrder}
+            showButton={false}
           />
           <Button
             content="Proceed to Checkout"
             onClick={() => navigate("/checkout")}
-            myClass="w-full bg-[rgb(67,94,72)] hover:bg-[rgb(57,84,62)] text-white py-2 rounded-lg mt-4"
+            myClass="w-[20rem] bg-[rgb(67,94,72)] hover:bg-[rgb(57,84,62)] text-white py-2 rounded-lg mt-4"
           />
         </div>
       </div>

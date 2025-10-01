@@ -19,7 +19,7 @@ const DashboardLayout = () => {
                 to="/dashboard"
                 className={({ isActive }) =>
                   isActive
-                    ? "block rounded px-3 py-2 font-bold bg-[#4148c5] text-white "
+                    ? "block rounded px-3 py-2 font-bold bg-[#4148c5] dark:bg-[#43434c] text-white "
                     : "block rounded px-3 py-2 font-bold text-[#848484] hover:bg-[#bababa] hover:text-white"
                 }
               > 

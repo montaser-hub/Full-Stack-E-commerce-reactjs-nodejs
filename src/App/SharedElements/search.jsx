@@ -24,6 +24,7 @@ import { FaSearch } from "react-icons/fa";
  * <Search myClass="border rounded-md" placeholder="Search products..." />
  */
 export default function Search({
+  context = "search",
   divClass,
   inputClass,
   style,
@@ -38,7 +39,15 @@ export default function Search({
    * @param {string} value - The search term entered by the user
    */
   const handleSearch = (value) => {
-    navigate(`/search?query=${encodeURIComponent(value)}`);
+    const route = context === "orders" ? "/orders" : "/home";
+    if (value) {
+      navigate(`${route}?query=${encodeURIComponent(value)}`);
+    } else {
+      navigate(route);
+    }
+    if (onSearch) {
+      onSearch(value);
+    }
   };
 
   /**
