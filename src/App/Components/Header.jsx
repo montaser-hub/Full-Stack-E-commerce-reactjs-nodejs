@@ -3,6 +3,7 @@ import { Link, NavLink } from "react-router-dom";
 import { toggleLang, toggleTheme } from "../../ReduxToolkit/Store";
 import { useSelector, useDispatch } from "react-redux";
 import Search from "../SharedElements/search.jsx";
+import Text from "../SharedElements/Text.jsx";
 
 
 export default function Navbar() {
@@ -63,7 +64,7 @@ export default function Navbar() {
         >
           <ul className="grid gap-3 px-4 py-4 lg:flex lg:gap-6 lg:p-0">
             {["Home", "Wishlist", "Cart", "Orders","Login","Register"].map((key) => (
-              <li key={key}>
+              <li key={key} className="relative">
                 <NavLink
                   to={ `/${key}` }
                   className={ ( { isActive } ) =>
@@ -76,9 +77,13 @@ export default function Navbar() {
                 </NavLink>
                 {/* Counter */}
                 {key === "Wishlist" && favoriteProductsCount > 0 && (
-                <span className="absolute top-5 left-[14.5rem] rounded-full bg-red-600 px-1.5 py-0.5 text-[0.6rem] font-bold text-white">
-                  {favoriteProductsCount}
-                </span>
+                  <Text
+                    as="span"
+                    content={favoriteProductsCount}
+                    MyClass={`absolute top-1 ${
+                      lang === "ar" ? "right-0" : "-left-4"
+                    } -translate-y-1/2 translate-x-1/2 rounded-full bg-red-600 px-1.5 py-0.5 text-[0.6rem] font-bold text-white`}
+                  />
                 )}
               </li>
             ))}
