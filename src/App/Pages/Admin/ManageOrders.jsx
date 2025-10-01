@@ -54,7 +54,7 @@ export default function ManageOrdersPage() {
               }`}
             />
             <Button
-              myClass="bg-blue-600 text-white px-4 py-2 rounded-xl shadow-md hover:bg-blue-700 active:scale-95 transition-all"
+              myClass="bg-gradient-to-r from-[rgb(67,94,72)] to-[rgb(87,114,92)] text-white px-4 py-2 rounded-xl shadow-md hover:from-[rgb(57,84,62)] hover:to-[rgb(77,104,82)] active:scale-95 transition-all"
               content="Create Order"
             />
           </div>
