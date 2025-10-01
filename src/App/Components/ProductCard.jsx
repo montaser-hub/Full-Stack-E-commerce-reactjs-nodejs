@@ -35,8 +35,8 @@ return (
         alt={props.title}
         className="w-full h-full object-cover block transition-transform duration-300 hover:scale-105 max-h-full max-w-full  mx-auto "
         loading="lazy"
-          onError={(e) => {
-    e.currentTarget.src = "./not_foundimage.png"; 
+        onError={(e) => {
+        e.currentTarget.src = "./not_foundimage.png"; 
         }}
       />
       <Button
