@@ -47,6 +47,32 @@ const ar = {
   "Confirm Password": "تأكيد كلمة المرور",
   "Re-enter your password": "أعد إدخال كلمة المرور",
   Role: "الدور",
+  "Select your role": "اختر دورك",
+  "Already have an account? Login here.": "هل لديك حساب بالفعل؟ سجل الدخول هنا.",
+  // WishList
+  wishlistTitle: (count) => `قائمة رغباتك (${count} منتج)`,
+  wishlistDesc: (count) =>
+      count > 0
+        ? "هذه هي المنتجات التي حفظتها لاحقًا. هل أنت جاهز لامتلاكها؟"
+        : "قائمة رغباتك فارغة. ابدأ بإضافة المنتجات التي تحبها!",
+  emptyWishlist: "لا توجد منتجات في قائمة رغباتك.",
+  modalConfirmDeleteTitle: "تأكيد الحذف",
+  modalConfirmDeleteMessage: (item) => `هل أنت متأكد أنك تريد إزالة "${item}" من قائمة رغباتك؟`,
+  cancel: "إلغاء",
+  delete: "حذف",
+  wishlistItemRemoved: "تمت إزالة المنتج من قائمة الرغبات.",
+  //Footer
+  siteName: "وودي",
+  siteTagline: "لأثاث طبيعي",
+  footerDescription: "الوصف",
+  footerDescriptionText: "فريق صغير قام ببناء هذا الموقع لتجارة الأثاث العصري الصديق للبيئة والمستدام.",
+  footerServices: "الخدمات",
+  footerProducts: "المنتجات",
+  footerAbout: "من نحن",
+  footerCustomer: "العملاء",
+  footerServicesItems: ["شراء وبيع", "الحجز", "سياسة الإرجاع"],
+  copyrightText: "© 2025 وودي. جميع الحقوق محفوظة."
+
   Selectyourrole: "اختر دورك",
  AccountExists: "هل لديك حساب بالفعل؟",
 Here: "سجل هنا",

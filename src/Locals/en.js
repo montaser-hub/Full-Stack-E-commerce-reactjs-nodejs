@@ -42,11 +42,38 @@ const en = {
   "Re-enter your password": "Re-enter your password",
   Role: "Role",
   "Select your role": "Select your role",
+
+  "Already have an account? Login here.": "Already have an account? Login here.",
+  // Wishlist
+  wishlistTitle: (count) => `Your Wishlist (${count} items)`,
+  wishlistDesc: (count) =>
+      count > 0
+        ? "Here are the products you've saved for later. Ready to make them yours?"
+        : "Your wishlist is empty. Start adding products you love!",
+  emptyWishlist: "No items found in your Wishlist.",
+  modalConfirmDeleteTitle: "Confirm Delete",
+  modalConfirmDeleteMessage: (item) => `Are you sure you want to remove "${item}" from your wishlist?`,
+  cancel: "Cancel",
+  delete: "Delete",
+  wishlistItemRemoved: "Item removed from wishlist.",
+  //Footer
+  siteName: "WOODY",
+  siteTagline: "For Natural Furniture",
+  footerDescription: "Description",
+  footerDescriptionText: "A small team built this site for trading modern furniture which is environmentally friendly and sustainable.",
+  footerServices: "Services",
+  footerProducts: "Products",
+  footerAbout: "About",
+  footerCustomer: "Customer",
+  footerServicesItems: ["Buy & Sell", "Reservation", "Return Policy"],
+  copyrightText: "© 2025 WOODY. All rights reserved.",
+
   AccountExists: "Already have an account?",
 Here: "Login here.",
  DontHaveAccount: "Don't have an account?",
  "user": "User",
  "admin": "Admin",
+
 };
 
 export default en;
