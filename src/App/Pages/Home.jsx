@@ -5,6 +5,7 @@ import ProductCard from "../Components/ProductCard";
 import { useState, useEffect, useRef } from "react";
 import Pagination from "../Components/Pagination";
 import { axiosInstance } from "../AxiosInstance/AxiosInstance";
+import HeroSlider from "../Components/HeroSlider.jsx";
 
 export default function Home() {
   const topRef = useRef(null);
@@ -13,7 +14,16 @@ export default function Home() {
   const [showFilters, setShowFilters] = useState(false);
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [categories, setCategories] = useState([]);
-
+  const sliderImages = [
+    "/1.JPG",
+    "/2.JPG",
+    "/3.JPG",
+    "/4.JPG",
+    "/5.JPG",
+    "/6.JPG",
+    "/7.JPG",
+    "/8.JPG",
+  ];
   useEffect( () => {
     axiosInstance.get( "/categories" ).then( ( res ) => {
       const categoriesNames = res.data.data.map( ( category ) => category.name );
@@ -40,13 +50,12 @@ export default function Home() {
       
   const totalPages = Math.ceil(meta.total / meta.limit);
   return (
-    <main ref={topRef} className="bg-gray-50 dark:bg-neutral-900 min-h-screen py-8 px-4 md:px-8">
+    <main
+      ref={topRef}
+      className="bg-gray-50 dark:bg-neutral-900 min-h-screen py-8 px-4 md:px-8"
+    >
       {/* Hero / Slider Placeholder */}
-      <section className="w-full h-40 md:h-56 bg-gradient-to-r from-rose-500 to-blue-500 rounded-2xl shadow-md mb-8 flex items-center justify-center">
-        <h1 className="text-2xl md:text-4xl font-bold text-white">
-          Welcome to Our Store
-        </h1>
-      </section>
+      <HeroSlider images={sliderImages} />
 
       <div className="flex flex-col md:flex-row gap-8">
         {/* Sidebar (Desktop) */}
@@ -128,7 +137,6 @@ export default function Home() {
                 categoryId={product?.categoryId}
                 Price={`$${product?.price}`}
                 stock={product?.quantity}
-        
               />
             ))}
           </div>
