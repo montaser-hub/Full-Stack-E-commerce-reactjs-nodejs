@@ -31,10 +31,13 @@ return (
     {/* Image And Heart Icon*/}
     <div className="relative w-full h-60 rounded-t-lg overflow-hidden flex items-center justify-center bg-gray-50  dark:bg-neutral-800">
       <img
-        src={props.image}
+        src={props.image || "./not_foundimage.png"}
         alt={props.title}
         className="w-full h-full object-cover block transition-transform duration-300 hover:scale-105 max-h-full max-w-full  mx-auto "
         loading="lazy"
+          onError={(e) => {
+    e.currentTarget.src = "./not_foundimage.png"; 
+        }}
       />
       <Button
         myClass="absolute top-2 right-2 flex items-center justify-center w-10 h-10 bg-white/70 rounded-full border border-gray-300 hover:bg-white/90 shadow-sm"
