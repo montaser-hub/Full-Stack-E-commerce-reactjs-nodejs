@@ -73,7 +73,14 @@ Here: "Login here.",
  DontHaveAccount: "Don't have an account?",
  "user": "User",
  "admin": "Admin",
-
+//Dashboard Home
+  dashboardWelcome: "Welcome Back, Admin!",
+  dashboardOverview: "Here's a quick overview of your e-commerce platform's performance.",
+  totalProducts: "Total Products",
+  totalOrders: "Total Orders",
+  totalSales: "Total Sales",
+  activeUsers: "Active Users",
+  fromLastMonth: "from last month"
 };
 
 export default en;

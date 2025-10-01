@@ -1,18 +1,19 @@
+import { useState, useEffect } from "react";
 import {
   FaClipboardList,
   FaCheckCircle,
   FaHourglassHalf,
 } from "react-icons/fa";
-import { useState } from "react";
 import StatCard from "../Components/StatOrdersCard";
 import Text from "../SharedElements/Text";
 import Dropdown from "../SharedElements/Dropdown.jsx";
 import Search from "../SharedElements/search.jsx";
 import OrdersTable from "../Components/OrdersTable";
-import { orders as initialOrders, stats } from "../Data/orderItems";
 import Modal from "../SharedElements/Modal";
 import ConfirmDelete from "../SharedElements/ConfirmDelete";
 import Alert from "../SharedElements/Alert";
+import { axiosInstance } from "../AxiosInstance/TestAxiosInstance";
+import { useSearchParams } from "react-router-dom";
 
 const iconsMap = {
   total: <FaClipboardList />,
@@ -21,8 +22,27 @@ const iconsMap = {
 };
 
 export default function Orders() {
+  const [searchParams] = useSearchParams();
   const [status, setStatus] = useState("all");
-  const [orders, setOrders] = useState(initialOrders);
+  const [searchQuery, setSearchQuery] = useState(
+    searchParams.get("query") || ""
+  );
+  const [orders, setOrders] = useState([]);
+  const [stats, setStats] = useState([
+    { title: "Total Orders", value: 0, subtitle: "All time", type: "total" },
+    {
+      title: "Completed Orders",
+      value: 0,
+      subtitle: "All time",
+      type: "completed",
+    },
+    {
+      title: "Pending Orders",
+      value: 0,
+      subtitle: "All time",
+      type: "pending",
+    },
+  ]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [orderToDelete, setOrderToDelete] = useState(null);
   const [alert, setAlert] = useState({
@@ -31,33 +51,126 @@ export default function Orders() {
     message: "",
   });
 
-  // Apply filter
-  const filteredOrders =
-    status === "all"
-      ? orders
-      : orders.filter((order) => order.status === status);
+  useEffect(() => {
+    setSearchQuery(searchParams.get("query") || "");
+  }, [searchParams]);
 
-  // Trigger modal
+  useEffect(() => {
+    const fetchOrders = async () => {
+      try {
+        const res = await axiosInstance.get("/orders/myorders");
+        console.log("Orders response:", res.data);
+        const fetchedOrders = res.data.data.map((order) => ({
+          id: order._id,
+          date: new Date(order.createdAt).toLocaleDateString(),
+          items: order.cartItems.map((item) => ({
+            src: item.product?.images?.[0] || "/images/placeholder.jpg",
+            productName: item.product?.name || "Unknown Product",
+            price: item.price || 0,
+            quantity: item.quantity || 1,
+          })),
+          total: order.totalOrderPrice || 0,
+          status: order.status || "pending",
+          paymentMethodType: order.paymentMethodType || "unknown",
+          isPaid: order.isPaid || false,
+          isDelivered: order.isDelivered || false,
+          shippingAddress: order.shippingAddress || {},
+          subtotal: order.totalOrderPrice - (order.shippingPrice || 0),
+          shipping: order.shippingPrice || 0,
+          tax: ((order.totalOrderPrice || 0) * 0.08).toFixed(2),
+          discount: 10,
+        }));
+        setOrders(fetchedOrders);
+        setStats([
+          {
+            title: "Total Orders",
+            value: fetchedOrders.length,
+            subtitle: "All time",
+            type: "total",
+          },
+          {
+            title: "Completed Orders",
+            value: fetchedOrders.filter((o) => o.status === "completed").length,
+            subtitle: "All time",
+            type: "completed",
+          },
+          {
+            title: "Pending Orders",
+            value: fetchedOrders.filter((o) => o.status === "pending").length,
+            subtitle: "All time",
+            type: "pending",
+          },
+        ]);
+      } catch (err) {
+        console.error("Error fetching orders:", err.response?.data);
+        setAlert({
+          show: true,
+          type: "error",
+          message: err.response?.data?.message || "Failed to load orders.",
+        });
+      }
+    };
+    fetchOrders();
+  }, []);
+
+  const filteredOrders = orders
+    .filter((order) => status === "all" || order.status === status)
+    .filter((order) =>
+      searchQuery
+        ? (order.id || "").toLowerCase().includes(searchQuery.toLowerCase()) ||
+          order.items.some((item) =>
+            (item.productName || "")
+              .toLowerCase()
+              .includes(searchQuery.toLowerCase())
+          )
+        : true
+    );
+
   const handleDeleteClick = (orderId) => {
     setOrderToDelete(orderId);
     setIsModalOpen(true);
   };
 
-  // Confirm deletion
-  const handleConfirmDelete = () => {
-    setOrders(orders.filter((o) => o.id !== orderToDelete));
-    setIsModalOpen(false);
-    setAlert({
-      show: true,
-      type: "success",
-      message: "Order deleted successfully!",
-    });
-    setOrderToDelete(null);
+  const handleConfirmDelete = async () => {
+    try {
+      await axiosInstance.put(`/orders/${orderToDelete}/cancel`);
+      setOrders((prevOrders) =>
+        prevOrders.map((order) =>
+          order.id === orderToDelete
+            ? { ...order, status: "cancelled", isCancelled: true }
+            : order
+        )
+      );
+      setStats((prevStats) => [
+        { ...prevStats[0], value: prevStats[0].value },
+        {
+          ...prevStats[1],
+          value: orders.filter((o) => o.status === "completed").length,
+        },
+        {
+          ...prevStats[2],
+          value: orders.filter((o) => o.status === "pending").length - 1,
+        },
+      ]);
+      setIsModalOpen(false);
+      setAlert({
+        show: true,
+        type: "success",
+        message: "Order cancelled successfully!",
+      });
+      setOrderToDelete(null);
+    } catch (err) {
+      console.error("Error cancelling order:", err.response?.data);
+      setAlert({
+        show: true,
+        type: "error",
+        message: err.response?.data?.message || "Failed to cancel order.",
+      });
+    }
   };
 
   return (
     <div className="p-4 sm:p-6 lg:p-8">
-      {/* Alert */}
       {alert.show && (
         <Alert
           type={alert.type}
@@ -65,15 +178,12 @@ export default function Orders() {
           onClose={() => setAlert({ ...alert, show: false })}
         />
       )}
-
       <div className="rounded-lg shadow-md p-4 sm:p-6 space-y-6 sm:space-y-8">
         <Text
           as="h1"
           content="Your Orders"
           MyClass="text-xl sm:text-2xl lg:text-[30px] leading-tight font-bold font-['Archivo']"
         />
-
-        {/* Cards Section */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {stats.map((item, index) => (
             <StatCard
@@ -86,13 +196,13 @@ export default function Orders() {
             />
           ))}
         </div>
-
-        {/* Filter Section */}
         <div className="flex flex-col sm:flex-row gap-4 sm:items-center">
           <Search
-            placeholder="Search by Order ID or Product Name..."
+            context="orders"
+            placeholder="Search by order ID or product name..."
             divClass="w-full sm:w-[320px]"
             inputClass="h-[40px] border border-[#EBEBEA] dark:bg-neutral-800 dark:border-neutral-700 dark:text-white rounded-md text-sm w-full"
+            onSearch={setSearchQuery}
           />
           <Dropdown
             type="select"
@@ -100,20 +210,16 @@ export default function Orders() {
               { value: "all", label: "All Orders" },
               { value: "pending", label: "Pending" },
               { value: "completed", label: "Completed" },
-              { value: "canceled", label: "Canceled" },
+              { value: "cancelled", label: "Cancelled" },
             ]}
             value={status}
             onChange={setStatus}
           />
         </div>
-
-        {/* Orders Table */}
         <div>
           <OrdersTable orders={filteredOrders} onDelete={handleDeleteClick} />
         </div>
       </div>
-
-      {/* Delete Confirmation Modal */}
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
         <ConfirmDelete
           onCancel={() => setIsModalOpen(false)}

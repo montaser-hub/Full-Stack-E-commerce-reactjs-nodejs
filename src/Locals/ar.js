@@ -72,12 +72,18 @@ const ar = {
   footerCustomer: "العملاء",
   footerServicesItems: ["شراء وبيع", "الحجز", "سياسة الإرجاع"],
   copyrightText: "© 2025 وودي. جميع الحقوق محفوظة.",
-
   Selectyourrole: "اختر دورك",
   AccountExists: "هل لديك حساب بالفعل؟",
   Here: "سجل هنا",
-  DontHaveAccount: "لا تمتلك حسابًا؟."
-
+  DontHaveAccount: "لا تمتلك حسابًا؟.",
+// Dashboard Home
+  dashboardWelcome: "مرحباً بعودتك، أيها المدير!",
+  dashboardOverview: "إليك نظرة سريعة على أداء منصتك للتجارة الإلكترونية.",
+  totalProducts: "إجمالي المنتجات",
+  totalOrders: "إجمالي الطلبات",
+  totalSales: "إجمالي المبيعات",
+  activeUsers: "المستخدمون النشطون",
+  fromLastMonth: "من الشهر الماضي",
 };
 
 export default ar;

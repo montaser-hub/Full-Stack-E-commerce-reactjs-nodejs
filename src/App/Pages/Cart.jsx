@@ -1,51 +1,95 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import ShoppingCard from "../Components/ShoppingCard";
 import OrderSummary from "../Components/OrderSummary";
-import { orders } from "../Data/orderItems";
 import Text from "../SharedElements/Text";
+import Button from "../SharedElements/Button";
 import Alert from "../SharedElements/Alert";
+import { axiosInstance } from "../AxiosInstance/TestAxiosInstance";
 
 const Cart = () => {
-  const [cartItems, setCartItems] = useState(
-    orders[0].items.map((item, index) => ({
-      id: index + 1,
-      src: item.src,
-      alt: item.alt,
-      productName: item.productName,
-      price: item.price,
-      quantity: parseInt(item.quantity),
-    })) || []
-  );
-
+  const navigate = useNavigate();
+  const [cartItems, setCartItems] = useState([]);
+  const [totalPrice, setTotalPrice] = useState(0);
   const [alert, setAlert] = useState(null);
 
-  const handleUpdateQuantity = (id, newQuantity) => {
-    setCartItems(
-      cartItems.map((item) =>
-        item.id === id ? { ...item, quantity: Math.max(1, newQuantity) } : item
-      )
-    );
-    setAlert({ type: "info", message: "Quantity updated!" });
+  const fetchCart = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        navigate("/login");
+        return;
+      }
+      const res = await axiosInstance.get("/carts");
+      const cart = res.data.data;
+      const detailedItems = await Promise.all(
+        cart.items.map(async (item) => {
+          const prodRes = await axiosInstance.get(
+            `/products/${item.productId._id}`
+          );
+          const prod = prodRes.data.data;
+          return {
+            id: item.productId._id.toString(),
+            src: prod.images[0],
+            alt: prod.name,
+            productName: prod.name,
+            price: item.priceAtTime,
+            quantity: item.quantity,
+          };
+        })
+      );
+      setCartItems(detailedItems);
+      setTotalPrice(cart.totalPrice || 0);
+    } catch (err) {
+      console.error("Error fetching cart:", err.response?.data);
+      setAlert({
+        type: "error",
+        message: err.response?.data?.message || "Failed to load cart.",
+      });
+    }
   };
 
-  const handleRemoveItem = (id) => {
-    setCartItems(cartItems.filter((item) => item.id !== id));
-    setAlert({ type: "error", message: "Item removed from cart!" });
+  useEffect(() => {
+    fetchCart();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [navigate]);
+
+  const handleUpdateQuantity = async (id, newQuantity) => {
+    try {
+      await axiosInstance.patch(`/carts/${id}`, {
+        quantity: Math.max(1, newQuantity),
+      });
+      await fetchCart();
+      setAlert({ type: "info", message: "Quantity updated successfully!" });
+    } catch (err) {
+      console.error("Error updating quantity:", err.response?.data);
+      setAlert({
+        type: "error",
+        message: err.response?.data?.message || "Failed to update quantity.",
+      });
+    }
   };
 
-  const subtotal = cartItems.reduce(
-    (sum, item) => sum + item.price * item.quantity,
-    0
-  );
+  const handleRemoveItem = async (id) => {
+    try {
+      await axiosInstance.delete(`/carts/${id}`);
+      await fetchCart();
+      setAlert({ type: "success", message: "Item removed from cart!" });
+    } catch (err) {
+      console.error("Error removing item:", err.response?.data);
+      setAlert({
+        type: "error",
+        message: err.response?.data?.message || "Failed to remove item.",
+      });
+    }
+  };
+
+
+  const subtotal = totalPrice;
   const shipping = 20;
   const tax = (subtotal * 0.08).toFixed(2);
   const discount = 10;
   const total = (subtotal + shipping + parseFloat(tax) - discount).toFixed(2);
-
-  const handlePlaceOrder = () => {
-    setCartItems([]);
-    setAlert({ type: "success", message: "Order placed successfully!" });
-  };
 
   return (
     <div className="p-4 relative">
@@ -83,7 +127,7 @@ const Cart = () => {
             />
           ))}
         </div>
-        <div>
+        <div className="flex flex-col items-center justify-center">
           <OrderSummary
             items={cartItems}
             subtotal={`$${subtotal}`}
@@ -91,7 +135,12 @@ const Cart = () => {
             tax={`$${tax}`}
             discount={`-$${discount}`}
             total={`$${total}`}
-            onPlaceOrder={handlePlaceOrder}
+            showButton={false}
+          />
+          <Button
+            content="Proceed to Checkout"
+            onClick={() => navigate("/checkout")}
+            myClass="w-[20rem] bg-[rgb(67,94,72)] hover:bg-[rgb(57,84,62)] text-white py-2 rounded-lg mt-4"
           />
         </div>
       </div>

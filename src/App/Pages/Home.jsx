@@ -2,7 +2,7 @@ import Text from "../SharedElements/Text";
 import ForwardTo from "../SharedElements/ForwardTo";
 import Dropdown from "../SharedElements/Dropdown";
 import ProductCard from "../Components/ProductCard";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Pagination from "../Components/Pagination";
 import { axiosInstance } from "../AxiosInstance/AxiosInstance";
 
@@ -31,11 +31,16 @@ export default function Home() {
       .catch((err) => {
         console.error("Error fetching products:", err);
       });
+    
+    if (meta.page) {
+      topRef.current?.scrollIntoView({ behavior: "smooth" });
+    }
   }, [meta.page, meta.limit]);
-  
+          useEffect(() => {
+      
   const totalPages = Math.ceil(meta.total / meta.limit);
   return (
-    <main className="bg-gray-50 dark:bg-neutral-900 min-h-screen py-8 px-4 md:px-8">
+    <main ref={topRef} className="bg-gray-50 dark:bg-neutral-900 min-h-screen py-8 px-4 md:px-8">
       {/* Hero / Slider Placeholder */}
       <section className="w-full h-40 md:h-56 bg-gradient-to-r from-rose-500 to-blue-500 rounded-2xl shadow-md mb-8 flex items-center justify-center">
         <h1 className="text-2xl md:text-4xl font-bold text-white">
