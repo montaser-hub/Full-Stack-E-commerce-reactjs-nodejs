@@ -6,6 +6,7 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { useEffect } from "react";
 
 // Layouts & Pages
 import ErrorPage from "./App/Pages/ErrorPage";
@@ -24,12 +25,20 @@ import Orders from "./App/Pages/Orders";
 import Login from "./App/Pages/Login";
 import Register from "./App/Pages/Register";
 import Wishlist from "./App/Pages/Wishlist";
+import Checkout from "./App/Pages/Checkout";
+import OrderConfirmation from "./App/Pages/OrderConfirmation";
 import Loader from "../src/App/SharedElements/spinner.jsx";
 
 // Define router
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<RouteLayout />}>
+      <Route index element={<Home />} />
+      <Route path="checkout" element={<Checkout />} />
+      <Route
+        path="order-confirmation/:orderId"
+        element={<OrderConfirmation />}
+      />
       <Route path="register" element={<Register />} />
       <Route path="login" element={<Login />} />
       <Route path="home" element={<Home />} />
@@ -37,8 +46,7 @@ const router = createBrowserRouter(
       <Route path="wishlist" element={<Wishlist />} />
       <Route path="cart" element={<Cart />} />
       <Route path="orders" element={<Orders />} />
-
-
+      <Route path="search" element={<Orders />} />
       <Route path="dashboard" element={<DashboardLayout />}>
         {/* Dashboard Pages */}
         <Route index element={<DashboardHome />} />
@@ -57,6 +65,13 @@ const router = createBrowserRouter(
 const App = () => {
   const myTheme = useSelector((state) => state.theme); // "light" or "dark"
   const { lang } = useSelector((state) => state.myLang); // "en" or "ar"
+
+  useEffect(() => {
+    localStorage.setItem(
+      "token",
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4YjU3N2VlYjhmNDU2YTRkYTUzZjYwZCIsImlhdCI6MTc1OTMxMDc1MywiZXhwIjoxNzU5Mzk3MTUzfQ.O4qj8i-LjrI648kfywfjRVq8hzW7TDdfpBi-7WExPJo"
+    );
+  }, []);
 
   return (
     <div

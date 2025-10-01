@@ -5,7 +5,6 @@ const OrderSummary = ({
   items,
   subtotal,
   shipping,
-  tax,
   discount,
   total,
   showDescription = true,
@@ -18,8 +17,11 @@ const OrderSummary = ({
       value: subtotal,
       className: "text-gray-600 dark:text-white",
     },
-    { label: "Shipping", value: shipping, className: "text-gray-600 dark:text-white" },
-    { label: "Tax (8%)", value: tax, className: "text-gray-600 dark:text-white" },
+    {
+      label: "Shipping",
+      value: shipping,
+      className: "text-gray-600 dark:text-white",
+    },
     { label: "Discount", value: discount, className: "text-red-500" },
     {
       label: "Order Total",
@@ -42,7 +44,7 @@ const OrderSummary = ({
       )}
 
       <div className="flex-1 max-h-64 overflow-y-auto pr-2 space-y-2">
-        {items.map((item, index) => (
+        {(items || []).map((item, index) => (
           <ItemsOrder
             key={index}
             src={item.src}
