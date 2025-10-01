@@ -5,7 +5,6 @@ import { useSelector, useDispatch } from "react-redux";
 import Search from "../SharedElements/search.jsx";
 import Text from "../SharedElements/Text.jsx";
 
-
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [notifOpen, setNotifOpen] = useState(false);
@@ -17,7 +16,9 @@ export default function Navbar() {
 
   const changeTheme = () => dispatch(toggleTheme());
   const changeLang = () => dispatch(toggleLang());
-  const favoriteProductsCount = useSelector((state) => state.myFavorites.favoriteProducts.length );
+  const favoriteProductsCount = useSelector(
+    (state) => state.myFavorites.favoriteProducts.length
+  );
 
   return (
     <nav className="relative w-full bg-white dark:bg-neutral-900 shadow">
@@ -63,30 +64,32 @@ export default function Navbar() {
           } absolute top-full left-0 w-full bg-white dark:bg-neutral-900 lg:static lg:w-auto lg:grid lg:grid-cols-1`}
         >
           <ul className="grid gap-3 px-4 py-4 lg:flex lg:gap-6 lg:p-0">
-            {["Home", "Wishlist", "Cart", "Orders","Login","Register"].map((key) => (
-              <li key={key} className="relative">
-                <NavLink
-                  to={ `/${key}` }
-                  className={ ( { isActive } ) =>
-                    isActive
-                      ? "block px-2 py-1 font-bold underline text-[rgb(67,94,72)]  dark:text-white dark:hover:text-white"
-                      : "block px-2 py-1 font-bold  text-black/60 transition  hover:text-black dark:text-white dark:hover:text-white"
-                  }
-                      >
-                  {content[key]}
-                </NavLink>
-                {/* Counter */}
-                {key === "Wishlist" && favoriteProductsCount > 0 && (
-                  <Text
-                    as="span"
-                    content={favoriteProductsCount}
-                    MyClass={`absolute top-1 ${
-                      lang === "ar" ? "right-0" : "-left-4"
-                    } -translate-y-1/2 translate-x-1/2 rounded-full bg-red-600 px-1.5 py-0.5 text-[0.6rem] font-bold text-white`}
-                  />
-                )}
-              </li>
-            ))}
+            {["Home", "Wishlist", "Cart", "Orders", "Login", "Register"].map(
+              (key) => (
+                <li key={key} className="relative">
+                  <NavLink
+                    to={`/${key}`}
+                    className={({ isActive }) =>
+                      isActive
+                        ? "block px-2 py-1 font-bold underline text-[rgb(67,94,72)]  dark:text-white dark:hover:text-white"
+                        : "block px-2 py-1 font-bold  text-black/60 transition  hover:text-black dark:text-white dark:hover:text-white"
+                    }
+                  >
+                    {content[key]}
+                  </NavLink>
+                  {/* Counter */}
+                  {key === "Wishlist" && favoriteProductsCount > 0 && (
+                    <Text
+                      as="span"
+                      content={favoriteProductsCount}
+                      MyClass={`absolute top-1 ${
+                        lang === "ar" ? "right-0" : "-left-4"
+                      } -translate-y-1/2 translate-x-1/2 rounded-full bg-red-600 px-1.5 py-0.5 text-[0.6rem] font-bold text-white`}
+                    />
+                  )}
+                </li>
+              )
+            )}
           </ul>
         </div>
 
@@ -94,9 +97,13 @@ export default function Navbar() {
         <div className="flex items-center gap-4 justify-self-end">
           {/*Search*/}
           <Search
+            context="search"
             divClass="rounded-full border border-gray-200 hover:border-gray-400 w-full sm:w-64 md:w-80 lg:w-96 overflow-hidden"
             inputClass="border-none focus:outline-none focus:ring-0 px-4 py-2 text-black placeholder-gray-400  w-full sm:w-64 md:w-80 lg:w-96"
             placeholder={content.Search + "..."}
+            onSearch={(value) => {
+              console.log("Searching from Navbar:", value);
+            }}
           />
           {/* Notifications */}
           <div className="relative">

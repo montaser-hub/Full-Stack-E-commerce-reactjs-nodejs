@@ -46,7 +46,7 @@ const DashboardLayout = () => {
             </li>
             <li>
               <NavLink
-                to="/dashboard/orders"
+                to="/dashboard/categories"
                 className={({ isActive }) =>
                   isActive
                     ? "block rounded px-3 py-2 font-bold bg-[#4148c5] text-white"
@@ -61,7 +61,7 @@ const DashboardLayout = () => {
             </li>
             <li>
               <NavLink
-                to="/dashboard/categories"
+                to="/dashboard/orders"
                 className={({ isActive }) =>
                   isActive
                     ? "block rounded px-3 py-2 font-bold bg-[#4148c5] text-white"
