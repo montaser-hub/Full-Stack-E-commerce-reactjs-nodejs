@@ -2,8 +2,6 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { axiosInstance } from "../AxiosInstance/AxiosInstance";
 import ProductDetailsCard from "../Components/ProductDetailsCard";
-import Text from "../SharedElements/Text";
-
 export default function ProductDetails() {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
@@ -17,7 +15,14 @@ export default function ProductDetails() {
 
   if (!product) return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-neutral-900">
-      <Text as="p" content="Loading..." MyClass="text-lg font-semibold" />
+      {/* <Text as="p" content="Loading..." MyClass="text-lg font-semibold" /> */}
+      <ProductDetailsCard
+        key="error"
+        title="Product Not Found"
+        image="/not_foundimage.png"
+        description="The product you are looking for does not exist."
+        category="Unknown"
+      />
     </div>
   );
 

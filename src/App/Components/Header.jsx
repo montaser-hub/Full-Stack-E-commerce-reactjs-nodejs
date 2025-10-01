@@ -77,7 +77,6 @@ export default function Navbar() {
                   >
                     {content[key]}
                   </NavLink>
-                  {/* Counter */}
                   {key === "Wishlist" && favoriteProductsCount > 0 && (
                     <Text
                       as="span"
