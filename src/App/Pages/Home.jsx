@@ -11,18 +11,14 @@ export default function Home() {
   const [meta, setMeta] = useState({ total: 0, page: 1, limit:8 });
   const [showFilters, setShowFilters] = useState(false);
   const [selectedCategories, setSelectedCategories] = useState([]);
-  const topRef = useRef(null);
-  const categories = [
-    "Dinning",
-    "Living Room",
-    "Kitchen",
-    "Bedroom",
-    "Bathroom",
-    "Office",
-    "Kids Room",
-  ];
+  const [categories, setCategories] = useState([]);
 
-  useEffect(() => {
+  useEffect( () => {
+    axiosInstance.get( "/categories" ).then( ( res ) => {
+      const categoriesNames = res.data.data.map( ( category ) => category.name );
+      setCategories(categoriesNames);
+    } );
+    
     axiosInstance
       .get(`/products?page=${meta.page}&limit=${meta.limit}`)
       .then((res) => {
@@ -35,13 +31,13 @@ export default function Home() {
       .catch((err) => {
         console.error("Error fetching products:", err);
       });
-  }, [meta.page, meta.limit]);
-          useEffect(() => {
+    
     if (meta.page) {
       topRef.current?.scrollIntoView({ behavior: "smooth" });
     }
-  }, [meta.page]);
-  
+  }, [meta.page, meta.limit]);
+          useEffect(() => {
+      
   const totalPages = Math.ceil(meta.total / meta.limit);
   return (
     <main ref={topRef} className="bg-gray-50 dark:bg-neutral-900 min-h-screen py-8 px-4 md:px-8">
