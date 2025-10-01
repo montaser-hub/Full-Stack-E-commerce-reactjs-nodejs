@@ -6,25 +6,37 @@ import { HiHeart } from "react-icons/hi";
 import Button from "../SharedElements/Button";
 import { FiShoppingCart } from "react-icons/fi";
 import Text from "../SharedElements/Text";
+import { addToCart } from "../../ReduxToolkit/Store";
+import Alert from "../SharedElements/Alert";
+import { useState } from "react";
 
 function ProductCard(props) {
 const dispatch = useDispatch();
 const favoriteProducts = useSelector((state) => state.myFavorites.favoriteProducts);
 const isFavorite = favoriteProducts.some(product => product.id === props.id);
+const [ showToast, setShowToast ] = useState( false );
+  
+const product = {
+    id: props.id,
+    image: props.image,
+    title: props.title,
+    description: props.description,
+    price: props.Price,
+    category: props.categoryId?.name || "Unknown Category",
+}  
+
 const handleToggleFavorite = () => {
     if (isFavorite) {
     dispatch(removeFavorite(props.id)); 
     } else {
-    dispatch(addFavorite({ 
-        id: props.id,
-        image: props.image,
-        title: props.title,
-        description: props.description,
-        price: props.Price, 
-        category: props.categoryId?.name || "Unknown Category"
-    }));
+    dispatch(addFavorite(product));
     }
 };
+  
+  const handleAddToCart = () => {
+    dispatch(addToCart(product));
+    setShowToast(true);
+  };
 
 return (
   <div className="relative w-60 bg-white rounded-lg border shadow-md hover:shadow-lg transition-shadow duration-300 dark:bg-neutral-800 dark:border-neutral-800">
@@ -109,7 +121,7 @@ return (
                     rounded-xl shadow-md 
                     hover:from-[rgb(57,84,62)] hover:to-[rgb(77,104,82)] 
                     active:scale-95 transition-all duration-200`}
-          onClick={() => console.log("Move to Cart clicked!")}
+          onClick={handleAddToCart}
           content={
             <Text
               as="span"
@@ -125,6 +137,14 @@ return (
         />
       </div>
     </div>
+    {showToast && (
+        <Alert
+          type="success"
+          message={`${props.title} added to cart!`}
+          duration={2000}
+          onClose={() => setShowToast(false)}
+        />
+      )}
   </div>
 );
 }
