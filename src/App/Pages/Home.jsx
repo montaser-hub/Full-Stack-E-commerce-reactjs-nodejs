@@ -7,6 +7,7 @@ import Pagination from "../Components/Pagination";
 import { axiosInstance } from "../AxiosInstance/AxiosInstance";
 
 export default function Home() {
+  const topRef = useRef(null);
   const [products, setProducts] = useState([]);
   const [meta, setMeta] = useState({ total: 0, page: 1, limit:8 });
   const [showFilters, setShowFilters] = useState(false);
@@ -36,7 +37,6 @@ export default function Home() {
       topRef.current?.scrollIntoView({ behavior: "smooth" });
     }
   }, [meta.page, meta.limit]);
-          useEffect(() => {
       
   const totalPages = Math.ceil(meta.total / meta.limit);
   return (
