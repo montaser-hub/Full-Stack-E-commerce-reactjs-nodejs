@@ -83,7 +83,7 @@ const ar = {
   totalOrders: "إجمالي الطلبات",
   totalSales: "إجمالي المبيعات",
   activeUsers: "المستخدمون النشطون",
-  fromLastMonth: "من الشهر الماضي"
+  fromLastMonth: "من الشهر الماضي",
 };
 
 export default ar;

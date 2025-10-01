@@ -3,7 +3,7 @@ import store from "../../ReduxToolkit/Store.jsx";
 import { showLoader, hideLoader } from "../../ReduxToolkit/Store.jsx";
 
 export const axiosInstance = axios.create({
-  baseURL: process.env.REACT_APP_API_BASE_URL,
+  baseURL: process.env.REACT_APP_API_BASE_URL || "http://localhost:3000",
 });
 
 // Request interceptor
@@ -17,10 +17,8 @@ axiosInstance.interceptors.request.use(
       ...(config.params || {}),
     };
 
-    // Example token (better to fetch from localStorage/sessionStorage)
-    const mytoken =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4YjU3N2VlYjhmNDU2YTRkYTUzZjYwZCIsImlhdCI6MTc1OTMxMDc1MywiZXhwIjoxNzU5Mzk3MTUzfQ.O4qj8i-LjrI648kfywfjRVq8hzW7TDdfpBi-7WExPJo";
-
+    // Retrieve token dynamically from localStorage
+    const mytoken = localStorage.getItem("token");
     if (mytoken) {
       config.headers["Authorization"] = `Bearer ${mytoken}`;
     }
@@ -43,6 +41,11 @@ axiosInstance.interceptors.response.use(
   function (error) {
     // Hide loader after error
     store.dispatch(hideLoader());
+    // Redirect to login on 401 Unauthorized
+    if (error.response?.status === 401) {
+      localStorage.removeItem("token"); // Clear invalid token
+      window.location.href = "/login";
+    }
     return Promise.reject(error);
   }
 );
