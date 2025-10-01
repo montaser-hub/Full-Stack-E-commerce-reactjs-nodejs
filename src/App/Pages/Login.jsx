@@ -5,6 +5,7 @@ import Button from "../SharedElements/Button";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 
+
 function Login() {
   const [info, setInfo] = useState({
     email: "",
@@ -45,13 +46,6 @@ function Login() {
   function handleSubmit(e) {
     e.preventDefault();
 
-    const emailError = validateField("email", info.email);
-    const passwordError = validateField("password", info.password);
-
-    if (!emailError && !passwordError) {
-      alert("Login Successful ✅");
-      console.log("Form submitted:", info);
-    }
   }
 
 
@@ -163,9 +157,9 @@ function Login() {
             MyClass="text-sm text-gray-600 dark:text-gray-300"
             content={
               <>
-               Don't have an account? {" "}
+                {content["DontHaveAccount"]}
                 <Link to="/register" className="text-blue-600 hover:underline dark:text-blue-400">
-                  Register here
+                  {content["Register"]}
                 </Link>
                 .
               </>

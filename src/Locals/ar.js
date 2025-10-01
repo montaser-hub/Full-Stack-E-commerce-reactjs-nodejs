@@ -29,7 +29,12 @@ const ar = {
   "Password must be at least 6 characters.": "يجب أن تكون كلمة المرور على الأقل 6 أحرف.",
   "Forgot Password?": "هل نسيت كلمة المرور؟",
   "Sign In": "تسجيل الدخول",
-  "Don't have an account? Register here.": "لا تمتلك حسابًا؟ سجل حساب جديد.",
+  "user": "مستخدم",
+  "admin": "مدير",
+    "Select your role": "اختر دورك",
+
+ 
+  
 
   // Register
   "Create Account": "إنشاء حساب",
@@ -68,6 +73,10 @@ const ar = {
   footerServicesItems: ["شراء وبيع", "الحجز", "سياسة الإرجاع"],
   copyrightText: "© 2025 وودي. جميع الحقوق محفوظة."
 
+  Selectyourrole: "اختر دورك",
+ AccountExists: "هل لديك حساب بالفعل؟",
+Here: "سجل هنا",
+ DontHaveAccount: "لا تمتلك حسابًا؟."
 };
 
 export default ar;
