@@ -186,7 +186,11 @@ function Register() {
           {/* Submit */}
           <Button
             color="bg-blue-600 hover:bg-blue-700 text-white"
-            myClass="w-full font-medium py-2 px-4 rounded-md transition"
+            myClass={`w-full h-12 flex items-center justify-center gap-2 font-medium 
+                    bg-gradient-to-r from-[rgb(67,94,72)] to-[rgb(87,114,92)]
+                    rounded-xl shadow-md 
+                    hover:from-[rgb(57,84,62)] hover:to-[rgb(77,104,82)] 
+                    active:scale-95 transition-all duration-200`}
             onClick={handleSubmit}
             status={
               errors.name ||

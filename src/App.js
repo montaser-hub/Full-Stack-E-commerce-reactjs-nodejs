@@ -16,7 +16,7 @@ import ManageOrders from "./App/Pages/Admin/ManageOrders";
 import ManageCategories from "./App/Pages/Admin/ManageCategories";
 import Settings from "./App/Pages/Admin/Settings";
 import Analytics from "./App/Pages/Admin/Analytics";
-
+import ProductDetails from "./App/Pages/ProductDetails";
 import RouteLayout from "./App/Layout/RootLayout";
 import DashboardLayout from "./App/Layout/DashboardLayout";
 import Cart from "./App/Pages/Cart";
@@ -37,6 +37,8 @@ const router = createBrowserRouter(
       <Route path="wishlist" element={<Wishlist />} />
       <Route path="cart" element={<Cart />} />
       <Route path="orders" element={<Orders />} />
+            <Route path="products/:id" element={<ProductDetails />} />
+
 
 
       <Route path="dashboard" element={<DashboardLayout />}>
