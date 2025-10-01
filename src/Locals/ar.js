@@ -47,7 +47,7 @@ const ar = {
   "Confirm Password": "تأكيد كلمة المرور",
   "Re-enter your password": "أعد إدخال كلمة المرور",
   Role: "الدور",
-  "Select your role": "اختر دورك",
+ 
   "Already have an account? Login here.": "هل لديك حساب بالفعل؟ سجل الدخول هنا.",
   // WishList
   wishlistTitle: (count) => `قائمة رغباتك (${count} منتج)`,
@@ -72,10 +72,13 @@ const ar = {
   footerCustomer: "العملاء",
   footerServicesItems: ["شراء وبيع", "الحجز", "سياسة الإرجاع"],
   copyrightText: "© 2025 وودي. جميع الحقوق محفوظة.",
+
+=======
   Selectyourrole: "اختر دورك",
   AccountExists: "هل لديك حساب بالفعل؟",
   Here: "سجل هنا",
   DontHaveAccount: "لا تمتلك حسابًا؟."
+
 };
 
 export default ar;
