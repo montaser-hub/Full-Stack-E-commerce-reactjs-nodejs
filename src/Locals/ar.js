@@ -73,7 +73,6 @@ const ar = {
   footerServicesItems: ["شراء وبيع", "الحجز", "سياسة الإرجاع"],
   copyrightText: "© 2025 وودي. جميع الحقوق محفوظة.",
 
-=======
   Selectyourrole: "اختر دورك",
   AccountExists: "هل لديك حساب بالفعل؟",
   Here: "سجل هنا",
