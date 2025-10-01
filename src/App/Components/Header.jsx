@@ -21,7 +21,7 @@ export default function Navbar() {
   );
 
   return (
-    <nav className="relative w-full bg-white dark:bg-neutral-900 shadow">
+    <nav className="relative z-50 w-full bg-white dark:bg-neutral-900 shadow">
       {/* Grid wrapper */}
       <div className="grid grid-cols-[auto_1fr_auto] items-center px-4 py-3 lg:px-8">
         {/* Left: Hamburger + Logo */}
@@ -77,6 +77,7 @@ export default function Navbar() {
                   >
                     {content[key]}
                   </NavLink>
+                  {/* Counter */}
                   {key === "Wishlist" && favoriteProductsCount > 0 && (
                     <Text
                       as="span"

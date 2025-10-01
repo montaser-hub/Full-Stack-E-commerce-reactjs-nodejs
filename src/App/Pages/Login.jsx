@@ -24,7 +24,7 @@ function Login() {
     if (name === "email") {
       if (!value) error = "Email is required";
       else if (!/^[\w.-]+@[\w.-]+\.[a-zA-Z]{2,}$/.test(value))
-        error = "Invalid email format";
+        error = content.invalidEmail;
     }
 
     if (name === "password") {
