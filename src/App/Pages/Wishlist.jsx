@@ -5,6 +5,7 @@ import Text from "../SharedElements/Text";
 import Modal from "../SharedElements/Modal";
 import Alert from "../SharedElements/Alert";
 import { removeFavorite } from "../../ReduxToolkit/Store"; 
+import Button from "../SharedElements/Button";
 
 function Wishlist() {
   const dispatch = useDispatch();
@@ -20,31 +21,27 @@ function Wishlist() {
     if (modalState.itemToDelete) {
       dispatch(removeFavorite(modalState.itemToDelete.id)); 
       setModalState({ show: false, itemToDelete: null });
-      setAlertState({ show: true, message: "Item removed from wishlist.", type: "success" });
+      setAlertState({ show: true, message: myContent.wishlistItemRemoved, type: "success" });
     }
   };
   const cancelDelete = () => {
     setModalState({ show: false, itemToDelete: null });
   };
+  const myContent = useSelector((state)=> state.myLang.content)
 
   return (
     <div className="p-8 bg-gray-100 dark:bg-neutral-900 min-h-screen">
       {/* page title  */}
       <Text
         as="h1"
-        content={`Your Wishlist (${wishlistItems.length} items)`}
+        content={myContent.wishlistTitle(wishlistItems.length)}
         MyClass="text-3xl font-bold text-neutral-900 dark:text-white mb-2"
       />
 
-      {/* page description  */}
       <Text
         as="p"
         MyClass="text-gray-600 dark:text-gray-400 mb-8"
-        content={
-          wishlistItems.length > 0
-            ? "Here are the products you've saved for later. Ready to make them yours?"
-            : "Your wishlist is empty. Start adding products you love!"
-        }
+        content={myContent.wishlistDesc(wishlistItems.length)}
       />
 
       {/* favorite items */}
@@ -67,7 +64,7 @@ function Wishlist() {
         <div className="flex justify-center items-center h-64  rounded-lg">
           <Text
             as="p"
-            content="No items found in your Wishlist."
+            content={myContent.emptyWishlist}
             MyClass="text-gray-500 italic"
           />
         </div>
@@ -76,23 +73,23 @@ function Wishlist() {
       {/* Modal  */}
       <Modal isOpen={modalState.show} onClose={cancelDelete}>
         <div className="text-center">
-          <h2 className="text-lg font-semibold mb-4">Confirm Delete</h2>
-          <p className="mb-6">
-            Are you sure you want to remove "{modalState.itemToDelete?.title}" from your wishlist?
-          </p>
+          <Text as="h2" content={myContent.modalConfirmDeleteTitle} MyClass="text-lg font-semibold mb-4" />
+          <Text
+            as="p"
+            content={modalState.itemToDelete && myContent.modalConfirmDeleteMessage(modalState.itemToDelete.title)}
+            MyClass="mb-6"
+          />
           <div className="flex justify-center gap-4">
-            <button
+              <Button
               onClick={cancelDelete}
-              className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400"
-            >
-              Cancel
-            </button>
-            <button
+              myClass="px-4 py-2 rounded hover:bg-gray-400 bg-gray-300"
+              content={myContent.cancel}
+            />
+            <Button
               onClick={confirmDelete}
-              className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
-            >
-              Delete
-            </button>
+              myClass="px-4 py-2 rounded hover:bg-red-600 bg-red-500 text-white"
+              content={myContent.delete}
+            />
           </div>
         </div>
       </Modal>
