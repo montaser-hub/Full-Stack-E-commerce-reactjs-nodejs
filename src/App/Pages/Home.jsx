@@ -61,11 +61,6 @@ export default function Home() {
           </div>
 
           <div>
-            <Text
-              as="h1"
-              content="Category"
-              MyClass="text-lg font-medium mb-3"
-            />
             <Dropdown
               name="category"
               type="checkbox"
@@ -129,9 +124,10 @@ export default function Home() {
                 image={product?.images[0]}
                 title={product?.name}
                 description={product?.description}
-                oldPrice={`$${(product?.price * 1.2).toFixed(2)}`}
+                categoryId={product?.categoryId}
                 Price={`$${product?.price}`}
                 stock={product?.quantity}
+        
               />
             ))}
           </div>

@@ -18,7 +18,7 @@ function Wishlist() {
   };
   const confirmDelete = () => {
     if (modalState.itemToDelete) {
-      dispatch(removeFavorite(modalState.itemToDelete.id)); // إزالة العنصر من الـ Redux
+      dispatch(removeFavorite(modalState.itemToDelete.id)); 
       setModalState({ show: false, itemToDelete: null });
       setAlertState({ show: true, message: "Item removed from wishlist.", type: "success" });
     }
@@ -58,9 +58,7 @@ function Wishlist() {
               title={item.title}
               description={item.description}
               price={item.price}
-              oldPrice={item.oldPrice}
-              stock={item.stock}
-              discount={item.discount}
+              category={item.category}
               onRemove={() => handleRemove(item)}
             />
           ))}
