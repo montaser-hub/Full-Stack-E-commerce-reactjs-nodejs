@@ -30,7 +30,7 @@ function Login() {
     if (name === "password") {
       if (!value) error = "Password is required";
       else if (value.length < 6)
-        error = "Password must be at least 6 characters";
+        error = content.passErrLength;
     }
 
     setErrors((prev) => ({ ...prev, [name]: error }));
@@ -63,12 +63,12 @@ function Login() {
         {/* Title */}
         <Text
           as="h2"
-          content={content["Login to ShopSmart"]}
+          content={content.title}
           MyClass="text-2xl font-bold text-center mb-2 text-gray-800 dark:text-gray-200"
         />
         <Text
           as="p"
-          content={content["Please enter your details back!"]}
+          content={content.subTitle}
           MyClass="text-center text-sm text-gray-500 dark:text-gray-400 mb-6"
         />
 
@@ -78,7 +78,7 @@ function Login() {
           {/* Email */}
 <div>
   <Input
-    label={content["Email / Username"]}
+    label={content.Input1}
     type="text"
     name="email"
     value={info.email}
@@ -90,7 +90,7 @@ function Login() {
         ? "border-green-500"
         : "border-gray-300"
     } dark:bg-neutral-700 dark:text-white`}
-    placeholder={content["Enter your email"]}
+    placeholder={content.emailPlaceHolder}
   />
   {errors.email && (
     <Text
@@ -104,7 +104,7 @@ function Login() {
 {/* Password */}
 <div>
   <Input
-    label={content["Password"]}
+    label={content.Input2}
     type="password"
     name="password"
     value={info.password}
@@ -116,7 +116,7 @@ function Login() {
         ? "border-green-500"
         : "border-gray-300"
     } dark:bg-neutral-700 dark:text-white`}
-    placeholder={content["Enter your password"]}
+    placeholder={content.passwordPlaceHolder}
     showToggle={true}
   />
   {errors.password && (
@@ -134,7 +134,7 @@ function Login() {
               to="#"
               className="text-sm text-blue-600 hover:underline dark:text-blue-400"
             >
-              {content["Forgot Password?"]}
+              {content.passwordForgot}
             </Link>
           </div>
 
@@ -150,7 +150,7 @@ function Login() {
             status={
               errors.email || errors.password || !info.email || !info.password
             }
-            content={content["Sign In"]}
+            content={content.SignIn}
           />
         </form>
 
@@ -161,7 +161,7 @@ function Login() {
             MyClass="text-sm text-gray-600 dark:text-gray-300"
             content={
               <>
-                {content["DontHaveAccount"]}
+                {content.DontHaveAccount}
                 <Link to="/register" className="text-blue-600 hover:underline dark:text-blue-400">
                   {content["Register"]}
                 </Link>

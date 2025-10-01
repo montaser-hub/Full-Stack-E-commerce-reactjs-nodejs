@@ -32,7 +32,7 @@ function Register() {
       if (!value) error = "Name is required";
     }
     if (name === "email") {
-      if (!value) error = "Email is required.";
+      if (!value) error = content.emailRequired;
       else if (!/^[\w.-]+@[\w.-]+\.[a-zA-Z]{2,}$/.test(value))
         error = "Email is not valid.";
     }
@@ -88,12 +88,12 @@ function Register() {
         {/* Title */}
         <Text
           as="h2"
-          content={content["Create Account"]}
+          content={content.regTitle}
           MyClass="text-2xl font-bold text-center mb-2 text-gray-800 dark:text-gray-200"
         />
         <Text
           as="p"
-          content={content["Enter your details below to create your ShopSmart account."]}
+          content={content.regSubTitle}
           MyClass="text-center text-sm text-gray-500 dark:text-gray-400 mb-6"
         />
 
@@ -101,7 +101,7 @@ function Register() {
           {/* Name */}
           <div>
             <Input
-              label={content["Name"]}
+              label={content.nameinput}
               type="text"
               name="name"
               value={info.name}
@@ -109,7 +109,7 @@ function Register() {
               myClass={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${
                 errors.name ? "border-red-500" : info.name ? "border-green-500" : "border-gray-300"
               } dark:bg-neutral-700 dark:text-white`}
-              placeholder={content["Enter your full name"]}
+              placeholder={content.namePlaceholder}
             />
             {errors.name && <Text as="p" content={errors.name} MyClass="text-red-500 text-sm mt-1" />}
           </div>
@@ -117,7 +117,7 @@ function Register() {
           {/* Email */}
           <div>
             <Input
-              label={content["Email"]}
+              label={content.inputemail}
               type="email"
               name="email"
               value={info.email}
@@ -125,7 +125,7 @@ function Register() {
               myClass={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${
                 errors.email ? "border-red-500" : info.email ? "border-green-500" : "border-gray-300"
               } dark:bg-neutral-700 dark:text-white`}
-              placeholder={content["Enter your email address"]}
+              placeholder={content.regEmailPlaceholder}
             />
             {errors.email && <Text as="p" content={errors.email} MyClass="text-red-500 text-sm mt-1" />}
           </div>
@@ -133,7 +133,7 @@ function Register() {
           {/* Password */}
           <div>
             <Input
-              label={content["Password"]}
+              label={content.regpassword}
               type="password"
               name="password"
               value={info.password}
@@ -141,7 +141,7 @@ function Register() {
               myClass={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${
                 errors.password ? "border-red-500" : info.password ? "border-green-500" : "border-gray-300"
               } dark:bg-neutral-700 dark:text-white`}
-              placeholder={content["Create a password"]}
+              placeholder={content.regpasswordPlaceholder}
               showToggle={true}
             />
             {errors.password && <Text as="p" content={errors.password} MyClass="text-red-500 text-sm mt-1" />}
@@ -150,7 +150,7 @@ function Register() {
           {/* Confirm Password */}
           <div>
             <Input
-              label={content["Confirm Password"]}
+              label={content.confirmPassword}
               type="password"
               name="confirmPassword"
               value={info.confirmPassword}
@@ -158,7 +158,7 @@ function Register() {
               myClass={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${
                 errors.confirmPassword ? "border-red-500" : info.confirmPassword ? "border-green-500" : "border-gray-300"
               } dark:bg-neutral-700 dark:text-white`}
-              placeholder={content["Re-enter your password"]}
+              placeholder={content.confirmPasswordPlaceholder}
               showToggle={true}
             />
             {errors.confirmPassword && <Text as="p" content={errors.confirmPassword} MyClass="text-red-500 text-sm mt-1" />}
@@ -167,7 +167,7 @@ function Register() {
           {/* Role */}
           <div>
             <Input
-              label={content["Role"]}
+              label={content.Role}
               type="select"
               name="role"
               value={info.role}
@@ -176,9 +176,9 @@ function Register() {
                 errors.role ? "border-red-500" : info.role ? "border-green-500" : "border-gray-300"
               } dark:bg-neutral-700 dark:text-white`}
             >
-              <option value="">{content["Select your role"]}</option>
-              <option value="User">{content["user"]}</option>
-              <option value="Admin">{content["admin"]}</option>
+              <option value="">{content.selectRole}</option>
+              <option value="User">{content.regUser}</option>
+              <option value="Admin">{content.regAdmin}</option>
             </Input>
             {errors.role && <Text as="p" content={errors.role} MyClass="text-red-500 text-sm mt-1" />}
           </div>
@@ -204,7 +204,7 @@ function Register() {
               !info.confirmPassword ||
               !info.role
             }
-            content={content["Register"]}
+            content={content.btnRegister}
           />
         </form>
 
@@ -215,9 +215,9 @@ function Register() {
             MyClass="text-sm text-gray-600 dark:text-gray-300"
             content={
               <>
-                {content["AccountExists"]}
+                {content.accExists}
                 <Link to="/login" className="text-blue-600 hover:underline dark:text-blue-400">
-                {content["Here"]}
+                {content.Here}
                 </Link>.
               </>
             }
