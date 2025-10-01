@@ -34,15 +34,15 @@ function Wishlist() {
       {/* page title  */}
       <Text
         as="h1"
-        content={myContent.wishlistTitle(wishlistItems.length)}
-        MyClass="text-3xl font-bold text-neutral-900 dark:text-white mb-2"
+        content={myContent.wishlistTitle}
+        MyClass="text-3xl font-bold text-neutral-900 dark:text-white mb-8"
       />
 
-      <Text
+      {/* <Text
         as="p"
         MyClass="text-gray-600 dark:text-gray-400 mb-8"
-        content={myContent.wishlistDesc(wishlistItems.length)}
-      />
+        content={myContent.wishlistDescEmpty}
+      /> */}
 
       {/* favorite items */}
       {wishlistItems.length > 0 ? (
@@ -76,7 +76,7 @@ function Wishlist() {
           <Text as="h2" content={myContent.modalConfirmDeleteTitle} MyClass="text-lg font-semibold mb-4" />
           <Text
             as="p"
-            content={modalState.itemToDelete && myContent.modalConfirmDeleteMessage(modalState.itemToDelete.title)}
+            content={modalState.itemToDelete && myContent.modalConfirmDeleteMessage}
             MyClass="mb-6"
           />
           <div className="flex justify-center gap-4">

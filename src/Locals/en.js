@@ -55,16 +55,13 @@ const en = {
   regUser: "User",
   regAdmin: "Admin",
   accExists: "Already have an account?",
-
-  // Wishlist
-  wishlistTitle: (count) => `Your Wishlist (${count} items)`,
-  wishlistDesc: (count) =>
-      count > 0
-        ? "Here are the products you've saved for later. Ready to make them yours?"
-        : "Your wishlist is empty. Start adding products you love!",
+// Wishlist
+  wishlistTitle: "Your Wishlist", 
+  wishlistDescEmpty: "Your wishlist is empty. Start adding products you love!",
+  wishlistDescNotEmpty: "Here are the products you've saved for later. Ready to make them yours?",
   emptyWishlist: "No items found in your Wishlist.",
   modalConfirmDeleteTitle: "Confirm Delete",
-  modalConfirmDeleteMessage: (item) => `Are you sure you want to remove "${item}" from your wishlist?`,
+  modalConfirmDeleteMessage: "Are you sure you want to remove this item from your wishlist?",
   cancel: "Cancel",
   delete: "Delete",
   wishlistItemRemoved: "Item removed from wishlist.",

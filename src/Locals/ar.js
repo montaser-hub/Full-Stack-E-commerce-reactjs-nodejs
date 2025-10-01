@@ -56,15 +56,14 @@ const ar = {
   btnRegister: "تسجيل",
   accExists: "حساب موجود بالفعل، يرجى تسجيل الدخول.",
 
-  // WishList
-  wishlistTitle: (count) => `قائمة رغباتك (${count} منتج)`,
-  wishlistDesc: (count) =>
-      count > 0
-        ? "هذه هي المنتجات التي حفظتها لاحقًا. هل أنت جاهز لامتلاكها؟"
-        : "قائمة رغباتك فارغة. ابدأ بإضافة المنتجات التي تحبها!",
+ 
+  // Wishlist
+  wishlistTitle: "قائمة رغباتك",
+  wishlistDescEmpty: "قائمة رغباتك فارغة. ابدأ بإضافة المنتجات التي تحبها!",
+  wishlistDescNotEmpty: "هذه هي المنتجات التي حفظتها لاحقًا. هل أنت جاهز لامتلاكها؟",
   emptyWishlist: "لا توجد منتجات في قائمة رغباتك.",
   modalConfirmDeleteTitle: "تأكيد الحذف",
-  modalConfirmDeleteMessage: (item) => `هل أنت متأكد أنك تريد إزالة "${item}" من قائمة رغباتك؟`,
+  modalConfirmDeleteMessage: "هل أنت متأكد أنك تريد إزالة هذا المنتج من قائمة رغباتك؟",
   cancel: "إلغاء",
   delete: "حذف",
   wishlistItemRemoved: "تمت إزالة المنتج من قائمة الرغبات.",
