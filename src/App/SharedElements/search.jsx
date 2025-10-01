@@ -23,7 +23,13 @@ import { FaSearch } from "react-icons/fa";
  * Example Usage:
  * <Search myClass="border rounded-md" placeholder="Search products..." />
  */
-export default function Search({ divClass, inputClass, style, placeholder }) {
+export default function Search({
+  divClass,
+  inputClass,
+  style,
+  placeholder,
+  onSearch,
+}) {
   const navigate = useNavigate(); // Hook for programmatic navigation
   const [keyword, setKeyword] = useState(""); // Local input state
 
@@ -44,6 +50,12 @@ export default function Search({ divClass, inputClass, style, placeholder }) {
     const value = e.target.value;
     setKeyword(value);
     handleSearch(value);
+    onSearch(value);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onSearch(keyword);
   };
 
   return (
@@ -55,16 +67,17 @@ export default function Search({ divClass, inputClass, style, placeholder }) {
     >
       {/* Search icon (positioned absolutely inside input) */}
       <FaSearch className="absolute left-3 h-4 w-4 text-gray-400 pointer-events-none" />
-
-      {/* Search input field */}
-      <Input
-        type="text"
-        myClass={`pl-10 ${inputClass || ""}`} // Padding to prevent overlap with icon
-        placeholder={placeholder || "Search..."}
-        name="Search"
-        value={keyword}
-        onChange={handleChange}
-      />
+      <form onSubmit={handleSubmit}>
+        {/* Search input field */}
+        <Input
+          type="text"
+          myClass={`pl-10 ${inputClass || ""}`} // Padding to prevent overlap with icon
+          placeholder={placeholder || "Search..."}
+          name="Search"
+          value={keyword}
+          onChange={handleChange}
+        />
+      </form>
     </div>
   );
 }
