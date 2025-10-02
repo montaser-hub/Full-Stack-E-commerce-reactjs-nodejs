@@ -18,8 +18,7 @@ axiosInstance.interceptors.request.use(
     };
 
     // Example token (better to fetch from localStorage/sessionStorage)
-    const mytoken =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4YjU3N2VlYjhmNDU2YTRkYTUzZjYwZCIsImlhdCI6MTc1OTMxMDc1MywiZXhwIjoxNzU5Mzk3MTUzfQ.O4qj8i-LjrI648kfywfjRVq8hzW7TDdfpBi-7WExPJo";
+    const mytoken = localStorage.getItem("token");
 
     if (mytoken) {
       config.headers["Authorization"] = `Bearer ${mytoken}`;
