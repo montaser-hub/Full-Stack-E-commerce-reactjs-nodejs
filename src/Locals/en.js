@@ -27,7 +27,7 @@ const en = {
   invalidEmail: "Invalid email format.",
   Input2: "Password",
   passwordPlaceHolder: "Enter your password",
-  passErrLength: "Password must be at least 6 characters.",
+  passErrLength: "Password must be at least 8 characters.",
   passwordForgot: "Forgot Password?",
   DontHaveAccount: "Don't have an account?",
   btnRegister: "Register",
@@ -55,6 +55,8 @@ const en = {
   regUser: "User",
   regAdmin: "Admin",
   accExists: "Already have an account?",
+  passErrPattern: "Password must be at least 8 characters and contain at least one uppercase letter, one lowercase letter, and one number.",
+  
 // Wishlist
   wishlistTitle: "Your Wishlist", 
   wishlistDescEmpty: "Your wishlist is empty. Start adding products you love!",
