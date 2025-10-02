@@ -34,12 +34,16 @@ function Register() {
     if (name === "email") {
       if (!value) error = content.emailRequired;
       else if (!/^[\w.-]+@[\w.-]+\.[a-zA-Z]{2,}$/.test(value))
-        error = "Email is not valid.";
+        error = content.invalidEmail;
     }
-    if (name === "password") {
-      if (!value) error = content.reqpassword;
-      else if (value.length < 8) error = content.passErrLength;
-    }
+   if (name === "password") {
+  if (!value) {
+    error = content.reqpassword;
+  } else if (!/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*]).{8,}$/.test(value)) {
+    error = content.passErrPattern; 
+  }
+}
+
     if (name === "confirmPassword") {
       if (!value) error = content.reqpassword;
       else if (value !== info.password) error = content.unmatch;
@@ -234,7 +238,7 @@ function Register() {
                      rounded-xl shadow-md hover:from-[rgb(57,84,62)] hover:to-[rgb(77,104,82)] 
                      active:scale-95 transition-all duration-200"
             disabled={loading}
-            content={loading ? "Registering..." : content.btnRegister}
+            content={loading ? "Registering..." : content.Register}
           />
         </form>
 

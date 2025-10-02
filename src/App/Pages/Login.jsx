@@ -34,13 +34,13 @@ function Login() {
         error = content.invalidEmail;
     }
 
-    if (name === "password") {
-      if (!value) error = content.reqpassword;
-      else if (value.length < 8 || value.length > 20)
-        error = content.passErrLength;
-      else if (!/(?=.[A-Z])(?=.[a-z])(?=.\d)(?=.[!@#$%^&*])/.test(value))
-        error = content.passErrPattern;
-    }
+   if (name === "password") {
+  if (!value) {
+    error = content.reqpassword;
+  } else if (!/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*]).{8,}$/.test(value)) {
+    error = content.passErrPattern; 
+  }
+}
 
     setErrors((prev) => ({ ...prev, [name]: error }));
     return error;

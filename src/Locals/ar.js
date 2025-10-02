@@ -24,10 +24,10 @@ const ar = {
   Input1: "البريد الإلكتروني / اسم المستخدم",
   emailPlaceHolder: "أدخل بريدك الإلكتروني",
   emailRequired: "البريد الإلكتروني مطلوب.",
-  
+  invalidEmail: "تنسيق البريد الإلكتروني غير صحيح.",
   Input2: "كلمة المرور",
   passwordPlaceHolder: "أدخل كلمة المرور الخاصة بك",
-  passErrLength: "يجب أن تكون كلمة المرور على الأقل 6 أحرف.",
+  passErrLength: "يجب أن تكون كلمة المرور على الأقل 8 أحرف.",
   passwordForgot: "هل نسيت كلمة المرور؟",
   SignIn: "تسجيل الدخول",
     "Select your role": "اختر دورك",
@@ -54,10 +54,10 @@ const ar = {
   regUser: "مستخدم",
   regAdmin: "مدير",
   btnRegister: "تسجيل",
-  accExists: "حساب موجود بالفعل، يرجى تسجيل الدخول.",
+  accExists: "لديك حساب بالفعل ؟ ",
+  passErrPattern: " كلمة المرور يجب ان يكون على الاقل 8 حروف و تحتوي على حرف كبير وحرف صغير ورقم ورمز خاص .",
 
- 
-  // Wishlist
+   // Wishlist
   wishlistTitle: "قائمة رغباتك",
   wishlistDescEmpty: "قائمة رغباتك فارغة. ابدأ بإضافة المنتجات التي تحبها!",
   wishlistDescNotEmpty: "هذه هي المنتجات التي حفظتها لاحقًا. هل أنت جاهز لامتلاكها؟",
