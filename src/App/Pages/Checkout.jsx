@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import Text from "../SharedElements/Text";
 import Button from "../SharedElements/Button";
@@ -16,34 +16,32 @@ const Checkout = () => {
   const [alert, setAlert] = useState(null);
   const [cart, setCart] = useState(null);
 
-  // Fetch cart to validate it
-  useEffect(() => {
-    const fetchCart = async () => {
-      try {
-        const res = await axiosInstance.get("/carts");
-        setCart(res.data.data);
-      } catch (err) {
-        setAlert({ type: "error", message: "Failed to load cart." });
-      }
-    };
-    fetchCart();
+  const fetchCart = useCallback(async () => {
+    try {
+      const res = await axiosInstance.get("/carts");
+      setCart(res.data.data);
+    } catch (err) {
+      setAlert({ type: "error", message: "Failed to load cart." });
+    }
   }, []);
 
-  // Handle form input changes
+  useEffect(() => {
+    fetchCart();
+  }, [fetchCart]);
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     if (name.includes("shippingAddress.")) {
       const field = name.split(".")[1];
-      setFormData({
-        ...formData,
-        shippingAddress: { ...formData.shippingAddress, [field]: value },
-      });
+      setFormData((prev) => ({
+        ...prev,
+        shippingAddress: { ...prev.shippingAddress, [field]: value },
+      }));
     } else {
-      setFormData({ ...formData, [name]: value });
+      setFormData((prev) => ({ ...prev, [name]: value }));
     }
   };
 
-  // Validate form locally
   const validateForm = () => {
     const newErrors = {};
     if (!formData.shippingAddress.details)
@@ -56,7 +54,6 @@ const Checkout = () => {
     return newErrors;
   };
 
-  // Handle order placement
   const handlePlaceOrder = async () => {
     const validationErrors = validateForm();
     if (Object.keys(validationErrors).length > 0) {
@@ -65,33 +62,29 @@ const Checkout = () => {
     }
 
     try {
-      if (!cart || cart.items.length === 0) {
+      if (!cart || !cart.items.length) {
         setAlert({ type: "error", message: "Your cart is empty." });
         return;
       }
 
-      // Create order
       const orderData = {
         shippingAddress: formData.shippingAddress,
-        shippingPrice: 20, // Fixed as per Cart.jsx
+        shippingPrice: 20, // Adjust as needed
         paymentMethodType: formData.paymentMethodType,
       };
 
       const orderResponse = await axiosInstance.post("/orders", orderData);
       const orderId = orderResponse.data._id;
 
-      if (formData.paymentMethodType === "cash") {
-        // Redirect to Order Confirmation for Cash on Delivery
-        navigate(`/order-confirmation/${orderId}`);
-      } else {
-        // Create PayPal payment
-        const paymentResponse = await axiosInstance.post(
+      if (formData.paymentMethodType === "card") {
+        const paypalResponse = await axiosInstance.post(
           `/payments/paypal/${orderId}`
         );
-        window.location.href = paymentResponse.data.url; // Redirect to PayPal
+        window.location.href = paypalResponse.data.url;
+      } else {
+        navigate(`/order-confirmation/${orderId}`);
       }
     } catch (err) {
-      console.error("Error placing order:", err);
       setAlert({
         type: "error",
         message: err.response?.data?.message || "Failed to place order.",
@@ -100,25 +93,20 @@ const Checkout = () => {
   };
 
   return (
-    <div className="p-4 sm:p-6 lg:p-8 max-w-3xl mx-auto">
-      {/* Alert */}
-      {alert && (
-        <Alert
-          type={alert.type}
-          message={alert.message}
-          onClose={() => setAlert(null)}
+    <div className="p-4 sm:p-6 lg:p-8 flex justify-center items-center min-h-screen">
+      <div className="w-full max-w-3xl bg-white dark:bg-neutral-800 rounded-lg shadow-md p-6">
+        {alert && (
+          <Alert
+            type={alert.type}
+            message={alert.message}
+            onClose={() => setAlert(null)}
+          />
+        )}
+        <Text
+          as="h1"
+          content="Checkout"
+          MyClass="text-2xl sm:text-3xl font-bold font-['Archivo'] mb-6 text-center"
         />
-      )}
-
-      {/* Page Title */}
-      <Text
-        as="h1"
-        content="Checkout"
-        MyClass="text-2xl sm:text-3xl font-bold font-['Archivo'] mb-6 text-center"
-      />
-
-      <div className="bg-white dark:bg-neutral-800 dark:border-neutral-700 rounded-lg shadow-md p-6">
-        {/* Shipping Address */}
         <Text
           as="h2"
           content="Shipping Address"
@@ -127,7 +115,7 @@ const Checkout = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
           <div>
             <label className="block text-sm font-medium mb-1 dark:text-white">
-              Details
+              Address Details
             </label>
             <input
               type="text"
@@ -194,8 +182,6 @@ const Checkout = () => {
             )}
           </div>
         </div>
-
-        {/* Payment Method */}
         <Text
           as="h2"
           content="Payment Method"
@@ -225,8 +211,6 @@ const Checkout = () => {
             Card Payment
           </label>
         </div>
-
-        {/* Action Button */}
         <Button
           content={
             formData.paymentMethodType === "cash" ? "Place Order" : "Pay Now"

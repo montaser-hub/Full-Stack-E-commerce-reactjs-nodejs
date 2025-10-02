@@ -27,7 +27,9 @@ import Register from "./App/Pages/Register";
 import Wishlist from "./App/Pages/Wishlist";
 import Checkout from "./App/Pages/Checkout";
 import OrderConfirmation from "./App/Pages/OrderConfirmation";
-import Loader from "../src/App/SharedElements/spinner.jsx";
+import PaymentSuccess from "./App/Pages/PaymentSuccess";
+import PaymentCancel from "./App/Pages/PaymentCancel";
+import Loader from "./App/SharedElements/spinner.jsx";
 
 // Define router
 const router = createBrowserRouter(
@@ -39,6 +41,8 @@ const router = createBrowserRouter(
         path="order-confirmation/:orderId"
         element={<OrderConfirmation />}
       />
+      <Route path="payments/checkout" element={<PaymentSuccess />} />
+      <Route path="payments/cancel" element={<PaymentCancel />} />
       <Route path="register" element={<Register />} />
       <Route path="login" element={<Login />} />
       <Route path="home" element={<Home />} />
