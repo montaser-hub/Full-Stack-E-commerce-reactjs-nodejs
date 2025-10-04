@@ -6,11 +6,9 @@ import Footer from "../Components/Footer";
 const RouteLayout = () => {
   return (
     <>
-      {/* <Navbar></Navbar> */}
       <Header />
       <Outlet />
       <Footer />
-      {/* <Footer></Footer> */}
     </>
   );
 };
