@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { toggleLang, toggleTheme } from "../../ReduxToolkit/Store";
 import { useSelector, useDispatch } from "react-redux";
@@ -21,7 +21,39 @@ export default function Navbar() {
   );
 
   const location = useLocation();
-  const isHomePage = location.pathname === "/" 
+  const isHomePage = location.pathname === "/";
+  const hamburgerRef = useRef(null);
+  const userRef = useRef(null);
+  const [ setLastClickedLink ] = useState( null );
+  const notifRef = useRef(null);
+
+  const handleLinkClick = (key) => {
+    setLastClickedLink(key);
+    setIsOpen(false);
+    setUserOpen(false);
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        hamburgerRef.current &&
+        !hamburgerRef.current.contains(event.target)
+      ) {
+        setIsOpen(false);
+      }
+      if ( userRef.current && !userRef.current.contains( event.target ) ) {
+        setUserOpen( false );
+      }
+      if (notifRef.current && !notifRef.current.contains(event.target)) {
+        setNotifOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const navLinks = ["Home", "Wishlist", "Cart", "Orders"];
 
   return (
     <nav className="relative z-50 w-full bg-white dark:bg-neutral-900 shadow">
@@ -30,6 +62,7 @@ export default function Navbar() {
         {/* Left: Hamburger + Logo */}
         <div className="flex items-center gap-4">
           {/* Hamburger (only mobile) */}
+          {!isHomePage && (
           <button
             onClick={() => setIsOpen(!isOpen)}
             className="lg:hidden border-0 bg-transparent text-black/60 dark:text-neutral-200 focus:outline-none"
@@ -49,6 +82,7 @@ export default function Navbar() {
               />
             </svg>
           </button>
+          )}
 
           {/* Logo */}
           <Link to="/Home" className="flex items-center">
@@ -62,24 +96,22 @@ export default function Navbar() {
         </div>
         {/* Middle: Nav Links */}
         <div
-          className={`${
-            isOpen ? "grid" : "hidden"
-          } absolute top-full left-0 w-full bg-white dark:bg-neutral-900 lg:static lg:w-auto lg:grid lg:grid-cols-1`}
-        >
-          <ul className="grid gap-3 px-4 py-4 lg:flex lg:gap-6 lg:p-0">
-            {["Home", "Wishlist", "Cart", "Orders"].map((key) => (
-              <li key={key} className="relative">
-                <NavLink
-                  to={`/${key}`}
-                  className={({ isActive }) =>
-                    isActive
-                      ? "block px-2 py-1 font-bold underline text-[rgb(67,94,72)]  dark:text-white dark:hover:text-white"
-                      : "block px-2 py-1 font-bold  text-black/60 transition  hover:text-black dark:text-white dark:hover:text-white"
-                  }
-                >
-                  {content[key]}
-                </NavLink>
-                {/* Counter */}
+          className="flex-1 flex justify-center items-center">
+          {/* Desktop links */}
+          {!isHomePage && (
+            <ul className="hidden lg:flex gap-6">
+              {navLinks.map((key) => (
+                <li key={key} className="relative">
+                  <NavLink
+                    to={`/${key}`}
+                    className={({ isActive }) =>
+                      isActive
+                        ? "font-bold underline text-[#c9c357] dark:text-white"
+                        : "font-bold text-black/60 hover:text-[#c9c357] dark:text-white dark:hover:text-white"
+                    }
+                  >
+                    {content[key]}
+                  </NavLink>
                 {key === "Wishlist" && favoriteProductsCount > 0 && (
                   <Text
                     as="span"
@@ -90,35 +122,63 @@ export default function Navbar() {
                   />
                 )}
               </li>
-            ))}
-            {isHomePage &&
-              ["Login", "Register"].map((key) => (
-                <li key={key}>
-                  <NavLink
-                    to={`/${key}`}
-                    className="block px-2 py-1 font-bold text-black/60 hover:text-black dark:text-white dark:hover:text-white"
-                  >
-                    {content[key]}
-                  </NavLink>
-                </li>
               ))}
-          </ul>
+            </ul>
+          )}
+
+          {/* Mobile links (hamburger) */}
+          {!isHomePage && (
+            <div
+              ref={hamburgerRef}
+              className={`${
+                isOpen ? "grid" : "hidden"
+              } absolute top-full left-0 z-50 w-40 rounded-lg bg-white shadow-lg dark:bg-neutral-800 lg:hidden`}
+            >
+              <ul className="flex flex-col gap-1 p-2 text-sm">
+                {navLinks.map((key) => (
+                  <li key={key} className="relative">
+                    <NavLink
+                      to={`/${key}`}
+                      onClick={() => handleLinkClick(key)}
+                      className={({ isActive }) =>
+                        isActive
+                          ? "block px-2 py-1 font-bold underline text-[#c9c357] dark:text-white rounded-md"
+                          : "block px-2 py-1 font-bold text-black/60 hover:text-[#c9c357] dark:text-white dark:hover:text-white"
+                      }
+                    >
+                      {content[key]}
+                    </NavLink>
+                    {key === "Wishlist" && favoriteProductsCount > 0 && (
+                      <Text
+                        as="span"
+                        content={favoriteProductsCount}
+                        MyClass="absolute top-1 -left-4 rounded-full bg-red-600 px-1.5 py-0.5 text-[0.6rem] font-bold text-white"
+                      />
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
         </div>
 
         {/* Right: Actions */}
         <div className="flex items-center gap-4 justify-self-end">
-          {/*Search*/}
+          {/* Search*/}
+          {!isHomePage && (
+            <>
           <Search
             context="search"
-            divClass="rounded-full border border-gray-200 hover:border-gray-400 w-full sm:w-64 md:w-80 lg:w-96 overflow-hidden"
+            divClass="hidden sm:flex rounded-full border border-gray-200 hover:border-gray-400 w-full sm:w-64 md:w-80 lg:w-96 overflow-hidden"
             inputClass="border-none focus:outline-none focus:ring-0 px-4 py-2 text-black placeholder-gray-400  w-full sm:w-64 md:w-80 lg:w-96"
             placeholder={content.Search + "..."}
-            onSearch={(value) => {
-              console.log("Searching from Navbar:", value);
-            }}
+            onSearch={(value) =>
+              console.log("Searching from Navbar:", value)
+            }
           />
-          {/* Notifications */}
-          <div className="relative">
+
+              {/* Notifications */}
+          <div className="relative" ref={notifRef}>
             <button
               onClick={() => setNotifOpen(!notifOpen)}
               className="relative text-neutral-600 dark:text-white"
@@ -146,6 +206,7 @@ export default function Navbar() {
                     <li key={item}>
                       <Link
                         to="#"
+                        onClick={() => setNotifOpen(false)}
                         className="block px-4 py-2 text-neutral-700 hover:bg-zinc-200/60 dark:text-white dark:hover:bg-neutral-700"
                       >
                         {item}
@@ -156,6 +217,8 @@ export default function Navbar() {
               </ul>
             )}
           </div>
+            </>
+          )}
 
           {/* Lang + Theme */}
           <button
@@ -171,12 +234,14 @@ export default function Navbar() {
             {myTheme === "light" ? "🌞" : "🌙"}
           </button>
 
-          {/* User */}
-          <div className="relative">
+          {/* User*/}
+          {!isHomePage && (
+            <>
+          <div className="relative" ref={userRef}>
             <button onClick={() => setUserOpen(!userOpen)}>
               <img
                 src="https://tecdn.b-cdn.net/img/new/avatars/2.jpg"
-                className="h-8 w-8 sm:h-9 sm:w-9 lg:h-10 lg:w-10 rounded-full object-cover"
+                className="h-8 w-8 sm:h-9 sm:w-9 md:h-10 md:w-10 lg:h-10 lg:w-10 rounded-full object-cover"
                 alt="User avatar"
               />
             </button>
@@ -187,6 +252,7 @@ export default function Navbar() {
                     <li key={item}>
                       <Link
                         to="#"
+                        onClick={() => handleLinkClick(item)}
                         className="block px-4 py-2 text-neutral-700 hover:bg-zinc-200/60 dark:text-white dark:hover:bg-neutral-700"
                       >
                         {item}
@@ -196,10 +262,15 @@ export default function Navbar() {
                 )}
               </ul>
             )}
-            {!isHomePage && (
+          </div>
+
               <button
-                onClick={() => console.log("Logout clicked")}
-                className="mr-2 text-red-600 hover:text-red-800"
+                onClick={() => {
+                  console.log("Logout clicked");
+                  setIsOpen(false);
+                  setUserOpen(false);
+                }}
+                className="ml-2 text-red-600 hover:text-red-800"
                 title="Logout"
               >
                 <svg
@@ -217,8 +288,8 @@ export default function Navbar() {
                   />
                 </svg>
               </button>
-            )}
-          </div>
+            </>
+          )}
         </div>
       </div>
     </nav>
