@@ -71,8 +71,11 @@ export default function Navbar() {
                     to={`/${key}`}
                     className={({ isActive }) =>
                       isActive
-                        ? "block px-2 py-1 font-bold underline text-[rgb(67,94,72)]  dark:text-white dark:hover:text-white"
-                        : "block px-2 py-1 font-bold  text-black/60 transition  hover:text-black dark:text-white dark:hover:text-white"
+                        ? `relative inline-block px-2 py-1 font-bold text-[#c9c357] dark:text-[#c9c357] transition-all duration-300 
+                          before:absolute before:left-[10%] before:bottom-0 before:w-[80%] before:h-[2px] before:bg-[#c9c357] 
+                          before:opacity-100 before:transition-all before:duration-500 before:ease-in-out hover:before:opacity-0`
+                        :`block px-2 py-1 font-bold  text-black/60 transition  hover:text-[#c9c357] dark:text-white 
+                        dark:hover:text-[#c9c357] duration-300`
                     }
                   >
                     {content[key]}
@@ -82,8 +85,8 @@ export default function Navbar() {
                     <Text
                       as="span"
                       content={favoriteProductsCount}
-                      MyClass={`absolute top-1 ${
-                        lang === "ar" ? "right-0" : "-left-4"
+                      MyClass={`absolute top-2 ${
+                        lang === "ar" ? "right-0" : "-left-3"
                       } -translate-y-1/2 translate-x-1/2 rounded-full bg-red-600 px-1.5 py-0.5 text-[0.6rem] font-bold text-white`}
                     />
                   )}

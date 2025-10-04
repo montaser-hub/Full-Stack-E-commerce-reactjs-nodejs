@@ -1,4 +1,3 @@
-import React from "react";
 import { useSelector } from "react-redux";
 import DashCard from "../../Components/DashCard";
 import Text from "../../SharedElements/Text";
@@ -7,7 +6,6 @@ import { LuDollarSign } from "react-icons/lu";
 
 function DashboardHome() {
   const myContent = useSelector((state) => state.myLang.content);
-
   const statsData = [
     {
       title: myContent.totalProducts,
@@ -40,13 +38,20 @@ function DashboardHome() {
       {/* Banner */}
       <div
         className="p-6 rounded-3xl shadow-lg mb-8 
-        bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 
-        dark:bg-gradient-to-r dark:from-neutral-700 dark:via-neutral-800 dark:to-neutral-900"
+        bg-gradient-to-r from-green-400 via-green-500 to-green-600 
+        dark:bg-gradient-to-r dark:from-green-700 dark:via-green-800 dark:to-green-900"
       >
-        <Text as="h1" content={myContent.dashboardWelcome} MyClass="text-3xl font-bold text-white mb-2" />
-        <Text as="p" content={myContent.dashboardOverview} MyClass="text-gray-100" />
+        <Text 
+          as="h1" 
+          content={myContent.dashboardWelcome} 
+          MyClass="text-3xl font-bold text-gray-700 dark:text-white mb-2" 
+        />
+        <Text 
+          as="p" 
+          content={myContent.dashboardOverview} 
+          MyClass="text-gray-700 dark:text-gray-200" 
+        />
       </div>
-
       {/* Stats Cards */}
       <div className="flex flex-wrap gap-1.5 justify-center">
         {statsData.map((stat, index) => (
@@ -62,5 +67,4 @@ function DashboardHome() {
     </div>
   );
 }
-
 export default DashboardHome;
