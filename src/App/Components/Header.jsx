@@ -99,7 +99,8 @@ export default function Navbar() {
                 <li key={key}>
                   <NavLink
                     to={`/${key}`}
-                    className="block px-2 py-1 font-bold text-black/60 hover:text-black dark:text-white dark:hover:text-white"
+                    className="block px-2 py-1 font-bold  text-black/60 transition  hover:text-[#c9c357] dark:text-white 
+                            dark:hover:text-[#c9c357] duration-300"
                   >
                     {content[key]}
                   </NavLink>

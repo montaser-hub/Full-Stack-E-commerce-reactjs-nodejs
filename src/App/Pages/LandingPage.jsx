@@ -9,9 +9,16 @@ export default function LandingPage() {
   // Sample images for HeroSlider
   // --- Hero Slider Images ---
   const heroImages = [
-    "https://images.unsplash.com/photo-1616627982872-9f031b2c631f?auto=format&fit=crop&w=1600&q=80",
     "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1600&q=80",
-    "https://images.unsplash.com/photo-1598300051477-b7d1f9c9d03f?auto=format&fit=crop&w=1600&q=80",
+    "https://png.pngtree.com/background/20230618/original/pngtree-overview-of-a-modern-luxurious-house-project-in-3d-render-picture-image_3711637.jpg",
+    "https://png.pngtree.com/background/20230618/original/pngtree-stunning-modern-villa-with-garden-and-pool-depicted-in-3d-at-picture-image_3759076.jpg",
+    "https://png.pngtree.com/background/20250108/original/pngtree-luxury-house-on-night-with-light-picture-image_15583679.jpg",
+    "https://png.pngtree.com/background/20250427/original/pngtree-a-large-modern-house-with-white-exterior-and-green-lawn-picture-image_16442296.jpg",
+    "https://png.pngtree.com/thumb_back/fw800/background/20250909/pngtree-modern-two-story-house-with-large-glass-windows-and-minimalist-design-image_19094936.webp",
+    "https://png.pngtree.com/background/20230617/original/pngtree-a-stunning-modern-house-with-a-pool-depicted-in-3d-rendering-picture-image_3695901.jpg",
+    "https://png.pngtree.com/background/20250508/original/pngtree-a-large-modern-house-with-white-exterior-and-green-lawn-picture-image_16436740.jpg",
+    "https://png.pngtree.com/background/20230621/original/pngtree-contemporary-villa-with-pool-and-garden-a-striking-3d-rendering-picture-image_3894164.jpg",
+    "https://png.pngtree.com/background/20250418/original/pngtree-a-large-modern-house-with-white-exterior-and-green-lawn-picture-image_16444748.jpg"
   ];
 
   // --- Featured Categories ---

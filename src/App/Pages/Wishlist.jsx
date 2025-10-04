@@ -35,7 +35,7 @@ function Wishlist() {
       <Text
         as="h1"
         content={myContent.wishlistTitle}
-        MyClass="text-3xl font-bold text-neutral-900 dark:text-white mb-8"
+        MyClass="text-center text-3xl font-bold text-neutral-900 dark:text-white mb-8 "
       />
 
       {/* favorite items */}
