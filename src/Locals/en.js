@@ -73,7 +73,7 @@ const en = {
   footerDescription: "Description",
   footerDescriptionText: "A small team built this site for trading modern furniture which is environmentally friendly and sustainable.",
   footerServices: "Services",
-  footerProducts: "Products",
+  footerProducts: "Categories",
   footerAbout: "About",
   footerCustomer: "Customer",
   footerServicesItems: ["Buy & Sell", "Reservation", "Return Policy"],

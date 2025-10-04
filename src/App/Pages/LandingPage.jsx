@@ -10,15 +10,15 @@ export default function LandingPage() {
   // --- Hero Slider Images ---
   const heroImages = [
     "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1600&q=80",
-    "https://png.pngtree.com/background/20230618/original/pngtree-overview-of-a-modern-luxurious-house-project-in-3d-render-picture-image_3711637.jpg",
-    "https://png.pngtree.com/background/20230618/original/pngtree-stunning-modern-villa-with-garden-and-pool-depicted-in-3d-at-picture-image_3759076.jpg",
-    "https://png.pngtree.com/background/20250108/original/pngtree-luxury-house-on-night-with-light-picture-image_15583679.jpg",
-    "https://png.pngtree.com/background/20250427/original/pngtree-a-large-modern-house-with-white-exterior-and-green-lawn-picture-image_16442296.jpg",
-    "https://png.pngtree.com/thumb_back/fw800/background/20250909/pngtree-modern-two-story-house-with-large-glass-windows-and-minimalist-design-image_19094936.webp",
-    "https://png.pngtree.com/background/20230617/original/pngtree-a-stunning-modern-house-with-a-pool-depicted-in-3d-rendering-picture-image_3695901.jpg",
-    "https://png.pngtree.com/background/20250508/original/pngtree-a-large-modern-house-with-white-exterior-and-green-lawn-picture-image_16436740.jpg",
+    "https://png.pngtree.com/background/20231029/original/pngtree-contemporary-beige-home-interior-featuring-chic-modern-furniture-3d-render-picture-image_5780852.jpg",
+    "https://png.pngtree.com/background/20230618/original/pngtree-a-business-meeting-room-in-an-office-building-3d-rendered-picture-image_3754544.jpg",
+    "https://png.pngtree.com/background/20231030/original/pngtree-3d-rendering-of-scandinavian-inspired-living-room-interior-picture-image_5781422.jpg",
+    "https://png.pngtree.com/background/20230619/original/pngtree-modern-workspace-with-natural-light-and-sleek-bookshelf-in-3d-picture-image_3851182.jpg",
+    "https://png.pngtree.com/background/20250123/original/pngtree-sunlit-living-room-with-large-window-and-plants-stock-photo-picture-image_16011508.jpg",
+    "https://png.pngtree.com/background/20250122/original/pngtree-mountain-view-living-room-with-large-windows-and-sofa-picture-image_15778350.jpg",
+    "https://png.pngtree.com/thumb_back/fw800/background/20250813/pngtree-modern-living-room-with-minimalist-design-large-windows-neutral-tones-image_17900634.webp",
     "https://png.pngtree.com/background/20230621/original/pngtree-contemporary-villa-with-pool-and-garden-a-striking-3d-rendering-picture-image_3894164.jpg",
-    "https://png.pngtree.com/background/20250418/original/pngtree-a-large-modern-house-with-white-exterior-and-green-lawn-picture-image_16444748.jpg"
+    "https://png.pngtree.com/background/20231030/original/pngtree-contemporary-living-room-and-stylish-bookcase-furnished-with-library-accessories-and-picture-image_5796113.jpg"
   ];
 
   // --- Featured Categories ---
@@ -26,22 +26,22 @@ export default function LandingPage() {
     {
       name: "Living Room",
       image:
-        "https://images.unsplash.com/photo-1600585154376-8b3d07c6350b?auto=format&fit=crop&w=800&q=80",
+        "https://png.pngtree.com/thumb_back/fw800/background/20240912/pngtree-living-room-decoration-image_16178182.jpg",
     },
     {
       name: "Bedroom",
       image:
-        "https://images.unsplash.com/photo-1598300051477-b7d1f9c9d03f?auto=format&fit=crop&w=800&q=80",
+        "https://png.pngtree.com/thumb_back/fw800/background/20230727/pngtree-a-master-bedroom-with-a-bed-image_10201906.jpg",
     },
     {
       name: "Office",
       image:
-        "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80",
+        "https://png.pngtree.com/background/20250709/original/pngtree-a-modern-minimalist-workspace-featuring-sleek-desk-laptop-and-stylish-office-picture-image_16262595.jpg",
     },
     {
       name: "Kitchen",
       image:
-        "https://images.unsplash.com/photo-1582582494705-ff9b80b5c9a6?auto=format&fit=crop&w=800&q=80",
+        "https://png.pngtree.com/background/20230718/original/pngtree-luxury-mahogany-kitchen-with-modern-furniture-windows-kitchen-top-photo-picture-image_4249107.jpg",
     },
   ];
 
@@ -52,14 +52,14 @@ export default function LandingPage() {
       description:
         "Our new exclusive collections designed to transform your living space.",
       image:
-        "https://images.unsplash.com/photo-1616627982872-9f031b2c631f?auto=format&fit=crop&w=1200&q=80",
+        "https://png.pngtree.com/background/20250102/original/pngtree-architectural-drawing-of-a-modern-house-plan-blueprint-with-multiple-rooms-picture-image_15762759.jpg",
       reverse: false,
     },
     {
       title: "New experience is going to unlock",
       description: "Explore innovative designs crafted for comfort and style.",
       image:
-        "https://images.unsplash.com/photo-1598300051477-b7d1f9c9d03f?auto=format&fit=crop&w=1200&q=80",
+        "https://png.pngtree.com/background/20230621/original/pngtree-contemporary-villa-with-pool-and-garden-a-striking-3d-rendering-picture-image_3894164.jpg",
       reverse: true,
     },
     {
@@ -73,7 +73,7 @@ export default function LandingPage() {
       title: "Inspiring interiors crafted with passion",
       description: "Unique designs to elevate your home experience.",
       image:
-        "https://images.unsplash.com/photo-1600585154376-8b3d07c6350b?auto=format&fit=crop&w=1200&q=80",
+        "https://png.pngtree.com/background/20231017/original/pngtree-swimming-pool-terrace-and-landscape-garden-in-exquisite-exterior-design-of-picture-image_5590264.jpg",
       reverse: true,
     },
   ];
@@ -154,25 +154,29 @@ export default function LandingPage() {
           alt="Promo"
           className="w-full h-64 sm:h-96 object-cover transform transition duration-500 hover:scale-105"
         />
-        <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center text-center space-y-4 px-4">
-          <Text
-            as="h2"
-            content="Upgrade Your Home"
-            MyClass="text-3xl sm:text-5xl font-bold text-white"
-          />
-          {/* Inline paragraph + button container */}
-          <div className="flex flex-col sm:flex-row items-center gap-4">
-            <p className="text-white text-lg sm:text-xl">
-              Unlock your home with our innovative designs crafted for comfort
-              and style.
-            </p>
-            <ForwardTo
-              content="Register Now"
-              to="/register"
-              myClass="text-white underline hover:text-blue-300 px-4 py-2 rounded-lg font-semibold transition-colors duration-300"
-            />
-          </div>
-        </div>
+        <div className="absolute inset-0 bg-black/30 backdrop-blur-sm flex flex-col items-center justify-center text-center space-y-4 px-4">
+  <Text
+    as="h2"
+    content="Upgrade Your Home"
+    MyClass="text-3xl sm:text-5xl font-bold text-white"
+  />
+  <div className="flex flex-col sm:flex-row items-center gap-4">
+    <p className="text-white text-lg sm:text-xl">
+      Unlock your home with our innovative designs crafted for comfort
+      and style....
+    </p>
+    <ForwardTo
+      content="Register Now"
+      to="/register"
+      myClass="px-6 py-3 rounded-lg font-semibold 
+    bg-gradient-to-r from-green-500 to-green-700 
+    text-white shadow-lg 
+    transition-transform duration-300 
+    hover:scale-105 hover:from-green-600 hover:to-green-800"
+    />
+  </div>
+</div>
+
       </section>
     </main>
   );

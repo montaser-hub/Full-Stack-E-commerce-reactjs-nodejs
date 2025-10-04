@@ -73,7 +73,7 @@ const ar = {
   footerDescription: "الوصف",
   footerDescriptionText: "فريق صغير قام ببناء هذا الموقع لتجارة الأثاث العصري الصديق للبيئة والمستدام.",
   footerServices: "الخدمات",
-  footerProducts: "المنتجات",
+  footerProducts: "التصنيفات",
   footerAbout: "من نحن",
   footerCustomer: "العملاء",
   footerServicesItems: ["شراء وبيع", "الحجز", "سياسة الإرجاع"],

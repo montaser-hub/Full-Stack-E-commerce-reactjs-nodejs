@@ -7,11 +7,11 @@ import Text from "../SharedElements/Text";
 
 function Footer() {
   const productsLinks = [
-    { label: "Chairs" },
-    { label: "Tables" },
-    { label: "Desks" },
-    { label: "Doors" },
-    { label: "Full Rooms" },
+    { label: "Living Room" },
+    { label: "Office" },
+    { label: "Dinning" },
+    { label: "BedRoom" },
+    { label: "Kitchen" },
   ];
   const aboutLinks = [
     { label: "Staff" },
