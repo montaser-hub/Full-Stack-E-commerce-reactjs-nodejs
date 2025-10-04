@@ -10,18 +10,13 @@ const ShoppingCard = ({
   price,
   quantity,
   onUpdate,
-  onRemove, // function to call after confirming delete
+  onRemove,
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // Triggered when user clicks "Remove"
-  const handleRemoveClick = () => {
-    setIsModalOpen(true);
-  };
-
-  // Confirm deletion
+  const handleRemoveClick = () => setIsModalOpen(true);
   const handleConfirmDelete = () => {
-    onRemove(); // call the original remove function
+    onRemove();
     setIsModalOpen(false);
   };
 
@@ -31,14 +26,18 @@ const ShoppingCard = ({
         <div className="flex items-center space-x-4 sm:w-1/3 py-2">
           <div className="sm:w-16 sm:h-16 w-full">
             <img
-              src={src}
+              src={src || "./not_foundimage.png"}
               alt={alt}
               className="w-full h-full object-cover rounded"
             />
           </div>
           <div>
-            <p className="font-medium text-gray-900 dark:text-white">{productName}</p>
-            <p className="text-gray-600 text-sm dark:text-white">Price: {price}</p>
+            <p className="font-medium text-gray-900 dark:text-white">
+              {productName}
+            </p>
+            <p className="text-gray-600 text-sm dark:text-white">
+              Price: ${price}
+            </p>
           </div>
         </div>
 
@@ -50,7 +49,7 @@ const ShoppingCard = ({
             >
               <FaMinus />
             </button>
-            <span className="px-4 py-1 border border-gray-300 rounded ">
+            <span className="px-4 py-1 border border-gray-300 rounded">
               {quantity}
             </span>
             <button
@@ -64,16 +63,14 @@ const ShoppingCard = ({
 
         <div className="flex justify-center sm:justify-end sm:w-1/3 mt-2 sm:mt-0">
           <button
-            onClick={handleRemoveClick} // show modal first
+            onClick={handleRemoveClick}
             className="flex items-center gap-2 bg-red-500 text-white px-4 py-2 rounded-lg text-sm hover:bg-red-600 transition"
           >
-            <FaTrash className="text-sm" />
-            Remove
+            <FaTrash className="text-sm" /> Remove
           </button>
         </div>
       </div>
 
-      {/* Modal confirmation */}
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
         <ConfirmDelete
           onCancel={() => setIsModalOpen(false)}
