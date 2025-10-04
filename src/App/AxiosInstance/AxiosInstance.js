@@ -11,8 +11,16 @@ axiosInstance.interceptors.request.use(
     console.log("Request URL:", config.baseURL + config.url);
     console.log("Token:", localStorage.getItem("token"));
     store.dispatch(showLoader());
-    config.params = { ...(config.params || {}) };
-    const mytoken = localStorage.getItem("token");
+
+    // Add global params (optional, currently empty)
+    config.params = {
+      ...(config.params || {}),
+    };
+
+    // Example token (better to fetch from localStorage/sessionStorage)
+    const mytoken =
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4YjRiNDc3NTllYzEyMGFjMGQzMGMyYSIsImlhdCI6MTc1OTYwMzM2OSwiZXhwIjoxNzU5Njg5NzY5fQ.poqHM9NQQlecOP4mwvVmNv-L6s8zcPeBfcSecTbdDE8";//localStorage.getItem("token");
+    
     if (mytoken) {
       config.headers["Authorization"] = `Bearer ${mytoken}`;
     } else {

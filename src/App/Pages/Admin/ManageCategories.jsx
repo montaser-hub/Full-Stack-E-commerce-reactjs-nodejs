@@ -1,31 +1,36 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { axiosInstance } from "../../AxiosInstance/AxiosInstance";
 import Text from "../../SharedElements/Text";
 import Button from "../../SharedElements/Button";
 import ManageCategoryRow from "../../Components/ManageCategories";
 import Pagination from "../../Components/Pagination";
 import { useSelector } from "react-redux";
+import CategoryForm from "../../Components/CategoryForm";
+
 
 export default function ManageCategories() {
   const [categories, setCategories] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-
+  const [showForm, setShowForm] = useState(false);
   const myTheme = useSelector((state) => state.theme);
 
+  const fetchCategories = useCallback(() => {
+  
+axiosInstance.get(`/categories?page=${currentPage}&limit=5`)
+    .then((res) => {
+      setCategories(res.data.data || []);
+      const total = res.data.total || 0;
+      setTotalPages(Math.ceil(total / 5) || 1);
+    })
+    .catch((err) => console.error("Error fetching categories:", err));
+}, [currentPage]);
+
+
   useEffect(() => {
-    axiosInstance
-      .get(`/categories?page=${currentPage}&limit=5`)
-      .then((res) => {
-        setCategories(res.data.data || []);
-        const total = res.data.totalCategories || res.data.total || 0;
-        setTotalPages(Math.ceil(total / 5) || 1);
-      })
-      .catch((err) => {
-        console.error("Error fetching categories:", err);
-      });
-  }, [currentPage]);
+  fetchCategories();
+}, [fetchCategories]);
 
   const filteredCategories = categories.filter((cat) =>
     (cat.name || "").toLowerCase().includes(searchTerm.toLowerCase())
@@ -53,10 +58,23 @@ export default function ManageCategories() {
               }`}
             />
             <Button
-              myClass="bg-gradient-to-r from-[rgb(67,94,72)] to-[rgb(87,114,92)] text-white px-4 py-2 rounded-xl shadow-md hover:from-[rgb(57,84,62)] hover:to-[rgb(77,104,82)] active:scale-95 transition-all"
-              content="Create Category"
+              myClass="bg-gradient-to-r from-green-700 to-green-500 text-white px-4 py-2 rounded-xl shadow-md hover:from-green-800 hover:to-green-600"
+              content={showForm ? "Close Form" : "Create Category"}
+              onClick={() => setShowForm(!showForm)}
             />
           </div>
+
+          {/* Create Form */}
+          {showForm && (
+            <div className="p-4 border rounded-md mb-6">
+              <CategoryForm
+                onSuccess={() => {
+                  setShowForm(false);
+                  fetchCategories();
+                }}
+              />
+            </div>
+          )}
 
           {/* Search */}
           <div className="mb-4">
@@ -109,7 +127,11 @@ export default function ManageCategories() {
               <tbody>
                 {filteredCategories.length > 0 ? (
                   filteredCategories.map((cat) => (
-                    <ManageCategoryRow key={cat._id} cat={cat} />
+                    <ManageCategoryRow
+                      key={cat._id}
+                      cat={cat}
+                      onAction={fetchCategories}
+                    />
                   ))
                 ) : (
                   <tr>

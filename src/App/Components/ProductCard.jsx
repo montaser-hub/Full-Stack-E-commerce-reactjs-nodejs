@@ -15,6 +15,7 @@ const dispatch = useDispatch();
 const favoriteProducts = useSelector((state) => state.myFavorites.favoriteProducts);
 const isFavorite = favoriteProducts.some(product => product.id === props.id);
 const [ showToast, setShowToast ] = useState( false );
+const [ showFavToast, setShowFavToast ] = useState(false);
   
 const product = {
     id: props.id,
@@ -28,8 +29,10 @@ const product = {
 const handleToggleFavorite = () => {
     if (isFavorite) {
     dispatch(removeFavorite(props.id)); 
+    setShowFavToast("removed");
     } else {
     dispatch(addFavorite(product));
+    setShowFavToast("added");
     }
 };
   
@@ -145,6 +148,19 @@ return (
           onClose={() => setShowToast(false)}
         />
       )}
+      {showFavToast && (
+        <Alert
+          type={showFavToast === "removed" ? "error" : "success"} 
+          message={
+            showFavToast === "removed"
+              ? `${props.title} removed from favorites!`
+              : `${props.title} added to favorites!`
+          }
+          duration={2000}
+          onClose={() => setShowFavToast(false)}
+        />
+      )}
+
   </div>
 );
 }

@@ -38,12 +38,6 @@ function Wishlist() {
         MyClass="text-3xl font-bold text-neutral-900 dark:text-white mb-8"
       />
 
-      {/* <Text
-        as="p"
-        MyClass="text-gray-600 dark:text-gray-400 mb-8"
-        content={myContent.wishlistDescEmpty}
-      /> */}
-
       {/* favorite items */}
       {wishlistItems.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 justify-items-center">

@@ -30,12 +30,14 @@ import OrderConfirmation from "./App/Pages/OrderConfirmation";
 import PaymentSuccess from "./App/Pages/PaymentSuccess";
 import PaymentCancel from "./App/Pages/PaymentCancel";
 import Loader from "./App/SharedElements/spinner.jsx";
+import LandingPage from "./App/Pages/LandingPage.jsx";
 
 // Define router
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<RouteLayout />}>
-      <Route index element={<Home />} />
+      <Route index element={<LandingPage />} />
+      <Route path="home" element={<Home />} />
       <Route path="checkout" element={<Checkout />} />
       <Route
         path="order-confirmation/:orderId"
