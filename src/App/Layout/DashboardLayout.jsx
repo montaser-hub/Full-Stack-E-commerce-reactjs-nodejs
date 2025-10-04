@@ -15,7 +15,7 @@ const DashboardLayout = () => {
     <nav>
       <ul className="space-y-2">
         {[
-          { to: "/dashboard", icon: MdOutlineDashboard, label: "Dashboard" },
+          { to: "/dashboard", icon: MdOutlineDashboard, label: "Dashboard", end: true },
           { to: "/dashboard/products", icon: IoCubeOutline, label: "Manage Products" },
           { to: "/dashboard/categories", icon: GrCubes, label: "Manage Categories" },
           { to: "/dashboard/orders", icon: LuShoppingCart, label: "Manage Orders" },
@@ -25,11 +25,15 @@ const DashboardLayout = () => {
           <li key={item.to}>
             <NavLink
               to={item.to}
+              end={item.end}
               className={({ isActive }) =>
                 isActive
-                  ? "flex items-center gap-2 px-3 py-2 font-bold rounded bg-[#4148c5] text-white dark:bg-[#696ecd]"
-                  : "flex items-center gap-2 px-3 py-2 font-bold rounded text-[#848484] hover:bg-[#bababa] hover:text-white"
-              }
+                ? `flex items-center gap-2 px-3 py-2 font-bold text-[#c9c357] dark:text-[#c9c357] relative transition-all 
+                  duration-300 before:absolute before:left-[10%] before:bottom-0 before:w-[80%] before:h-[2px] before:bg-[#c9c357] 
+                  before:opacity-100 before:transition-all before:duration-500 before:ease-in-out hover:before:opacity-0`
+                : `flex items-center gap-2 px-3 py-2 font-bold text-black/60 hover:text-[#c9c357] dark:text-white 
+                  dark:hover:text-[#c9c357'] relative`
+                }
             >
               <item.icon className="text-xl" />
               <Text as="p" content={item.label} />

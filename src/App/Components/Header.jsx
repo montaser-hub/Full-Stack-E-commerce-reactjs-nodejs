@@ -116,8 +116,8 @@ export default function Navbar() {
                   <Text
                     as="span"
                     content={favoriteProductsCount}
-                    MyClass={`absolute top-1 ${
-                      lang === "ar" ? "right-0" : "-left-4"
+                    MyClass={`absolute top-2 ${
+                      lang === "ar" ? "right-0" : "-left-3"
                     } -translate-y-1/2 translate-x-1/2 rounded-full bg-red-600 px-1.5 py-0.5 text-[0.6rem] font-bold text-white`}
                   />
                 )}
