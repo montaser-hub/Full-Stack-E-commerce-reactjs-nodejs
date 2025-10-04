@@ -96,9 +96,22 @@ export default function Navbar() {
         </div>
         {/* Middle: Nav Links */}
         <div
-          className="flex-1 flex justify-center items-center">
+          className="flex-1 flex justify-start items-center">
           {/* Desktop links */}
-          {!isHomePage && (
+          {isHomePage ? (
+          <ul className="hidden lg:flex gap-6">
+            {["Login", "Register"].map((key) => (
+              <li key={key}>
+                <NavLink
+                  to={`/${key}`}
+                  className="font-bold text-black/60 hover:text-[#c9c357] dark:text-white dark:hover:text-white underline"
+                >
+                  {content[key]}
+                </NavLink>
+              </li>
+            ))}
+          </ul>
+          ): (
             <ul className="hidden lg:flex gap-6">
               {navLinks.map((key) => (
                 <li key={key} className="relative">
@@ -158,6 +171,7 @@ export default function Navbar() {
                   </li>
                 ))}
               </ul>
+              
             </div>
           )}
         </div>
