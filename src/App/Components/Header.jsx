@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import { toggleLang, toggleTheme } from "../../ReduxToolkit/Store";
 import { useSelector, useDispatch } from "react-redux";
 import Search from "../SharedElements/search.jsx";
@@ -19,6 +19,9 @@ export default function Navbar() {
   const favoriteProductsCount = useSelector(
     (state) => state.myFavorites.favoriteProducts.length
   );
+
+  const location = useLocation();
+  const isHomePage = location.pathname === "/" 
 
   return (
     <nav className="relative z-50 w-full bg-white dark:bg-neutral-900 shadow">
@@ -64,35 +67,44 @@ export default function Navbar() {
           } absolute top-full left-0 w-full bg-white dark:bg-neutral-900 lg:static lg:w-auto lg:grid lg:grid-cols-1`}
         >
           <ul className="grid gap-3 px-4 py-4 lg:flex lg:gap-6 lg:p-0">
-            {["Home", "Wishlist", "Cart", "Orders", "Login", "Register"].map(
-              (key) => (
-                <li key={key} className="relative">
-                  <NavLink
-                    to={`/${key}`}
-                    className={({ isActive }) =>
-                      isActive
+            {["Home", "Wishlist", "Cart", "Orders"].map((key) => (
+              <li key={key} className="relative">
+                <NavLink
+                  to={`/${key}`}
+                  className={({ isActive }) =>
+                    isActive
                         ? `relative inline-block px-2 py-1 font-bold text-[#c9c357] dark:text-[#c9c357] transition-all duration-300 
                           before:absolute before:left-[10%] before:bottom-0 before:w-[80%] before:h-[2px] before:bg-[#c9c357] 
                           before:opacity-100 before:transition-all before:duration-500 before:ease-in-out hover:before:opacity-0`
                         :`block px-2 py-1 font-bold  text-black/60 transition  hover:text-[#c9c357] dark:text-white 
                         dark:hover:text-[#c9c357] duration-300`
-                    }
+                  }
+                >
+                  {content[key]}
+                </NavLink>
+                {/* Counter */}
+                {key === "Wishlist" && favoriteProductsCount > 0 && (
+                  <Text
+                    as="span"
+                    content={favoriteProductsCount}
+                    MyClass={`absolute top-2 ${
+                      lang === "ar" ? "right-0" : "-left-3"
+                    } -translate-y-1/2 translate-x-1/2 rounded-full bg-red-600 px-1.5 py-0.5 text-[0.6rem] font-bold text-white`}
+                  />
+                )}
+              </li>
+            ))}
+            {isHomePage &&
+              ["Login", "Register"].map((key) => (
+                <li key={key}>
+                  <NavLink
+                    to={`/${key}`}
+                    className="block px-2 py-1 font-bold text-black/60 hover:text-black dark:text-white dark:hover:text-white"
                   >
                     {content[key]}
                   </NavLink>
-                  {/* Counter */}
-                  {key === "Wishlist" && favoriteProductsCount > 0 && (
-                    <Text
-                      as="span"
-                      content={favoriteProductsCount}
-                      MyClass={`absolute top-2 ${
-                        lang === "ar" ? "right-0" : "-left-3"
-                      } -translate-y-1/2 translate-x-1/2 rounded-full bg-red-600 px-1.5 py-0.5 text-[0.6rem] font-bold text-white`}
-                    />
-                  )}
                 </li>
-              )
-            )}
+              ))}
           </ul>
         </div>
 
@@ -186,6 +198,28 @@ export default function Navbar() {
                   )
                 )}
               </ul>
+            )}
+            {!isHomePage && (
+              <button
+                onClick={() => console.log("Logout clicked")}
+                className="mr-2 text-red-600 hover:text-red-800"
+                title="Logout"
+              >
+                <svg
+                  className="w-5 h-5"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h6a2 2 0 012 2v1"
+                  />
+                </svg>
+              </button>
             )}
           </div>
         </div>

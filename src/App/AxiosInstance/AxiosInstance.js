@@ -18,7 +18,6 @@ axiosInstance.interceptors.request.use(
     };
 
     // Example token (better to fetch from localStorage/sessionStorage)
-    // const mytoken = localStorage.getItem("token");
     const mytoken =
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4YjRiNDc3NTllYzEyMGFjMGQzMGMyYSIsImlhdCI6MTc1OTYwMzM2OSwiZXhwIjoxNzU5Njg5NzY5fQ.poqHM9NQQlecOP4mwvVmNv-L6s8zcPeBfcSecTbdDE8";//localStorage.getItem("token");
 
