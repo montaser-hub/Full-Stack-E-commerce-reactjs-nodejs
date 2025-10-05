@@ -6,7 +6,7 @@ import OrderSummary from "../Components/OrderSummary";
 import Text from "../SharedElements/Text";
 import Button from "../SharedElements/Button";
 import Alert from "../SharedElements/Alert";
-import { axiosInstance } from "../AxiosInstance/AxiosInstance";
+import { axiosInstance } from "../AxiosInstance/AxiosInstance.js";
 import {
   setCart,
   removeFromCart,
@@ -18,15 +18,14 @@ const Cart = () => {
   const dispatch = useDispatch();
   const cartState = useSelector((state) => state.cart);
   const [alert, setAlert] = useState(null);
-
-  const subtotal = 0 || "Subtotal coming from response => data.items.subTotal";
-
-  const handleRemoveItem = async (itemId, productId) => {
+  const subtotal = cartState?.totalPrice;
+console.log("cartState:", cartState);
+  const handleRemoveItem = async (productId) => {
     const prevItems = [...cartState.cartItems];
-    dispatch(removeFromCart(itemId));
+    dispatch(removeFromCart(productId));
 
     try {
-      await axiosInstance.delete(`/carts/items/${productId}`);
+      await axiosInstance.delete(`/carts/${productId}`);
       setAlert({ type: "success", message: "Item removed" });
     } catch (err) {
       console.error("remove item failed:", err);
@@ -34,18 +33,16 @@ const Cart = () => {
         type: "error",
         message: err?.response?.data?.message || "Failed to remove item",
       });
-      dispatch(
-        setCart({
-          items: prevItems,
-          totalPrice: prevItems.reduce((s, i) => s + i.price * i.quantity, 0),
-        })
-      );
+      dispatch( setCart( {
+        items: prevItems,
+        totalPrice: prevItems.reduce((sum, i) => sum + i.price * i.quantity, 0),
+       }));
     }
   };
 
   const handlePlaceOrder = async () => {
     try {
-      const serverCart = await axiosInstance.get("/carts");
+      const serverCart = await axiosInstance.get("/carts");///get cart
       const cartId = serverCart.data.data._id;
       await axiosInstance.post("/orders", {
         cartId,
@@ -88,14 +85,13 @@ const Cart = () => {
           {cartState.cartItems.length > 0 ? (
             cartState.cartItems.map((item) => (
               <ShoppingCard
-                key={item.id}
+                key={item.productId}
                 src={item.src || "./not_foundimage.png"}
                 alt={item.name}
                 productName={item.name}
                 price={item.price}
                 quantity={item.quantity}
-                onUpdate={(newQty) => console.log("handel on update")}
-                onRemove={() => handleRemoveItem(item.id, item.productId)}
+                onRemove={() => handleRemoveItem(item.productId)}
               />
             ))
           ) : (

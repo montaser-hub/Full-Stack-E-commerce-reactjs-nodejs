@@ -58,21 +58,19 @@ const cartSlice = createSlice({
         action.payload.totalPrice ??
         state.cartItems.reduce((sum, i) => sum + i.price * i.quantity, 0);
     },
-    addToCart: (state, action) => {
+    addToCart: ( state, action ) => {
       const existing = state.cartItems.find(
-        (it) =>
-          it.id === action.payload.id ||
-          it.productId === action.payload.productId
+        (it) => it.id === action.payload.id
       );
       if (existing) {
         existing.quantity = (existing.quantity || 0) + 1;
       } else {
         state.cartItems.push({
           id: action.payload.id || `local-${Date.now()}`,
-          productId: action.payload.productId,
+          productId: action.payload.id,
           name: action.payload.name,
           price: action.payload.price,
-          src: action.payload.src,
+          image: action.payload.image,
           quantity: 1,
         });
       }
@@ -82,20 +80,22 @@ const cartSlice = createSlice({
       );
     },
     removeFromCart: (state, action) => {
-      state.cartItems = state.cartItems.filter((i) => i.id !== action.payload);
+      state.cartItems = state.cartItems.filter((i) => i.id  !== action.payload.id );
       state.totalPrice = state.cartItems.reduce(
         (sum, i) => sum + i.price * i.quantity,
         0
       );
     },
-    // updateQuantity: (state, action) => {
-    //   const item = state.cartItems.find((i) => i.id === action.payload.id);
-    //   if (item) item.quantity = action.payload.quantity;
-    //   state.totalPrice = state.cartItems.reduce(
-    //     (sum, i) => sum + i.price * i.quantity,
-    //     0
-    //   );
-    // },
+    updateQuantity: (state, action) => {
+      const item = state.cartItems.find(
+        (i) => i.productId === action.payload.productId
+      );
+      if (item) item.quantity = action.payload.quantity;
+      state.totalPrice = state.cartItems.reduce(
+        (sum, i) => sum + i.price * i.quantity,
+        0
+      );
+    },
     clearCart: (state) => {
       state.cartItems = [];
       state.totalPrice = 0;
@@ -107,8 +107,7 @@ export const { toggleLang } = langSlice.actions; // button click -> action dispa
 export const { toggleTheme } = themeSlice.actions; // button click -> action dispatch
 export const { showLoader, hideLoader } = loaderSlice.actions;
 
-export const { setCart, addToCart, removeFromCart, updateQuantity, clearCart } =
-  cartSlice.actions;
+export const { setCart, addToCart, removeFromCart, updateQuantity, clearCart } = cartSlice.actions;
 
 // Favorites
 const initialState = {

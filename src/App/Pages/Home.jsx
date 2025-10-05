@@ -52,7 +52,8 @@ export default function Home() {
         setMeta((prev) => ({
           ...prev,
           total: res.data.totalProducts,
-        }));
+        } ) );
+        console.log("Products fetched:", res.data.data);
       } catch(err){
         console.error("Error fetching products:", err);
       }
