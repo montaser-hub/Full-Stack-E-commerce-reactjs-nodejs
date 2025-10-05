@@ -167,12 +167,19 @@ export default function ManageCategoryRow({ cat, onAction }) {
         <td className="p-3 flex flex-wrap gap-2 justify-start md:justify-center">
           <Button
             content="Edit"
-            myClass="bg-gradient-to-r from-[rgb(67,94,72)] to-[rgb(87,114,92)] text-white px-4 py-2 rounded-md text-sm font-medium shadow-md hover:from-[rgb(57,84,62)] hover:to-[rgb(77,104,82)] transition-transform active:scale-95"
-            onClick={() => setEditing(true)}
+myClass={`w-20 h-12 flex items-center justify-center gap-2 font-medium 
+                    bg-gradient-to-r from-[rgb(67,94,72)] to-[rgb(87,114,92)]
+                    rounded-xl shadow-md 
+                    hover:from-[rgb(57,84,62)] hover:to-[rgb(77,104,82)] 
+                    active:scale-95 transition-all duration-200`}            onClick={() => setEditing(true)}
           />
           <Button
             content="Delete"
-            myClass="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md text-sm font-medium shadow-md transition-transform active:scale-95"
+            myClass={`w-20 h-12 flex items-center justify-center gap-2 font-medium 
+                    bg-gradient-to-r from-[rgb(200,20,20)] to-[rgb(200,20,20)]
+                    rounded-xl shadow-md 
+                    hover:from-[rgb(57,84,62)] hover:to-[rgb(77,104,82)] 
+                    active:scale-95 transition-all duration-200`}
             onClick={() => setConfirmDelete(true)}
           />
         </td>

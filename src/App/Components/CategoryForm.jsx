@@ -138,9 +138,11 @@ export default function CategoryForm({ onSuccess }) {
         <div className="px-6 py-4 border-t flex justify-end">
           <Button
             type="submit"
-            color="bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800"
-            myClass="text-white px-6 py-3 rounded-xl shadow-md font-medium transition-transform active:scale-95"
-            content="Add Category"
+    myClass={`w-40 h-12 flex items-center justify-center gap-2 font-medium 
+                    bg-gradient-to-r from-[rgb(67,94,72)] to-[rgb(87,114,92)]
+                    rounded-xl shadow-md 
+                    hover:from-[rgb(57,84,62)] hover:to-[rgb(77,104,82)] 
+                    active:scale-95 transition-all duration-200`}            content="Add Category"
           />
         </div>
       </form>
