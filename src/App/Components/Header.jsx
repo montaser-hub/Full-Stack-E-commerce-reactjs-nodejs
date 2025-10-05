@@ -134,7 +134,11 @@ export default function Navbar() {
                 <li key={key}>
                   <NavLink
                     to={`/${key}`}
-                    className="font-bold text-black/60 hover:text-[#c9c357] dark:text-white dark:hover:text-white underline"
+                    className={({ isActive }) =>
+                        isActive
+                          ? "block px-2 py-1 font-bold underline text-[#c9c357] dark:text-white rounded-md"
+                          : "block px-2 py-1 font-bold text-black/60 hover:text-[#c9c357] dark:text-white dark:hover:text-white"
+                      }
                   >
                     {content[key]}
                   </NavLink>
@@ -149,8 +153,8 @@ export default function Navbar() {
                     to={`/${key}`}
                     className={({ isActive }) =>
                       isActive
-                        ? "font-bold underline text-[#c9c357] dark:text-white"
-                        : "font-bold text-black/60 hover:text-[#c9c357] dark:text-white dark:hover:text-white"
+                        ? "font-bold underline text-[#c9c357] dark:text-[#c9c357]"
+                        : "font-bold text-black/60 hover:text-[#c9c357] dark:text-white dark:hover:text-[#c9c357] transition-colors duration-300"
                     }
                   >
                     {content[key]}

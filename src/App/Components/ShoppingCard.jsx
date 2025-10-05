@@ -90,7 +90,7 @@ const handleQuantityChange = async (productId, quantity) => {
         <div className="flex justify-center sm:justify-end sm:w-1/3 mt-2 sm:mt-0">
           <button
             onClick={handleRemoveClick}
-            className="flex items-center gap-2 bg-red-500 text-white px-4 py-2 rounded-lg text-sm hover:bg-red-600 transition"
+            className="bg-red-500 text-white px-4 py-2 rounded-lg text-sm hover:bg-red-600 transition"
           >
             <FaTrash className="text-sm" /> Remove
           </button>

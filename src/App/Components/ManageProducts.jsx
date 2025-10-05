@@ -5,6 +5,8 @@ import { axiosInstance } from "../AxiosInstance/AxiosInstance";
 import Button from "../SharedElements/Button";
 import Alert from "../SharedElements/Alert";
 import Modal from "../SharedElements/Modal";
+import Text from "../SharedElements/Text";
+import { FaTrash } from "react-icons/fa";
 
 export default function ManageProductRow({ prod, onAction }) {
   const [editing, setEditing] = useState(false);
@@ -187,17 +189,22 @@ export default function ManageProductRow({ prod, onAction }) {
                       ? "bg-neutral-700 border-neutral-600 text-gray-100 focus:ring-green-500"
                       : "bg-white border-gray-300 text-black focus:ring-green-600"}`}
                 />
-                <button
-                  type="button"
+                <Button 
+                  myClass={`bg-red-500 text-white px-4 py-2 rounded-lg text-sm hover:bg-red-600 transition-colors duration-200`}
                   onClick={() => removeImageField(idx)}
-                  className={`w-40 h-12 flex items-center justify-center gap-2 font-medium 
-                    bg-gradient-to-r from-[rgb(200,20,20)] to-[rgb(200,20,20)]
-                    rounded-xl shadow-md 
-                    hover:from-[rgb(57,84,62)] hover:to-[rgb(77,104,82)] 
-                    active:scale-95 transition-all duration-200`}
-                >
-                  ✕
-                </button>
+                  content={
+                            <Text
+                              as="span"
+                              MyClass="flex items-center justify-center gap-2 w-full text-white"
+                              content={
+                                <>
+                                  <FaTrash className="w-5 h-5" />
+                                  Remove
+                                </>
+                              }
+                            />
+                          }
+                      />
               </div>
             ))}
             <button
@@ -279,24 +286,29 @@ export default function ManageProductRow({ prod, onAction }) {
         <td className="p-3 md:table-cell block before:content-['Description:'] md:before:content-none before:font-semibold before:text-gray-500 before:mr-2">
           {prod.description || "-"}
         </td>
-        <td className="p-3 flex flex-wrap gap-2 justify-start md:justify-center">
-          <Button
-            content="Edit"
-myClass={`w-40 h-12 flex items-center justify-center gap-2 font-medium 
-                    bg-gradient-to-r from-[rgb(67,94,72)] to-[rgb(87,114,92)]
-                    rounded-xl shadow-md 
-                    hover:from-[rgb(57,84,62)] hover:to-[rgb(77,104,82)] 
-                    active:scale-95 transition-all duration-200`}            onClick={() => setEditing(true)}
-          />
-          <Button
-            content="Delete"
-            myClass={`w-40 h-12 flex items-center justify-center gap-2 font-medium 
-                    bg-gradient-to-r from-[rgb(200,20,20)] to-[rgb(200,20,20)]
-                    rounded-xl shadow-md 
-                    hover:from-[rgb(57,84,62)] hover:to-[rgb(77,104,82)] 
-                    active:scale-95 transition-all duration-200`}
-            onClick={() => setConfirmDelete(true)}
-          />
+        <td className="p-3 flex  gap-2 justify-start md:justify-center">
+            <Button
+              content="Edit"
+              myClass={`bg-gradient-to-r from-[rgb(67,94,72)] to-[rgb(87,114,92)] text-white px-4 py-2 rounded-xl 
+                        shadow-md hover:from-[rgb(57,84,62)] hover:to-[rgb(77,104,82)] active:scale-95 transition-all`}            
+              onClick={() => setEditing(true)}
+            />
+            <Button
+              myClass={`bg-red-500 text-white px-4 py-2 rounded-lg text-sm hover:bg-red-600 transition-colors duration-200`}
+              onClick={() => setConfirmDelete(true)}
+              content={
+                      <Text
+                        as="span"
+                        MyClass="flex items-center justify-center gap-2 w-full text-white"
+                        content={
+                          <>
+                            <FaTrash className="w-5 h-5" />
+                            Remove
+                          </>
+                        }
+                      />
+              } 
+            />
         </td>
       </tr>
     </>

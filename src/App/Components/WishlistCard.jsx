@@ -6,7 +6,7 @@ import { useDispatch } from "react-redux";
 import { useState } from "react";
 import Alert from "../SharedElements/Alert";
 import { addToCart } from "../../ReduxToolkit/Store";      
-
+import { FaTrash } from "react-icons/fa";
 function WishlistCard(props) {
   const dispatch = useDispatch();
   const [ showToast,setShowToast] = useState(false);
@@ -90,11 +90,11 @@ function WishlistCard(props) {
         <div className="mt-4 flex gap-3">
           {/* Add to Cart */}
           <Button
-            myClass={`w-auto px-6 h-12 flex items-center justify-center gap-2 font-medium 
-                       bg-gradient-to-r from-[rgb(67,94,72)] to-[rgb(87,114,92)]
-                       rounded-xl shadow-md 
-                       hover:from-[rgb(57,84,62)] hover:to-[rgb(77,104,82)] 
-                       active:scale-95 transition-all duration-200`}
+            myClass={`w-auto px-2 h-12 flex items-center justify-center gap-1 font-medium 
+                      bg-gradient-to-r from-[rgb(67,94,72)] to-[rgb(87,114,92)]
+                      rounded-xl shadow-md 
+                      hover:from-[rgb(57,84,62)] hover:to-[rgb(77,104,82)] 
+                      active:scale-95 transition-all duration-200`}
             onClick={handleAddToCart}
             content={
               <Text
@@ -112,19 +112,25 @@ function WishlistCard(props) {
 
           {/* Remove */}
           <Button
-            myClass="flex-1 h-12 flex items-center justify-center gap-2 font-medium 
-                    text-gray-700 bg-gray-100 
-                    border border-gray-300 
-                    rounded-xl 
-                    hover:bg-gray-200 hover:text-gray-900 
-                    active:scale-95 transition-all duration-200"
+            myClass="bg-red-500 text-white px-4 py-2 rounded-lg text-sm hover:bg-red-600 transition-colors duration-200"
             onClick={() => props.onRemove(productId)}
             status={false}
-            content="Remove"
+            content={
+              <Text
+                as="span"
+                MyClass="flex items-center justify-center gap-2 w-full text-white"
+                content={
+                  <>
+                    <FaTrash className="w-5 h-5" />
+                    Remove
+                  </>
+                }
+              />
+            }
           />
         </div>
       </div>
-       {showToast && (
+        {showToast && (
               <Alert
                 type="success"
                 message={`${props.title} added to cart!`}

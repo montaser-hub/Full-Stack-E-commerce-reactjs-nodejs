@@ -40,7 +40,7 @@ export default function ManageProducts() {
 
     setProducts((prev) => prev.filter((p) => p._id !== actionOrId));
   } else if (actionOrId?._id) {
-     
+
     setProducts((prev) =>
       prev.map((p) => (p._id === actionOrId._id ? actionOrId : p))
     );
@@ -60,11 +60,9 @@ export default function ManageProducts() {
               MyClass={`text-xl font-bold ${myTheme === "dark" ? "text-gray-200" : "text-gray-800"}`}
             />
             <Button
-myClass={`w-40 h-12 flex items-center justify-center gap-2 font-medium 
-                    bg-gradient-to-r from-[rgb(67,94,72)] to-[rgb(87,114,92)]
-                    rounded-xl shadow-md 
-                    hover:from-[rgb(57,84,62)] hover:to-[rgb(77,104,82)] 
-                    active:scale-95 transition-all duration-200`}              content={showForm ? "Close Form" : "Create Product"}
+            myClass={`bg-gradient-to-r from-[rgb(67,94,72)] to-[rgb(87,114,92)] text-white px-4 py-2 rounded-xl 
+                        shadow-md hover:from-[rgb(57,84,62)] hover:to-[rgb(77,104,82)] active:scale-95 transition-all`}              
+                    content={showForm ? "Close Form" : "Create Product"}
               onClick={() => setShowForm(!showForm)}
             />
           </div>
@@ -107,7 +105,7 @@ myClass={`w-40 h-12 flex items-center justify-center gap-2 font-medium
                   <th className={`p-2 text-left ${myTheme === "dark" ? "text-gray-200" : "text-gray-700"}`}>Quantity</th>
                   <th className={`p-2 text-left ${myTheme === "dark" ? "text-gray-200" : "text-gray-700"}`}>Price</th>
                   <th className={`p-2 text-left ${myTheme === "dark" ? "text-gray-200" : "text-gray-700"}`}>Description</th>
-                  <th className={`p-2 text-left ${myTheme === "dark" ? "text-gray-200" : "text-gray-700"}`}>Actions</th>
+                  <th className={`pr-[6rem]  text-right ${myTheme === "dark" ? "text-gray-200" : "text-gray-700"}`}>Actions</th>
                 </tr>
               </thead>
               <tbody>
