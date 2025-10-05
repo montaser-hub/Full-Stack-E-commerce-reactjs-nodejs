@@ -3,7 +3,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import Text from "../SharedElements/Text";
 import Button from "../SharedElements/Button";
 import Alert from "../SharedElements/Alert";
-import { axiosInstance } from "../AxiosInstance/TestAxiosInstance";
+import { axiosInstance } from "../AxiosInstance/AxiosInstance";
 
 const PaymentCancel = () => {
   const navigate = useNavigate();

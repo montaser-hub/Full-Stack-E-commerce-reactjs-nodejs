@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import ShoppingCard from "../Components/ShoppingCard";
@@ -7,11 +7,7 @@ import Text from "../SharedElements/Text";
 import Button from "../SharedElements/Button";
 import Alert from "../SharedElements/Alert";
 import { axiosInstance } from "../AxiosInstance/AxiosInstance";
-import {
-  setCart,
-  removeFromCart,
-  clearCart,
-} from "../../ReduxToolkit/Store";
+import { setCart, removeFromCart, clearCart } from "../../ReduxToolkit/Store";
 
 const Cart = () => {
   const navigate = useNavigate();
@@ -20,6 +16,32 @@ const Cart = () => {
   const [alert, setAlert] = useState(null);
 
   const subtotal = 0 || "Subtotal coming from response => data.items.subTotal";
+
+  useEffect(() => {
+    const fetchCart = async () => {
+      try {
+        const res = await axiosInstance.get("/carts");
+        const cart = res.data.data;
+        dispatch(
+          setCart({
+            items: cart.items.map((item) => ({
+              id: item._id,
+              productId: item.productId._id,
+              name: item.productId.name,
+              price: item.priceAtTime,
+              src: item.productId.images?.[0],
+              quantity: item.quantity,
+            })),
+            totalPrice: cart.totalPrice,
+          })
+        );
+      } catch (err) {
+        console.error("fetch cart failed:", err);
+      }
+    };
+
+    fetchCart();
+  }, [dispatch]);
 
   const handleRemoveItem = async (itemId, productId) => {
     const prevItems = [...cartState.cartItems];
@@ -40,6 +62,35 @@ const Cart = () => {
           totalPrice: prevItems.reduce((s, i) => s + i.price * i.quantity, 0),
         })
       );
+    }
+  };
+
+  const handleUpdateQuantity = async (productId, newQuantity, itemId) => {
+    if (newQuantity < 1) {
+      return handleRemoveItem(itemId, productId);
+    }
+    try {
+      const res = await axiosInstance.put(`/carts/items/${productId}`, {
+        quantity: newQuantity,
+      });
+      dispatch(
+        setCart({
+          items: cartState.cartItems.map((i) =>
+            i.productId === productId ? { ...i, quantity: newQuantity } : i
+          ),
+        })
+      );
+      setAlert({
+        type: "success",
+        message: res.data.message || "Quantity updated successfully",
+      });
+    } catch (err) {
+      console.error("update quantity failed:", err);
+      setAlert({
+        type: "error",
+        message:
+          err?.response?.data?.message || "Failed to update item quantity",
+      });
     }
   };
 
@@ -94,7 +145,9 @@ const Cart = () => {
                 productName={item.name}
                 price={item.price}
                 quantity={item.quantity}
-                onUpdate={(newQty) => console.log("handel on update")}
+                onUpdate={(newQty) =>
+                  handleUpdateQuantity(item.productId, newQty, item.id)
+                }
                 onRemove={() => handleRemoveItem(item.id, item.productId)}
               />
             ))
@@ -113,11 +166,12 @@ const Cart = () => {
             discount={`$0`}
             total={`$${subtotal > 0 ? subtotal + 50 : 0}`}
             onPlaceOrder={handlePlaceOrder}
+            showButton={false}
           />
           <Button
-            myClass="mt-4 w-full max-w-md"
-            content="Continue Shopping"
-            onClick={() => navigate("/home")}
+            content="Proceed to Checkout"
+            onClick={() => navigate("/checkout")}
+            myClass="w-[20rem] bg-[rgb(67,94,72)] hover:bg-[rgb(57,84,62)] text-white py-2 rounded-lg mt-4"
           />
         </div>
       </div>

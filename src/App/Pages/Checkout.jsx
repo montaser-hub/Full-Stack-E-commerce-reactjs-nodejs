@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Text from "../SharedElements/Text";
 import Button from "../SharedElements/Button";
 import Alert from "../SharedElements/Alert";
-import { axiosInstance } from "../AxiosInstance/TestAxiosInstance";
+import { axiosInstance } from "../AxiosInstance/AxiosInstance";
 
 const Checkout = () => {
   const navigate = useNavigate();
@@ -77,10 +77,18 @@ const Checkout = () => {
       const orderId = orderResponse.data._id;
 
       if (formData.paymentMethodType === "card") {
-        const paypalResponse = await axiosInstance.post(
-          `/payments/paypal/${orderId}`
-        );
-        window.location.href = paypalResponse.data.url;
+        try {
+          const paypalResponse = await axiosInstance.post(
+            `/payments/paypal/${orderId}`
+          );
+          window.location.href = paypalResponse.data.url;
+        } catch (err) {
+          await axiosInstance.put(`/orders/${orderId}/cancel`);
+          setAlert({
+            type: "error",
+            message: err.response?.data?.message || "Failed to initiate PayPal payment.",
+          });
+        }
       } else {
         navigate(`/order-confirmation/${orderId}`);
       }

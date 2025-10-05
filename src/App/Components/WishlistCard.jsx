@@ -5,11 +5,14 @@ import ForwardTo from "../SharedElements/ForwardTo";
 import { useDispatch } from "react-redux";
 import { useState } from "react";
 import Alert from "../SharedElements/Alert";
-import { addToCart } from "../../ReduxToolkit/Store";      
+import { addToCart } from "../../ReduxToolkit/Store";
+import { axiosInstance } from "../AxiosInstance/AxiosInstance";
 
 function WishlistCard(props) {
+  const [loading, setLoading] = useState(false);
+
   const dispatch = useDispatch();
-  const [ showToast,setShowToast] = useState(false);
+  const [showToast, setShowToast] = useState(false);
   const productId = props.id;
 
   const title = props.title || "No Title";
@@ -18,9 +21,21 @@ function WishlistCard(props) {
   const category = props.category || "Uncategorized";
   const price = props.price ?? "N/A";
 
-  const handleAddToCart = () => {
-    dispatch(addToCart(productId));
-    setShowToast(true);
+  const handleAddToCart = async () => {
+    setLoading(true);
+    try {
+      await axiosInstance.post(
+        "/carts",
+        { items: [{ productId, quantity: 1 }] },
+        { withCredentials: true }
+      );
+      dispatch(addToCart(productId));
+      setShowToast(true);
+    } catch (err) {
+      console.error("Failed to add to cart:", err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -101,10 +116,14 @@ function WishlistCard(props) {
                 as="span"
                 MyClass="flex items-center justify-center gap-2 w-full text-white"
                 content={
-                  <>
-                    <FiShoppingCart className="w-5 h-5" />
-                    Add to Cart
-                  </>
+                  loading ? (
+                    "Adding..."
+                  ) : (
+                    <>
+                      <FiShoppingCart className="w-5 h-5" />
+                      Add to Cart
+                    </>
+                  )
                 }
               />
             }
@@ -124,14 +143,14 @@ function WishlistCard(props) {
           />
         </div>
       </div>
-       {showToast && (
-              <Alert
-                type="success"
-                message={`${props.title} added to cart!`}
-                duration={2000}
-                onClose={() => setShowToast(false)}
-              />
-            )}
+      {showToast && (
+        <Alert
+          type="success"
+          message={`${props.title} added to cart!`}
+          duration={2000}
+          onClose={() => setShowToast(false)}
+        />
+      )}
     </div>
   );
 }

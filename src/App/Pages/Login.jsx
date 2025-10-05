@@ -18,11 +18,14 @@ function Login() {
     password: "",
   });
 
-  const [toast, setToast] = useState({ show: false, message: "", type: "success" });
+  const [toast, setToast] = useState({
+    show: false,
+    message: "",
+    type: "success",
+  });
 
   const myTheme = useSelector((state) => state.theme);
   const { content } = useSelector((state) => state.myLang);
-
   const navigate = useNavigate();
 
   function validateField(name, value) {
@@ -34,13 +37,15 @@ function Login() {
         error = content.invalidEmail;
     }
 
-   if (name === "password") {
-  if (!value) {
-    error = content.reqpassword;
-  } else if (!/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*]).{8,}$/.test(value)) {
-    error = content.passErrPattern; 
-  }
-}
+    if (name === "password") {
+      if (!value) {
+        error = content.reqpassword;
+      } else if (
+        !/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*]).{8,}$/.test(value)
+      ) {
+        error = content.passErrPattern;
+      }
+    }
 
     setErrors((prev) => ({ ...prev, [name]: error }));
     return error;
@@ -60,34 +65,47 @@ function Login() {
 
     if (!emailError && !passwordError) {
       try {
-        const response = await axiosInstance.post("/users/signin", {
+        await axiosInstance.post("/users/signin", {
           email: info.email,
           password: info.password,
         });
 
-        localStorage.setItem("token", response.data.token);
-        console.log("Response from server:", response.data);
+        // console.log("Login Response:", response.data);
+        // console.log("Set-Cookie Header:", response.headers["set-cookie"]);
+        // console.log("Cookies after login:", document.cookie);
 
-        setToast({ show: true, message: content.loginSuccess || "Logged in successfully!", type: "success" });
+        setToast({
+          show: true,
+          message: content.loginSuccess || "Logged in successfully!",
+          type: "success",
+        });
 
         setTimeout(() => {
           navigate("/home");
         }, 2000);
-
       } catch (error) {
-        const errorMessage = error.response?.data?.message || "Something went wrong";
+        const errorMessage =
+          error.response?.data?.message || "Something went wrong";
         console.error(errorMessage);
-
         setToast({ show: true, message: errorMessage, type: "error" });
       }
     }
   }
 
-  const isFormInvalid = errors.email || errors.password || !info.email || !info.password;
+  const isFormInvalid =
+    errors.email || errors.password || !info.email || !info.password;
 
   return (
-    <div className={`min-h-screen flex items-center justify-center ${myTheme === "dark" ? "bg-neutral-900" : "bg-gray-100"}`}>
-      <div className={"bg-white dark:bg-neutral-800 p-8 rounded-xl shadow-md w-full max-w-md"}>
+    <div
+      className={`min-h-screen flex items-center justify-center ${
+        myTheme === "dark" ? "bg-neutral-900" : "bg-gray-100"
+      }`}
+    >
+      <div
+        className={
+          "bg-white dark:bg-neutral-800 p-8 rounded-xl shadow-md w-full max-w-md"
+        }
+      >
         <img
           src={myTheme === "dark" ? "/logo-white.png" : "/logo-balck.png"}
           alt="Logo"
@@ -115,11 +133,21 @@ function Login() {
               value={info.email}
               onChange={handleChange}
               myClass={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                errors.email ? "border-red-500" : info.email ? "border-green-500" : "border-gray-300"
+                errors.email
+                  ? "border-red-500"
+                  : info.email
+                  ? "border-green-500"
+                  : "border-gray-300"
               } dark:bg-neutral-700 dark:text-white`}
               placeholder={content.emailPlaceHolder}
             />
-            {errors.email && <Text as="p" content={errors.email} MyClass="text-red-500 text-sm mt-1" />}
+            {errors.email && (
+              <Text
+                as="p"
+                content={errors.email}
+                MyClass="text-red-500 text-sm mt-1"
+              />
+            )}
           </div>
 
           <div>
@@ -130,16 +158,29 @@ function Login() {
               value={info.password}
               onChange={handleChange}
               myClass={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                errors.password ? "border-red-500" : info.password ? "border-green-500" : "border-gray-300"
+                errors.password
+                  ? "border-red-500"
+                  : info.password
+                  ? "border-green-500"
+                  : "border-gray-300"
               } dark:bg-neutral-700 dark:text-white`}
               placeholder={content.passwordPlaceHolder}
               showToggle={true}
             />
-            {errors.password && <Text as="p" content={errors.password} MyClass="text-red-500 text-sm mt-1" />}
+            {errors.password && (
+              <Text
+                as="p"
+                content={errors.password}
+                MyClass="text-red-500 text-sm mt-1"
+              />
+            )}
           </div>
 
           <div className="text-right">
-            <Link to="/forgetPassword" className="text-sm text-blue-600 hover:underline dark:text-blue-400">
+            <Link
+              to="/forgetPassword"
+              className="text-sm text-blue-600 hover:underline dark:text-blue-400"
+            >
               {content.passwordForgot}
             </Link>
           </div>
@@ -164,9 +205,13 @@ function Login() {
             content={
               <>
                 {content.DontHaveAccount}
-                <Link to="/register" className="text-blue-600 hover:underline dark:text-blue-400">
+                <Link
+                  to="/register"
+                  className="text-blue-600 hover:underline dark:text-blue-400"
+                >
                   {content.Register}
-                </Link>.
+                </Link>
+                .
               </>
             }
           />

@@ -9,7 +9,7 @@ const OrderSummary = ({
   total,
   showDescription = true,
   showButton = true,
-  onPlaceOrder,
+  onPlaceOrder = () =>{},
 }) => {
   const summaryRows = [
     {

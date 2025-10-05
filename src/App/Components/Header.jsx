@@ -1,9 +1,10 @@
 import { useState, useEffect, useRef } from "react";
-import { Link, NavLink, useLocation } from "react-router-dom";
+import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { toggleLang, toggleTheme } from "../../ReduxToolkit/Store";
 import { useSelector, useDispatch } from "react-redux";
 import Search from "../SharedElements/search.jsx";
 import Text from "../SharedElements/Text.jsx";
+import { axiosInstance } from "../AxiosInstance/AxiosInstance";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -13,6 +14,7 @@ export default function Navbar() {
   const myTheme = useSelector((state) => state.theme);
   const { lang, content } = useSelector((state) => state.myLang);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const changeTheme = () => dispatch(toggleTheme());
   const changeLang = () => dispatch(toggleLang());
@@ -32,6 +34,17 @@ export default function Navbar() {
     setLastClickedLink(key);
     setIsOpen(false);
     setUserOpen(false);
+  };
+
+  const handleLogout = async () => {
+    try {
+      await axiosInstance.post("/users/logout");
+      setIsOpen(false);
+      setUserOpen(false);
+      navigate("/login");
+    } catch (error) {
+      console.error("Error during logout:", error);
+    }
   };
 
   useEffect(() => {
@@ -58,11 +71,8 @@ export default function Navbar() {
 
   return (
     <nav className="relative z-50 w-full bg-white dark:bg-neutral-900 shadow">
-      {/* Grid wrapper */}
       <div className="grid grid-cols-[auto_1fr_auto] items-center px-4 py-3 lg:px-8">
-        {/* Left: Hamburger + Logo */}
         <div className="flex items-center gap-4">
-          {/* Hamburger (only mobile) */}
           {!isAuthPage && (
             <button
               onClick={() => setIsOpen(!isOpen)}
@@ -85,8 +95,7 @@ export default function Navbar() {
             </button>
           )}
 
-          {/* Logo */}
-          <Link to="/Home" className="flex items-center">
+          <Link to="/" className="flex items-center">
             <img
               src={myTheme === "dark" ? "/logo-white.png" : "/logo-balck.png"}
               alt="Logo"
@@ -95,9 +104,8 @@ export default function Navbar() {
             />
           </Link>
         </div>
-        {/* Middle: Nav Links */}
+
         <div className="flex-1 flex justify-start items-center">
-          {/* Desktop links */}
           {isAuthPage ? (
             <ul className="hidden lg:flex gap-6">
               {["Login", "Register"].map((key) => (
@@ -139,7 +147,6 @@ export default function Navbar() {
             </ul>
           )}
 
-          {/* Mobile links (hamburger) */}
           {!isAuthPage && (
             <div
               ref={hamburgerRef}
@@ -175,22 +182,19 @@ export default function Navbar() {
           )}
         </div>
 
-        {/* Right: Actions */}
         <div className="flex items-center gap-4 justify-self-end">
-          {/* Search*/}
           {!isAuthPage && (
             <>
               <Search
                 context="search"
                 divClass="hidden sm:flex rounded-full border border-gray-200 hover:border-gray-400 w-full sm:w-64 md:w-80 lg:w-96 overflow-hidden"
-                inputClass="border-none focus:outline-none focus:ring-0 px-4 py-2 text-black placeholder-gray-400  w-full sm:w-64 md:w-80 lg:w-96"
+                inputClass="border-none focus:outline-none focus:ring-0 px-4 py-2 text-black placeholder-gray-400 w-full sm:w-64 md:w-80 lg:w-96"
                 placeholder={content.Search + "..."}
                 onSearch={(value) =>
                   console.log("Searching from Navbar:", value)
                 }
               />
 
-              {/* Notifications */}
               <div className="relative" ref={notifRef}>
                 <button
                   onClick={() => setNotifOpen(!notifOpen)}
@@ -233,7 +237,6 @@ export default function Navbar() {
             </>
           )}
 
-          {/* Lang + Theme */}
           <button
             onClick={changeLang}
             className="rounded-md border px-2 py-1 text-sm font-medium text-neutral-700 hover:bg-zinc-200/60 dark:text-white dark:hover:bg-neutral-700"
@@ -247,7 +250,6 @@ export default function Navbar() {
             {myTheme === "light" ? "🌞" : "🌙"}
           </button>
 
-          {/* User*/}
           {!isAuthPage && (
             <>
               <div className="relative" ref={userRef}>
@@ -278,11 +280,7 @@ export default function Navbar() {
               </div>
 
               <button
-                onClick={() => {
-                  console.log("Logout clicked");
-                  setIsOpen(false);
-                  setUserOpen(false);
-                }}
+                onClick={handleLogout}
                 className="ml-2 text-red-600 hover:text-red-800"
                 title="Logout"
               >
