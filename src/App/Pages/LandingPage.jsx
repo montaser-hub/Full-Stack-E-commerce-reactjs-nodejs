@@ -8,40 +8,40 @@ export default function LandingPage() {
 
   // Sample images for HeroSlider
   // --- Hero Slider Images ---
-  const heroImages = [
-    "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1600&q=80",
-    "https://png.pngtree.com/background/20231029/original/pngtree-contemporary-beige-home-interior-featuring-chic-modern-furniture-3d-render-picture-image_5780852.jpg",
-    "https://png.pngtree.com/background/20230618/original/pngtree-a-business-meeting-room-in-an-office-building-3d-rendered-picture-image_3754544.jpg",
-    "https://png.pngtree.com/background/20231030/original/pngtree-3d-rendering-of-scandinavian-inspired-living-room-interior-picture-image_5781422.jpg",
-    "https://png.pngtree.com/background/20230619/original/pngtree-modern-workspace-with-natural-light-and-sleek-bookshelf-in-3d-picture-image_3851182.jpg",
-    "https://png.pngtree.com/background/20250123/original/pngtree-sunlit-living-room-with-large-window-and-plants-stock-photo-picture-image_16011508.jpg",
-    "https://png.pngtree.com/background/20250122/original/pngtree-mountain-view-living-room-with-large-windows-and-sofa-picture-image_15778350.jpg",
-    "https://png.pngtree.com/thumb_back/fw800/background/20250813/pngtree-modern-living-room-with-minimalist-design-large-windows-neutral-tones-image_17900634.webp",
-    "https://png.pngtree.com/background/20230621/original/pngtree-contemporary-villa-with-pool-and-garden-a-striking-3d-rendering-picture-image_3894164.jpg",
-    "https://png.pngtree.com/background/20231030/original/pngtree-contemporary-living-room-and-stylish-bookcase-furnished-with-library-accessories-and-picture-image_5796113.jpg"
-  ];
+    const heroImages = [
+      "./Images/LandingBage/Slider/1.avif",
+      "./Images/LandingBage/Slider/2.jpg",
+      "./Images/LandingBage/Slider/3.jpg",
+      "./Images/LandingBage/Slider/4.jpg",
+      "./Images/LandingBage/Slider/5.jpg",
+      "./Images/LandingBage/Slider/6.jpg",
+      "./Images/LandingBage/Slider/7.jpg",
+      "./Images/LandingBage/Slider/8.webp",
+      "./Images/LandingBage/Slider/9.png",
+      "./Images/LandingBage/Slider/10.jpg"    
+    ];
 
   // --- Featured Categories ---
   const categories = [
     {
       name: "Living Room",
       image:
-        "https://png.pngtree.com/thumb_back/fw800/background/20240912/pngtree-living-room-decoration-image_16178182.jpg",
+        "./Images/LandingBage/Categories/LivingRoom.jpg",
     },
     {
       name: "Bedroom",
       image:
-        "https://png.pngtree.com/thumb_back/fw800/background/20230727/pngtree-a-master-bedroom-with-a-bed-image_10201906.jpg",
+        "./Images/LandingBage/Categories/Bedroom.jpg",
     },
     {
       name: "Office",
       image:
-        "https://png.pngtree.com/background/20250709/original/pngtree-a-modern-minimalist-workspace-featuring-sleek-desk-laptop-and-stylish-office-picture-image_16262595.jpg",
+        "./Images/LandingBage/Categories/Office.jpg",
     },
     {
       name: "Kitchen",
       image:
-        "https://png.pngtree.com/background/20230718/original/pngtree-luxury-mahogany-kitchen-with-modern-furniture-windows-kitchen-top-photo-picture-image_4249107.jpg",
+        "./Images/LandingBage/Categories/Kitchen.jpg",
     },
   ];
 
@@ -52,28 +52,28 @@ export default function LandingPage() {
       description:
         "Our new exclusive collections designed to transform your living space.",
       image:
-        "https://png.pngtree.com/background/20250102/original/pngtree-architectural-drawing-of-a-modern-house-plan-blueprint-with-multiple-rooms-picture-image_15762759.jpg",
+        "./Images/LandingBage/Show/1.jpg",
       reverse: false,
     },
     {
       title: "New experience is going to unlock",
       description: "Explore innovative designs crafted for comfort and style.",
       image:
-        "https://png.pngtree.com/background/20230621/original/pngtree-contemporary-villa-with-pool-and-garden-a-striking-3d-rendering-picture-image_3894164.jpg",
+        "./Images/LandingBage/Show/2.png",
       reverse: true,
     },
     {
       title: "Offers up to 50%",
       description: "Get your favorite furniture at unbeatable prices.",
       image:
-        "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80",
+        "./Images/LandingBage/Slider/1.avif",
       reverse: false,
     },
     {
       title: "Inspiring interiors crafted with passion",
       description: "Unique designs to elevate your home experience.",
       image:
-        "https://png.pngtree.com/background/20231017/original/pngtree-swimming-pool-terrace-and-landscape-garden-in-exquisite-exterior-design-of-picture-image_5590264.jpg",
+        "./Images/LandingBage/Show/3.jpg",
       reverse: true,
     },
   ];
@@ -150,7 +150,7 @@ export default function LandingPage() {
       {/* Promotional / CTA Section */}
       <section className="relative rounded-xl overflow-hidden">
         <img
-          src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1600&q=80"
+          src="./Images/LandingBage/Slider/1.avif"
           alt="Promo"
           className="w-full h-64 sm:h-96 object-cover transform transition duration-500 hover:scale-105"
         />
@@ -168,11 +168,8 @@ export default function LandingPage() {
     <ForwardTo
       content="Register Now"
       to="/register"
-      myClass="px-6 py-3 rounded-lg font-semibold 
-    bg-gradient-to-r from-green-500 to-green-700 
-    text-white shadow-lg 
-    transition-transform duration-300 
-    hover:scale-105 hover:from-green-600 hover:to-green-800"
+      myClass="bg-gradient-to-r from-[rgb(67,94,72)] to-[rgb(87,114,92)] text-white hover:from-[rgb(57,84,62)] hover:to-[rgb(77,104,82)] active:scale-95  inline-block px-8 py-3 rounded-full font-semibold 
+                shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl focus:ring-4 focus:ring-green-300"
     />
   </div>
 </div>

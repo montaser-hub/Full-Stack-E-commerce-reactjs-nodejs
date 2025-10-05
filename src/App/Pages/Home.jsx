@@ -14,16 +14,18 @@ export default function Home() {
   const [showFilters, setShowFilters] = useState(false);
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [categories, setCategories] = useState([]);
-  const sliderImages = [
-    "/1.JPG",
-    "/2.JPG",
-    "/3.JPG",
-    "/4.JPG",
-    "/5.JPG",
-    "/6.JPG",
-    "/7.JPG",
-    "/8.JPG",
-  ];
+    const sliderImages = [
+      "./Images/Home/1.jpg",
+      "./Images/Home/2.jpg",
+      "./Images/Home/3.jpg",
+      "./Images/Home/4.jpg",
+      "./Images/Home/5.jpg",
+      "./Images/Home/6.jpg",
+      "./Images/Home/7.jpg",
+      "./Images/Home/8.jpg",
+      "./Images/Home/9.jpg",
+      "./Images/Home/10.jpg"
+    ]
   // 1 Fetch categories once on mount
   useEffect(() => {
     axiosInstance

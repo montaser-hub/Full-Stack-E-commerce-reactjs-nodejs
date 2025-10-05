@@ -78,7 +78,12 @@ const en = {
   footerCustomer: "Customer",
   footerServicesItems: ["Buy & Sell", "Reservation", "Return Policy"],
   copyrightText: "© 2025 WOODY. All rights reserved.",
-
+  //NotFound Page
+  oops: "Oops!",
+  notfoundtitle: "Page Not Found",
+  notfoundmessage1: "The page you're looking for doesn't exist,",
+  notfoundmessage2: "It might have been moved or deleted.",
+  notfoundmessage3: "please check the URL or go back to the homepage.",
 //Dashboard Home
   dashboardWelcome: "Welcome Back, Admin!",
   dashboardOverview: "Here's a quick overview of your e-commerce platform's performance.",

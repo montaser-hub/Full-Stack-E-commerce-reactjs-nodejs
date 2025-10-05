@@ -155,12 +155,13 @@ export default function Navbar() {
                   >
                     {content[key]}
                   </NavLink>
+                  {/* Wishlist count */}
                   {key === "Wishlist" && favoriteProductsCount > 0 && (
                     <Text
                       as="span"
                       content={favoriteProductsCount}
                       MyClass={`absolute top-0 ${
-                        lang === "ar" ? "right-0" : "-left-3"
+                        lang === "ar" ? "right-0" : "-left-5"
                       } -translate-y-1/2 translate-x-1/2 rounded-full bg-red-600 px-1.5 py-0.5 text-[0.6rem] font-bold text-white`}
                     />
                   )}
@@ -170,7 +171,7 @@ export default function Navbar() {
                       as="span"
                       content={cartItems.length}
                       MyClass={`absolute top-0 ${
-                        lang === "ar" ? "right-0" : "-left-3"
+                        lang === "ar" ? "right-0" : "-left-5"
                       } -translate-y-1/2 translate-x-1/2 rounded-full bg-red-600 px-1.5 py-0.5 text-[0.6rem] font-bold text-white`}
                     />
                   )}
@@ -205,7 +206,7 @@ export default function Navbar() {
                       <Text
                         as="span"
                         content={favoriteProductsCount}
-                        MyClass="absolute top-1 -left-4 rounded-full bg-red-600 px-1.5 py-0.5 text-[0.6rem] font-bold text-white"
+                        MyClass="absolute top-5 -left-4 rounded-full bg-red-600 px-1.5 py-0.5 text-[0.6rem] font-bold text-white"
                       />
                     )}
                   </li>

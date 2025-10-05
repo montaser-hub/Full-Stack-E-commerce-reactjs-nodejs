@@ -78,7 +78,12 @@ const ar = {
   footerCustomer: "العملاء",
   footerServicesItems: ["شراء وبيع", "الحجز", "سياسة الإرجاع"],
   copyrightText: "© 2025 وودي. جميع الحقوق محفوظة.",
-
+  // NotFound Page
+  oops:"أوووه!",
+  notfoundtitle: "صفحة غير موجودة",
+  notfoundmessage1: "الصفحة التي تبحث عنها غير موجودة،",
+  notfoundmessage2: "قد تكون تم نقلها او تم حذفها.",
+  notfoundmessage3: "يرجى التحقق من الرابط او العودة إلى الصفحة الرئيسية.",
 // Dashboard Home
   dashboardWelcome: "مرحباً بعودتك، أيها المدير!",
   dashboardOverview: "إليك نظرة سريعة على أداء منصتك للتجارة الإلكترونية.",
