@@ -58,8 +58,11 @@ axiosInstance.get(`/categories?page=${currentPage}&limit=5`)
               }`}
             />
             <Button
-              myClass="bg-gradient-to-r from-green-700 to-green-500 text-white px-4 py-2 rounded-xl shadow-md hover:from-green-800 hover:to-green-600"
-              content={showForm ? "Close Form" : "Create Category"}
+myClass={`w-40 h-12 flex items-center justify-center gap-2 font-medium 
+                    bg-gradient-to-r from-[rgb(67,94,72)] to-[rgb(87,114,92)]
+                    rounded-xl shadow-md 
+                    hover:from-[rgb(57,84,62)] hover:to-[rgb(77,104,82)] 
+                    active:scale-95 transition-all duration-200`}              content={showForm ? "Close Form" : "Create Category"}
               onClick={() => setShowForm(!showForm)}
             />
           </div>
