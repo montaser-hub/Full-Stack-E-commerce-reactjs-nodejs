@@ -4,6 +4,8 @@ import { toggleLang, toggleTheme } from "../../ReduxToolkit/Store";
 import { useSelector, useDispatch } from "react-redux";
 import Search from "../SharedElements/search.jsx";
 import Text from "../SharedElements/Text.jsx";
+import { axiosInstance } from "../AxiosInstance/AxiosInstance";
+import { setCart } from "../../ReduxToolkit/Store.jsx";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -26,7 +28,8 @@ export default function Navbar() {
   const hamburgerRef = useRef(null);
   const userRef = useRef(null);
   const [setLastClickedLink] = useState(null);
-  const notifRef = useRef(null);
+  const notifRef = useRef( null );
+  const cartItems = useSelector((state) => state.cart.cartItems);
 
   const handleLinkClick = (key) => {
     setLastClickedLink(key);
@@ -52,12 +55,40 @@ export default function Navbar() {
 
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+  }, [] );
+
+  useEffect(() => {
+
+    const fetchCart = async () => {
+      try {
+        const res = await axiosInstance.get("/carts");
+        const data = res.data.data;
+        console.log("Cart fetched:", data);
+        dispatch(
+          setCart({
+            items: data.items.map((i) => ({
+              id: i._id,
+              productId: i.productId._id,
+              name: i.productId.name,
+              price: i.productId.price,
+              src: i.productId.images[0],
+              quantity: i.quantity,
+            })),
+            totalPrice: data.subTotal,
+          })
+        );
+      } catch (err) {
+        console.error("Failed to load cart:", err);
+      }
+    };
+
+    fetchCart();
+  }, [dispatch]);
 
   const navLinks = ["Home", "Wishlist", "Cart", "Orders"];
 
   return (
-    <nav className="relative z-50 w-full bg-white dark:bg-neutral-900 shadow">
+    <nav className="fixed top-0 left-0 z-50 w-full bg-white dark:bg-neutral-900 shadow">
       {/* Grid wrapper */}
       <div className="grid grid-cols-[auto_1fr_auto] items-center px-4 py-3 lg:px-8">
         {/* Left: Hamburger + Logo */}
@@ -67,7 +98,6 @@ export default function Navbar() {
             <button
               onClick={() => setIsOpen(!isOpen)}
               className="lg:hidden border-0 bg-transparent text-black/60 dark:text-neutral-200 focus:outline-none"
-              aria-label="Toggle navigation"
             >
               <svg
                 className="w-7 stroke-current"
@@ -129,7 +159,17 @@ export default function Navbar() {
                     <Text
                       as="span"
                       content={favoriteProductsCount}
-                      MyClass={`absolute top-2 ${
+                      MyClass={`absolute top-0 ${
+                        lang === "ar" ? "right-0" : "-left-3"
+                      } -translate-y-1/2 translate-x-1/2 rounded-full bg-red-600 px-1.5 py-0.5 text-[0.6rem] font-bold text-white`}
+                    />
+                  )}
+                  {/* Cart count */}
+                  {key === "Cart" && cartItems.length > 0 && (
+                    <Text
+                      as="span"
+                      content={cartItems.length}
+                      MyClass={`absolute top-0 ${
                         lang === "ar" ? "right-0" : "-left-3"
                       } -translate-y-1/2 translate-x-1/2 rounded-full bg-red-600 px-1.5 py-0.5 text-[0.6rem] font-bold text-white`}
                     />

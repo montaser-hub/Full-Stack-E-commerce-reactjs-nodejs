@@ -7,7 +7,9 @@ const RouteLayout = () => {
   return (
     <>
       <Header />
-      <Outlet />
+       <main className="mt-20 ">
+        <Outlet />
+      </main>
       <Footer />
     </>
   );
