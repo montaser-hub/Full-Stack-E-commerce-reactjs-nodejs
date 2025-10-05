@@ -2,7 +2,7 @@ import { FiShoppingCart } from "react-icons/fi";
 import Button from "../SharedElements/Button";
 import Text from "../SharedElements/Text";
 import ForwardTo from "../SharedElements/ForwardTo";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import Alert from "../SharedElements/Alert";
 import { addToCart } from "../../ReduxToolkit/Store";      
@@ -22,7 +22,8 @@ function WishlistCard(props) {
     dispatch(addToCart(productId));
     setShowToast(true);
   };
-
+  const myContent = useSelector((state)=> state.myLang.content)
+  
   return (
     <div className="relative w-72 h-[460px] bg-white rounded-lg border border-gray-200 shadow-md hover:shadow-lg transition-shadow duration-300 flex flex-col dark:bg-neutral-800 dark:border-neutral-800">
       {/* Image */}
@@ -103,7 +104,7 @@ function WishlistCard(props) {
                 content={
                   <>
                     <FiShoppingCart className="w-5 h-5" />
-                    Add to Cart
+                    {myContent.addtocart}
                   </>
                 }
               />
@@ -122,7 +123,7 @@ function WishlistCard(props) {
                 content={
                   <>
                     <FaTrash className="w-5 h-5" />
-                    Remove
+                    {myContent.remove}
                   </>
                 }
               />

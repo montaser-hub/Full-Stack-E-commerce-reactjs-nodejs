@@ -1,4 +1,5 @@
 const en = {
+  // Header
   Home: "Home",
   Wishlist: "Wishlist",
   Cart: "Cart",
@@ -15,7 +16,6 @@ const en = {
   english: "English",
   arabic: "Arabic",
   aboutus: "About Us",
-
   // Auth
   Login: "Login",
   Register: "Register",
@@ -31,9 +31,7 @@ const en = {
   passwordForgot: "Forgot Password?",
   DontHaveAccount: "Don't have an account?",
   btnRegister: "Register",
-
   SignIn: "Sign In",
-
   // Register
   regTitle: "Create Account",
   regSubTitle: "Enter your details below to create your ShopSmart account.",
@@ -56,8 +54,10 @@ const en = {
   regAdmin: "Admin",
   accExists: "Already have an account?",
   passErrPattern: "Password must be at least 8 characters and contain at least one uppercase letter, one lowercase letter, and one number.",
-  
-// Wishlist
+  // Wishlist Card
+  addtocart: "Add to Cart",
+  remove: "Remove",
+  // Wishlist
   wishlistTitle: "Your Wishlist", 
   wishlistDescEmpty: "Your wishlist is empty. Start adding products you love!",
   wishlistDescNotEmpty: "Here are the products you've saved for later. Ready to make them yours?",
@@ -67,6 +67,26 @@ const en = {
   cancel: "Cancel",
   delete: "Delete",
   wishlistItemRemoved: "Item removed from wishlist.",
+  // Cart Shopping
+  cartTitle: "Your Shopping Cart",
+  cartDescEmpty: "Your cart is empty, Start adding products you love!",
+  modalConfirmDeleteTitleCart: "Confirm Delete",
+  modalConfirmDeleteMessageCart: "Are you sure you want to remove this item from your cart?",
+  returnShopping: "Return to Shop",
+  // Order Summary
+  orderSummaryTitle: "Order Summary",
+  orderSummaryDescription: "Review your items and total cost before placing the order.",
+  summarySubtotal: "Subtotal",
+  summaryShipping: "Shipping",
+  summaryDiscount: "Discount",
+  summaryTotal: "Total",
+  placeOrder: "Place Order",
+  // Orders
+  ordertitle: "Your Orders",
+  dropdownallorders: "All Orders",
+  dropdownpendingorders: "Pending",
+  dropdowncompletedorders: "Completed",
+  dropdowncancelledorders: "Cancelled",
   //Footer
   siteName: "WOODY",
   siteTagline: "For Natural Furniture",
@@ -77,6 +97,19 @@ const en = {
   footerAbout: "About",
   footerCustomer: "Customer",
   footerServicesItems: ["Buy & Sell", "Reservation", "Return Policy"],
+  living: "Living Room",
+  office: "Office",
+  dinning: "Dining",
+  Bedroom: "Bedroom",
+  Kitchen: "Kitchen",
+  staff: "Staff",
+  ourWorks: "Our Works",
+  careers: "Careers",
+  reviews: "Reviews",
+  log: "Log in",
+  reg: "Register",
+  contactUs: "Contact Us",
+  help:"Help & Support",
   copyrightText: "© 2025 WOODY. All rights reserved.",
   //NotFound Page
   oops: "Oops!",
@@ -84,7 +117,14 @@ const en = {
   notfoundmessage1: "The page you're looking for doesn't exist,",
   notfoundmessage2: "It might have been moved or deleted.",
   notfoundmessage3: "please check the URL or go back to the homepage.",
-//Dashboard Home
+  // Dashboard Sidebar
+  dashboardhome: "Dashboard",
+  manageproducts: "Manage Products",
+  managecategories: "Manage Categories",
+  manageorders: "Manage Orders",
+  analytics: "Analytics",
+  settings: "Settings",
+  //Dashboard Home
   dashboardWelcome: "Welcome Back, Admin!",
   dashboardOverview: "Here's a quick overview of your e-commerce platform's performance.",
   totalProducts: "Total Products",

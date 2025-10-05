@@ -36,7 +36,7 @@ console.log("cartState:", cartState);
       dispatch( setCart( {
         items: prevItems,
         totalPrice: prevItems.reduce((sum, i) => sum + i.price * i.quantity, 0),
-       }));
+        }));
     }
   };
 
@@ -60,7 +60,7 @@ console.log("cartState:", cartState);
       });
     }
   };
-
+      const mycartContent = useSelector((state)=> state.myLang.content)
   return (
     <div className="p-4 relative">
       {alert && (
@@ -75,7 +75,7 @@ console.log("cartState:", cartState);
       <div className="flex justify-center mb-10">
         <Text
           as="h1"
-          content="Your Shopping Cart"
+          content={mycartContent.cartTitle}
           MyClass="text-[30px] leading-[36px] font-bold font-['Archivo']"
         />{" "}
       </div>
@@ -96,7 +96,7 @@ console.log("cartState:", cartState);
             ))
           ) : (
             <div className="p-8 text-center text-gray-500">
-              Your cart is empty
+              {mycartContent.cartDescEmpty}
             </div>
           )}
         </div>
@@ -111,8 +111,10 @@ console.log("cartState:", cartState);
             onPlaceOrder={handlePlaceOrder}
           />
           <Button
-            myClass="mt-4 w-full max-w-md"
-            content="Continue Shopping"
+            myClass="mt-4 max-w-md bg-gradient-to-r from-[rgb(67,94,72)] to-[rgb(87,114,92)] text-white hover:from-[rgb(57,84,62)]
+            hover:to-[rgb(77,104,82)] active:scale-95  inline-block px-8 py-3 rounded-full font-semibold shadow-lg transition-all 
+            duration-300 hover:scale-105 hover:shadow-xl"
+            content={mycartContent.returnShopping}
             onClick={() => navigate("/home")}
           />
         </div>

@@ -14,6 +14,7 @@ import ConfirmDelete from "../SharedElements/ConfirmDelete";
 import Alert from "../SharedElements/Alert";
 import { axiosInstance } from "../AxiosInstance/TestAxiosInstance";
 import { useSearchParams } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const iconsMap = {
   total: <FaClipboardList />,
@@ -22,6 +23,7 @@ const iconsMap = {
 };
 
 export default function Orders() {
+  const myOrdersContent = useSelector((state)=> state.myLang.content)
   const [searchParams] = useSearchParams();
   const [status, setStatus] = useState("all");
   const [searchQuery, setSearchQuery] = useState(
@@ -181,7 +183,7 @@ export default function Orders() {
       <div className="rounded-lg shadow-md p-4 sm:p-6 space-y-6 sm:space-y-8">
         <Text
           as="h1"
-          content="Your Orders"
+          content={ myOrdersContent.ordertitle}
           MyClass="text-xl sm:text-2xl lg:text-[30px] leading-tight font-bold font-['Archivo']"
         />
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -207,10 +209,10 @@ export default function Orders() {
           <Dropdown
             type="select"
             options={[
-              { value: "all", label: "All Orders" },
-              { value: "pending", label: "Pending" },
-              { value: "completed", label: "Completed" },
-              { value: "cancelled", label: "Cancelled" },
+              { value: "all", label: myOrdersContent.dropdownallorders },
+              { value: "pending", label: myOrdersContent.dropdownpendingorders },
+              { value: "completed", label: myOrdersContent.dropdowncompletedorders },
+              { value: "cancelled", label: myOrdersContent.dropdowncancelledorders },
             ]}
             value={status}
             onChange={setStatus}
