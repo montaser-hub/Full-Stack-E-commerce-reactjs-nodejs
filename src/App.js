@@ -73,7 +73,7 @@ const App = () => {
   useEffect(() => {
     localStorage.setItem(
       "token",
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4YjU3N2VlYjhmNDU2YTRkYTUzZjYwZCIsImlhdCI6MTc1OTMxMDc1MywiZXhwIjoxNzU5Mzk3MTUzfQ.O4qj8i-LjrI648kfywfjRVq8hzW7TDdfpBi-7WExPJo"
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4YjU3N2VlYjhmNDU2YTRkYTUzZjYwZCIsImlhdCI6MTc1OTYxNzA4MSwiZXhwIjoxNzU5NzAzNDgxfQ.1mjAzi9vfAVh7OAKI2Gs48_-N8ghu-jQdSgl90efAFA"
     );
   }, []);
 
