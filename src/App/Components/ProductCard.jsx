@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { addFavorite, removeFavorite } from "../../ReduxToolkit/Store";
+import { addFavorite, removeFavorite, setFavoritesLoading } from "../../ReduxToolkit/Store";
 import ForwardTo from "../SharedElements/ForwardTo";
 import { CiHeart } from "react-icons/ci";
 import { HiHeart } from "react-icons/hi";
@@ -14,11 +14,10 @@ import { axiosInstance } from "../../App/AxiosInstance/AxiosInstance";
 function ProductCard(props) {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
-  const favoriteProducts = useSelector(
-    (state) => state.myFavorites.favoriteProducts
-  );
+  const { favoriteProducts } = useSelector((state) => state.myFavorites);
   const isFavorite = favoriteProducts.some(
-    (product) => product.id === props.id
+    (product) => product.id?.toString() === props.id?.toString() ||
+      product.productId?._id?.toString() === props.id?.toString()
   );
   const [showToast, setShowToast] = useState(false);
   const [showFavToast, setShowFavToast] = useState(false);
@@ -30,16 +29,39 @@ function ProductCard(props) {
     description: props.description,
     price: props.price,
     category: props.categoryId?.name || "Unknown Category",
-    quantity: props.quantity,
+    quantity: props.stock,
   };
 
-  const handleToggleFavorite = () => {
-    if (isFavorite) {
-      dispatch(removeFavorite(props.id));
-      setShowFavToast("removed");
-    } else {
-      dispatch(addFavorite(product));
-      setShowFavToast("added");
+  const handleToggleFavorite = async () => {
+    try {
+      dispatch(setFavoritesLoading(true));
+      if (isFavorite) {
+        await axiosInstance.delete(`/wishlist/${props.id}`, {
+          withCredentials: true,
+        });
+        dispatch(removeFavorite(props.id));
+        setShowFavToast("removed");
+      } else {
+        await axiosInstance.post(
+          "/wishlist",
+          {
+            items: [
+              {
+                productId: product.id,
+              },
+            ],
+          },
+          { withCredentials: true }
+        );
+        console.log(product.id);
+
+        dispatch(addFavorite(product));
+        setShowFavToast("added");
+      }
+    } catch (err) {
+      console.error("Error updating wishlist:", err);
+    } finally {
+      dispatch(setFavoritesLoading(false));
     }
   };
 
@@ -68,7 +90,7 @@ function ProductCard(props) {
           className="w-full h-full object-cover block transition-transform duration-300 hover:scale-105 max-h-full max-w-full  mx-auto "
           loading="lazy"
           onError={(e) => {
-            e.currentTarget.image = "./not_foundimage.png";
+            e.currentTarget.src = "./not_foundimage.png";
           }}
         />
         <Button

@@ -30,7 +30,11 @@ function Register() {
   function validateField(name, value) {
     let error = "";
 
-    if (name === "name" && !value) error = content.reqname;
+    if (name === "name") {
+      if (!value) error = content.reqname;
+      else if (value.length < 3)
+        error = "Name must be at least 3 characters long.";
+    }
     if (name === "email") {
       if (!value) error = content.emailRequired;
       else if (!/^[\w.-]+@[\w.-]+\.[a-zA-Z]{2,}$/.test(value))
