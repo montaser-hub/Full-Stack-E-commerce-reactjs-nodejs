@@ -66,7 +66,7 @@ function ProductCard(props) {
           className="w-full h-full object-cover block transition-transform duration-300 hover:scale-105 max-h-full max-w-full  mx-auto "
           loading="lazy"
           onError={(e) => {
-            e.currentTarget.src = "./not_foundimage.png";
+            e.currentTarget.image = "./not_foundimage.png";
           }}
         />
         <Button
@@ -130,7 +130,7 @@ function ProductCard(props) {
           <div className="flex items-center justify-between mt-2">
             <Text
               as="span"
-              content={props.Price}
+              content={props.price}
               MyClass="text-blue-600 text-xl font-bold dark:text-blue-400"
             />
           </div>

@@ -2,18 +2,22 @@ import Text from "../SharedElements/Text";
 import ForwardTo from "../SharedElements/ForwardTo";
 import Dropdown from "../SharedElements/Dropdown";
 import ProductCard from "../Components/ProductCard";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import Pagination from "../Components/Pagination";
 import { axiosInstance } from "../AxiosInstance/AxiosInstance";
 import HeroSlider from "../Components/HeroSlider.jsx";
+import { useSelector } from "react-redux";
 
 export default function Home() {
   const topRef = useRef(null);
-  const [products, setProducts] = useState([]);
+  const [allProducts, setAllProducts] = useState([]);
   const [meta, setMeta] = useState({ total: 0, page: 1, limit: 8 });
   const [showFilters, setShowFilters] = useState(false);
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [categories, setCategories] = useState([]);
+
+  const searchKeyword = useSelector((state) => state.search.keyword);
+
   const sliderImages = [
     "/1.JPG",
     "/2.JPG",
@@ -24,51 +28,80 @@ export default function Home() {
     "/7.JPG",
     "/8.JPG",
   ];
-  // 1 Fetch categories once on mount
+
+  // Fetch categories once on mount
   useEffect(() => {
     axiosInstance
       .get("/categories")
       .then((res) => {
-        const categories = res.data.data.map((category) => ({
+        const mapped = res.data.data.map((category) => ({
           id: category._id,
           name: category.name,
         }));
-        setCategories(categories);
+        setCategories(mapped);
       })
       .catch((err) => console.error("Error fetching categories:", err));
   }, []);
 
-  // 2 Fetch products whenever page, limit, or filters change
+  // Fetch products whenever filters or pagination change
   useEffect(() => {
     const fetchProducts = async () => {
       try {
         let query = `/products?page=${meta.page}&limit=${meta.limit}`;
-
         if (selectedCategories.length > 0) {
           query += selectedCategories.map((id) => `&categoryId=${id}`).join("");
         }
+
         const res = await axiosInstance.get(query);
-        setProducts(res.data.data);
+        setAllProducts(res.data.data);
         setMeta((prev) => ({
           ...prev,
           total: res.data.totalProducts,
-        } ) );
-        console.log("Products fetched:", res.data.data);
-      } catch(err){
+        }));
+      } catch (err) {
         console.error("Error fetching products:", err);
       }
     };
-
     fetchProducts();
   }, [meta.page, meta.limit, selectedCategories]);
 
-  const totalPages = Math.ceil(meta.total / meta.limit);
+  // Filter products (by search or category)
+  const filteredProducts = useMemo(() => {
+    let filtered = [...allProducts];
+
+    if (searchKeyword.trim()) {
+      const keyword = searchKeyword.toLowerCase();
+      filtered = filtered.filter(
+        (p) =>
+          p.name.toLowerCase().includes(keyword) ||
+          p.description?.toLowerCase().includes(keyword) ||
+          p.categoryName?.toLowerCase().includes(keyword)
+      );
+    }
+
+    return filtered;
+  }, [allProducts, searchKeyword]);
+
+  // Reset to first page when filters/search change
+  useEffect(() => {
+    setMeta((prev) => ({ ...prev, page: 1 }));
+  }, [searchKeyword, selectedCategories]);
+
+  // Calculate total pages dynamically
+  const totalPages = Math.ceil(filteredProducts.length / meta.limit) || 1;
+
+  // Paginate filtered results
+  const paginatedProducts = useMemo(() => {
+    const start = (meta.page - 1) * meta.limit;
+    const end = start + meta.limit;
+    return filteredProducts.slice(start, end);
+  }, [filteredProducts, meta.page, meta.limit]);
+
   return (
     <main
       ref={topRef}
       className="bg-gray-50 dark:bg-neutral-900 min-h-screen py-8 px-4 md:px-8"
     >
-      {/* Hero / Slider Placeholder */}
       <HeroSlider images={sliderImages} />
 
       <div className="flex flex-col md:flex-row gap-8">
@@ -95,7 +128,7 @@ export default function Home() {
           </div>
         </aside>
 
-        {/* Mobile Filters Toggle */}
+        {/* Mobile Filters */}
         <div className="md:hidden">
           <button
             onClick={() => setShowFilters(!showFilters)}
@@ -116,10 +149,9 @@ export default function Home() {
                   content="Clear All"
                   myClass="text-sm text-blue-600 hover:underline"
                   to="#"
-                  onClick={() => {}}
+                  onClick={() => setSelectedCategories([])}
                 />
               </div>
-
               <div>
                 <Text
                   as="h1"
@@ -129,7 +161,10 @@ export default function Home() {
                 <Dropdown
                   name="category"
                   type="checkbox"
-                  options={categories.map((c) => ({ value: c.id, text: c.name }))}
+                  options={categories.map((c) => ({
+                    value: c.id,
+                    text: c.name,
+                  }))}
                   selected={selectedCategories}
                   onChange={setSelectedCategories}
                 />
@@ -141,18 +176,24 @@ export default function Home() {
         {/* Products Grid */}
         <section className="flex-1">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {products.map((product, index) => (
-              <ProductCard
-                key={index}
-                id={product?._id}
-                image={product?.images[0]}
-                title={product?.name}
-                description={product?.description}
-                categoryId={product?.categoryId}
-                Price={`$${product?.price}`}
-                stock={product?.quantity}
-              />
-            ))}
+            {paginatedProducts.length > 0 ? (
+              paginatedProducts.map((product, index) => (
+                <ProductCard
+                  key={index}
+                  id={product?._id}
+                  image={product?.images[0]}
+                  title={product?.name}
+                  description={product?.description}
+                  categoryId={product?.categoryId}
+                  price={`$${product?.price}`}
+                  stock={product?.quantity}
+                />
+              ))
+            ) : (
+              <p className="text-center m-60 text-gray-500 col-span-full">
+                No products found.
+              </p>
+            )}
           </div>
 
           {/* Pagination */}
@@ -162,10 +203,8 @@ export default function Home() {
               currentPage={meta.page}
               setCurrentPage={(page) => {
                 setMeta((prev) => ({ ...prev, page }));
-                if (page > 1) {
-                  topRef.current?.scrollIntoView({ behavior: "smooth" });
-                }
-              } }
+                topRef.current?.scrollIntoView({ behavior: "smooth" });
+              }}
             />
           </div>
         </section>

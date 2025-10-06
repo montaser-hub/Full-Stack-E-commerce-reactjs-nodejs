@@ -43,8 +43,8 @@ const loaderSlice = createSlice({
       state.isLoading = false;
     },
   },
-});
-/* -------------------- Cart Slice -------------------- */
+} );
+
 const cartSlice = createSlice({
   name: "cart",
   initialState: {
@@ -60,7 +60,7 @@ const cartSlice = createSlice({
     },
     addToCart: ( state, action ) => {
       const existing = state.cartItems.find(
-        (it) => it.id === action.payload.id
+        (it) => it.productId === action.payload.productId
       );
       if (existing) {
         existing.quantity = (existing.quantity || 0) + 1;
@@ -101,13 +101,25 @@ const cartSlice = createSlice({
       state.totalPrice = 0;
     },
   },
-});
+} );
+
+const searchSlice = createSlice( {
+  name: "search",
+  initialState: {
+    keyword: "",
+  },
+  reducers: {
+    setSearch: (state, action) => {
+      state.keyword = action.payload;
+    },
+  }
+})
 
 export const { toggleLang } = langSlice.actions; // button click -> action dispatch
 export const { toggleTheme } = themeSlice.actions; // button click -> action dispatch
 export const { showLoader, hideLoader } = loaderSlice.actions;
-
 export const { setCart, addToCart, removeFromCart, updateQuantity, clearCart } = cartSlice.actions;
+export const { setSearch } = searchSlice.actions
 
 // Favorites
 const initialState = {
@@ -143,6 +155,7 @@ const Store = configureStore({
     myFavorites: favoritesSlice.reducer,
     loader: loaderSlice.reducer,
     cart: cartSlice.reducer,
+    search: searchSlice.reducer
   },
 });
 

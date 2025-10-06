@@ -15,9 +15,9 @@ const ShoppingCard = ({
   price,
   quantity,
   onRemove,
-}) => {console.log("cartState:", src, productName, price, quantity);
+}) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [ setAlert ] = useState( null );
+  const [ alert, setAlert ] = useState( null );
   const dispatch = useDispatch();
   const cartState = useSelector((state) => state.cart);
   const handleRemoveClick = () => setIsModalOpen(true);
@@ -39,7 +39,7 @@ const handleQuantityChange = async (productId, quantity) => {
       setAlert({
         type: "error",
         message:
-          err?.response?.data?.message || "Failed to update item quantity",
+        err?.response?.data?.message || "Failed to update item quantity",
       });
 
       // revert state if API fails
