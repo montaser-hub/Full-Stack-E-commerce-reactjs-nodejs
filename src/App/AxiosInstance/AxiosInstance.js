@@ -1,6 +1,6 @@
 import axios from "axios";
 import store from "../../ReduxToolkit/Store.jsx";
-import { showLoader, hideLoader } from "../../ReduxToolkit/Store.jsx";
+import {  hideLoader } from "../../ReduxToolkit/Store.jsx";
 
 export const axiosInstance = axios.create({
   baseURL: process.env.REACT_APP_API_BASE_URL || "http://localhost:3000",
