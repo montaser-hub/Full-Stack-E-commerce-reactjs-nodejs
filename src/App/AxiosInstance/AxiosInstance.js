@@ -9,8 +9,6 @@ export const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
   function (config) {
-    // console.log("Request URL:", config.baseURL + config.url);
-    store.dispatch(showLoader());
     config.params = {
       ...(config.params || {}),
     };
@@ -24,13 +22,10 @@ axiosInstance.interceptors.request.use(
 
 axiosInstance.interceptors.response.use(
   function (response) {
-    // console.log("Response Cookies:", document.cookie);
-
     store.dispatch(hideLoader());
     return response;
   },
   function (error) {
-    // console.error("Response Cookies:", document.cookie);
     store.dispatch(hideLoader());
     console.error("API error:", error.response?.status, error.response?.data);
     return Promise.reject(error);

@@ -6,7 +6,6 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { useEffect } from "react";
 
 // Layouts & Pages
 import ErrorPage from "./App/Pages/ErrorPage";
@@ -43,7 +42,6 @@ const router = createBrowserRouter(
         path="order-confirmation/:orderId"
         element={<OrderConfirmation />}
       />
-      <Route path="payments/checkout" element={<PaymentSuccess />} />
       <Route path="payments/cancel" element={<PaymentCancel />} />
       <Route path="register" element={<Register />} />
       <Route path="login" element={<Login />} />
