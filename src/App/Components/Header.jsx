@@ -6,6 +6,8 @@ import Search from "../SharedElements/search.jsx";
 import Text from "../SharedElements/Text.jsx";
 import { axiosInstance } from "../AxiosInstance/AxiosInstance";
 import { setCart } from "../../ReduxToolkit/Store.jsx";
+import { useSearchParams } from "react-router-dom";
+import { setSearch } from "../../ReduxToolkit/Store";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -29,7 +31,17 @@ export default function Navbar() {
   const userRef = useRef(null);
   const [setLastClickedLink] = useState(null);
   const notifRef = useRef( null );
-  const cartItems = useSelector((state) => state.cart.cartItems);
+  const cartItems = useSelector( ( state ) => state.cart.cartItems );
+  const searchKeyword = useSelector( ( state ) => state.search.keyword );
+  
+  
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const handleSearch = (keyword) => {
+    dispatch(setSearch(keyword));
+    setSearchParams({ query: keyword });
+  };
+
 
   const handleLinkClick = (key) => {
     setLastClickedLink(key);
@@ -58,10 +70,14 @@ export default function Navbar() {
   }, [] );
 
   useEffect(() => {
-
     const fetchCart = async () => {
       try {
-        const res = await axiosInstance.get("/carts");
+        const query = searchParams.get("query");
+        if (query && query !== searchKeyword) {
+          dispatch(setSearch(query));
+        }
+
+        const res = await axiosInstance.get(`/carts?query=${searchKeyword}`);
         const data = res.data.data;
         console.log("Cart fetched:", data);
         dispatch(
@@ -83,7 +99,7 @@ export default function Navbar() {
     };
 
     fetchCart();
-  }, [dispatch]);
+  }, [dispatch, searchParams, searchKeyword]);
 
   const navLinks = ["Home", "Wishlist", "Cart", "Orders"];
 
@@ -230,9 +246,7 @@ export default function Navbar() {
                 divClass="hidden sm:flex rounded-full border border-gray-200 hover:border-gray-400 w-full sm:w-64 md:w-80 lg:w-96 overflow-hidden"
                 inputClass="border-none focus:outline-none focus:ring-0 px-4 py-2 text-black placeholder-gray-400  w-full sm:w-64 md:w-80 lg:w-96"
                 placeholder={content.Search + "..."}
-                onSearch={(value) =>
-                  console.log("Searching from Navbar:", value)
-                }
+                onSearch={handleSearch}                
               />
 
               {/* Notifications */}

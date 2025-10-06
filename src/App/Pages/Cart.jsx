@@ -25,7 +25,7 @@ console.log("cartState:", cartState);
     dispatch(removeFromCart(productId));
 
     try {
-      await axiosInstance.delete(`/carts/${productId}`);
+      await axiosInstance.delete(`/carts/items/${productId}`);
       setAlert({ type: "success", message: "Item removed" });
     } catch (err) {
       console.error("remove item failed:", err);
