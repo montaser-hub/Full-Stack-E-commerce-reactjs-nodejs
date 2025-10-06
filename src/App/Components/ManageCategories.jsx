@@ -3,13 +3,13 @@ import { useSelector } from "react-redux";
 import { axiosInstance } from "../AxiosInstance/AxiosInstance";
 import Button from "../SharedElements/Button";
 import Alert from "../SharedElements/Alert";
-import Modal from "../SharedElements/Modal"; // ✅ استدعاء المودال
+import Modal from "../SharedElements/Modal";   
 import Text from "../SharedElements/Text";
 import { FaTrash } from "react-icons/fa";
 
 export default function ManageCategoryRow({ cat, onAction }) {
   const [editing, setEditing] = useState(false);
-  const [confirmDelete, setConfirmDelete] = useState(false); // ✅ مودال الحذف
+  const [confirmDelete, setConfirmDelete] = useState(false); 
   const [form, setForm] = useState({
     name: cat.name,
     description: cat.description,

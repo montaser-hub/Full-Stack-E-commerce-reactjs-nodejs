@@ -14,7 +14,6 @@ export default function ManageOrderRow({ order, onAction }) {
     status: order.status || "",
     isDelivered: order.isDelivered || false,
     totalOrderPrice: order.totalOrderPrice || "",
-    // Add more fields if needed, like shippingAddress
   });
   const [toast, setToast] = useState({ show: false, type: "", message: "" });
   const myTheme = useSelector((state) => state.theme);
@@ -24,10 +23,9 @@ export default function ManageOrderRow({ order, onAction }) {
     setForm({ ...form, [name]: type === "checkbox" ? checked : value });
   }
 
-  // Update Order (use deliver or custom update)
   function handleUpdate() {
     axiosInstance
-      .put(`/orders/${order._id}/deliver`, form) // Or create a new route for full update
+      .put(`/orders/${order._id}/deliver`, form) 
       .then((res) => {
         const updatedOrder = res.data.data;
         setToast({ show: true, type: "success", message: "Order updated successfully." });
@@ -40,7 +38,6 @@ export default function ManageOrderRow({ order, onAction }) {
       });
   }
 
-  // Delete/Cancel Order
   function handleDelete() {
     axiosInstance
       .put(`/orders/${order._id}/cancel`)
@@ -51,7 +48,7 @@ export default function ManageOrderRow({ order, onAction }) {
           message: "Order cancelled successfully.",
         });
         setConfirmDelete(false);
-        onAction(order._id); // Pass ID to remove from list
+        onAction(order._id); 
       })
       .catch((err) => {
         console.error("Error cancelling order:", err);

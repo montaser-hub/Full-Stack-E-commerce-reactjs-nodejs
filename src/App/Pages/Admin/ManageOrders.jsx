@@ -2,10 +2,10 @@ import { useState, useEffect, useCallback } from "react";
 import { axiosInstance } from "../../AxiosInstance/AxiosInstance";
 import Text from "../../SharedElements/Text";
 import Button from "../../SharedElements/Button";
-import ManageOrderRow from "../../Components/ManageOrders"; // Note: updated to ManageOrderRow
+import ManageOrderRow from "../../Components/ManageOrders"; 
 import Pagination from "../../Components/Pagination";
 import { useSelector } from "react-redux";
-import OrderForm from "../../Components/OrderForm"; // New form
+import OrderForm from "../../Components/OrderForm"; 
 
 export default function ManageOrdersPage() {
   const [orders, setOrders] = useState([]);
@@ -20,7 +20,7 @@ export default function ManageOrdersPage() {
       .get(`/orders?page=${currentPage}&limit=5`)
       .then((res) => {
         setOrders(res.data.data || []);
-        const total = res.data.total || 0; // Adjusted based on your backend response
+        const total = res.data.total || 0; 
         setTotalPages(Math.ceil(total / 5) || 1);
       })
       .catch((err) => console.error("Error fetching orders:", err));
@@ -36,10 +36,8 @@ export default function ManageOrdersPage() {
 
   function handleOrderAction(actionOrId) {
     if (typeof actionOrId === "string") {
-      // Delete: remove from list
       setOrders((prev) => prev.filter((o) => o._id !== actionOrId));
     } else if (actionOrId?._id) {
-      // Update: replace in list
       setOrders((prev) =>
         prev.map((o) => (o._id === actionOrId._id ? actionOrId : o))
       );

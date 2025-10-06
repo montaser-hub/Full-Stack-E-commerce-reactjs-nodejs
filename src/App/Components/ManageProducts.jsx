@@ -57,7 +57,7 @@ export default function ManageProductRow({ prod, onAction }) {
   axiosInstance
     .put(`/products/${prod._id}`, { ...form })
     .then((res) => {
-      const updatedProd = res.data.data; // تأكد إن الباك يرجع _id و categoryId
+      const updatedProd = res.data.data; 
       setToast({ show: true, type: "success", message: "Product updated successfully." });
       setEditing(false);
       onAction(updatedProd);
@@ -79,7 +79,7 @@ export default function ManageProductRow({ prod, onAction }) {
       });
       setConfirmDelete(false);
 
-      // 🔹 تمرير الـ _id للـ parent ليتم حذف المنتج فوراً من state
+         
       onAction(prod._id);
     })
     .catch((err) => {

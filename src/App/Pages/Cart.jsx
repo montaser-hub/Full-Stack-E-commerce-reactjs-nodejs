@@ -146,7 +146,7 @@ const Cart = () => {
             myClass="mt-4 max-w-md bg-gradient-to-r from-[rgb(67,94,72)] to-[rgb(87,114,92)] text-white hover:from-[rgb(57,84,62)]
             hover:to-[rgb(77,104,82)] active:scale-95  inline-block px-8 py-3 rounded-full font-semibold shadow-lg transition-all 
             duration-300 hover:scale-105 hover:shadow-xl"
-            content={mycartContent.returnShopping}
+            content={mycartContent.placeOrder}
             onClick={() => navigate("/checkout")}
           />
         </div>
