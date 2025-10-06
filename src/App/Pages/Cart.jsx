@@ -111,10 +111,11 @@ const Cart = () => {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 space-y-4">
           {cartState.cartItems.length > 0 ? (
+            (console.log(" item:", cartState.cartItems),
             cartState.cartItems.map((item, index) => (
               <ShoppingCard
-                key={index}
-                productId={item.productId}
+                key={item.id}
+                productId={item.productId._id}
                 src={item.src || "./not_foundimage.png"}
                 alt={item.name}
                 productName={item.name}
@@ -123,9 +124,9 @@ const Cart = () => {
                 onUpdate={(newQty) =>
                   handleUpdateQuantity(item.productId, newQty, item.id)
                 }
-                onRemove={() => handleRemoveItem(item.productId)}
+                onRemove={() => handleRemoveItem(item.productId.id)}
               />
-            ))
+            )))
           ) : (
             <div className="p-8 text-center text-gray-500">
               {mycartContent.cartDescEmpty}

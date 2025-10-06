@@ -6,6 +6,7 @@ import Modal from "../SharedElements/Modal";
 import Alert from "../SharedElements/Alert";
 import { setFavorites, removeFavorite, setFavoritesLoading } from "../../ReduxToolkit/Store"; 
 import Button from "../SharedElements/Button";
+import {axiosInstance} from "../../App/AxiosInstance/AxiosInstance"; // Adjust the path if needed
 
 function Wishlist() {
   const dispatch = useDispatch();
@@ -68,10 +69,12 @@ function Wishlist() {
     } finally {
       dispatch(setFavoritesLoading(false));
       setModalState({ show: false, itemToDelete: null });
+    }
+  };
+
   const cancelDelete = () => {
     setModalState({ show: false, itemToDelete: null });
   };
-  const myContent = useSelector((state)=> state.myLang.content)
 
   return (
     <div className="p-8 bg-gray-100 dark:bg-neutral-900 min-h-screen">
@@ -83,19 +86,24 @@ function Wishlist() {
       />
 
       {/* favorite items */}
-      {wishlistItems.length > 0 ? (
+      {favoriteProducts.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 justify-items-center">
           {favoriteProducts.map((item) => (
             <WishlistCard
               key={item.productId?._id || item.id}
               id={item.productId?._id || item.id}
-              image={item.productImage || item.productId?.image || "./not_foundimage.png"}
-              title={item.productName || item.productId?.name || "Unknown Product"}
+              image={
+                item.productImage ||
+                item.productId?.image ||
+                "./not_foundimage.png"
+              }
+              title={
+                item.productName || item.productId?.name || "Unknown Product"
+              }
               description={item.description || item.productId?.description}
               price={item.price || item.productId?.price || 0}
               category={item.category || item.productId?.category?.name}
               onRemove={() => handleRemove(item)}
-
             />
           ))}
         </div>
@@ -112,14 +120,18 @@ function Wishlist() {
       {/* Modal  */}
       <Modal isOpen={modalState.show} onClose={cancelDelete}>
         <div className="text-center">
-          <Text as="h2" content={myContent.modalConfirmDeleteTitle} MyClass="text-lg font-semibold mb-4" />
+          <Text
+            as="h2"
+            content={myContent.modalConfirmDeleteTitle}
+            MyClass="text-lg font-semibold mb-4"
+          />
           <Text
             as="p"
             content={myContent.modalConfirmDeleteMessage}
             MyClass="mb-6"
           />
           <div className="flex justify-center gap-4">
-              <Button
+            <Button
               onClick={cancelDelete}
               myClass="px-4 py-2 rounded hover:bg-gray-400 bg-gray-300"
               content={myContent.cancel || "Cancel"}

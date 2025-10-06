@@ -55,7 +55,8 @@ const cartSlice = createSlice({
       );
     },
 
-    removeFromCart: (state, action) => {
+    removeFromCart: ( state, action ) => {
+      console.log("for remove", action.payload);
       state.cartItems = state.cartItems.filter(
         (i) => i.productId !== action.payload
       );
@@ -91,15 +92,16 @@ const cartSlice = createSlice({
       .addCase(fetchCart.fulfilled, (state, action) => {
         state.status = "succeeded";
         const data = action.payload;
+        console.log("data",data);
         state.cartItems = data.items.map((i) => ({
           id: i._id,
-          productId: i.productId._id,
-          name: i.productId.name,
-          price: i.productId.price,
-          src: i.productId.images[0],
+          productId: i.productId,
+          name: i.productId?.name,
+          price: i.productId?.price,
+          src: i.productId?.images[0],
           quantity: i.quantity,
         }));
-        state.totalPrice = data.subTotal;
+        state.totalPrice = data?.totalPrice; //TODO: fix
       })
       .addCase(fetchCart.rejected, (state, action) => {
         state.status = "failed";

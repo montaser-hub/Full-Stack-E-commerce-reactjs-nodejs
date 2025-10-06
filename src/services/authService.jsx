@@ -1,4 +1,4 @@
-import { axiosInstance } from "../AxiosInstance/AxiosInstance";
+import { axiosInstance } from "../App/AxiosInstance/AxiosInstance";
 
 export const ProtectRoute = async () => {
     try {

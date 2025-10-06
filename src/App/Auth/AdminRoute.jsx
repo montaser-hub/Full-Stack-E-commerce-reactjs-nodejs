@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ProtectRoute } from "../services/authService";
+import { ProtectRoute } from "../../services/authService.jsx";
 import { useNavigate, Outlet } from "react-router-dom";
 import { showLoader, hideLoader } from "../../ReduxToolkit/Store";
 import { useDispatch, useSelector } from "react-redux";

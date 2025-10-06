@@ -29,9 +29,9 @@ import OrderConfirmation from "./App/Pages/OrderConfirmation";
 import PaymentCancel from "./App/Pages/PaymentCancel";
 import Loader from "./App/SharedElements/spinner.jsx";
 import LandingPage from "./App/Pages/LandingPage.jsx";
-import ProtectRoute from "./App/Auth/ProtectedRoute";
+import ProtectRoute from "./App/Auth/ProtecredRoute.jsx";
 import AdminRoute from "./App/Auth/AdminRoute";
-import ScrollToTop from "./App/Components/ScrollToTop";
+import ScrollToTop from "./App/Components/ScrollToCard.jsx";
 import { useEffect } from "react";
 import { fetchCart } from "./ReduxToolkit/cartSlice.jsx";
 
