@@ -29,7 +29,6 @@ function Wishlist() {
     type: "info",
   });
 
-  // 🧠 عند تحميل الصفحة: اجلب بيانات المفضلة من السيرفر
   useEffect(() => {
     const fetchWishlist = async () => {
       try {
@@ -53,12 +52,10 @@ function Wishlist() {
     fetchWishlist();
   }, [dispatch, myContent]);
 
-  // 🗑️ فتح مودال تأكيد الحذف
   const handleRemove = (item) => {
     setModalState({ show: true, itemToDelete: item });
   };
 
-  // ✅ تنفيذ الحذف
   const confirmDelete = async () => {
     const item = modalState.itemToDelete;
     if (!item) return;
@@ -94,14 +91,12 @@ function Wishlist() {
 
   return (
     <div className="p-8 bg-gray-100 dark:bg-neutral-900 min-h-screen">
-      {/* 🏷️ العنوان */}
       <Text
         as="h1"
         content={myContent.wishlistTitle || "My Wishlist"}
         MyClass="text-center text-3xl font-bold text-neutral-900 dark:text-white mb-8"
       />
 
-      {/* 🔄 اللودينج */}
       {loading ? (
         <div className="flex justify-center items-center h-64">
           <Text
@@ -111,11 +106,9 @@ function Wishlist() {
           />
         </div>
       ) : favoriteProducts.length > 0 ? (
-        // ✅ عرض العناصر
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 justify-items-center">
           {favoriteProducts.map((item) => (
             <WishlistCard
-<<<<<<< HEAD
               key={item.productId?._id || item.id}
               id={item.productId?._id || item.id}
               image={item.productImage || item.productId?.image || "./not_foundimage.png"}
@@ -124,22 +117,11 @@ function Wishlist() {
               price={item.price || item.productId?.price || 0}
               category={item.category || item.productId?.category?.name}
               onRemove={() => handleRemove(item)}
-=======
-              key={item.id}
-              id={item.id}
-              image={item.image}
-              title={item.title}
-              description={item.description}
-              price={item.price}
-              category={item.category}
-              onRemove={ () => handleRemove( item ) }
-              quantity={item.quantity}
->>>>>>> 3870cb47bfdffb74774ac4b86bc2974168330b7b
+
             />
           ))}
         </div>
       ) : (
-        // ⚠️ لو المفضلة فاضية
         <div className="flex justify-center items-center h-64 rounded-lg">
           <Text
             as="p"
@@ -149,7 +131,6 @@ function Wishlist() {
         </div>
       )}
 
-      {/* 🧩 مودال التأكيد */}
       <Modal isOpen={modalState.show} onClose={cancelDelete}>
         <div className="text-center">
           <Text
@@ -180,7 +161,6 @@ function Wishlist() {
         </div>
       </Modal>
 
-      {/* 🔔 التنبيه */}
       {alertState.show && (
         <Alert
           type={alertState.type}

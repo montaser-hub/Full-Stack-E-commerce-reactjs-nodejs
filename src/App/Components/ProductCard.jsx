@@ -6,6 +6,7 @@ import { HiHeart } from "react-icons/hi";
 import Button from "../SharedElements/Button";
 import { FiShoppingCart } from "react-icons/fi";
 import Text from "../SharedElements/Text";
+import { addToCart } from "../../ReduxToolkit/cartSlice";
 import Alert from "../SharedElements/Alert";
 import { addToCart } from "../../ReduxToolkit/Store";
 import { useState } from "react";
@@ -69,15 +70,6 @@ function ProductCard(props) {
     }
   };
 
-<<<<<<< HEAD
-  const handleAddToCart = () => {
-    if (product.quantity === 0) {
-      setShowToast("out");
-      return;
-    }
-    dispatch(addToCart(product));
-    setShowToast("added");
-=======
   const handleAddToCart = async () => {
     setLoading(true);
     await axiosInstance.post(
@@ -91,7 +83,6 @@ function ProductCard(props) {
     dispatch(addToCart({ id:product.id, price:product.price }));
     setShowToast(true);
     setLoading(false);
->>>>>>> 3870cb47bfdffb74774ac4b86bc2974168330b7b
   };
 
   return (

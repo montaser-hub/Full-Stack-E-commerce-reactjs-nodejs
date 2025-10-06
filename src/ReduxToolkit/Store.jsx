@@ -1,11 +1,6 @@
-<<<<<<< HEAD
 import { configureStore, createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { axiosInstance } from "../App/AxiosInstance/AxiosInstance";
-=======
-// action, reducer , store
-import { configureStore, createSlice } from "@reduxjs/toolkit";
 import cartReducer from './cartSlice'
->>>>>>> 3870cb47bfdffb74774ac4b86bc2974168330b7b
 import en from "../Locals/en";
 import ar from "../Locals/ar";
 
@@ -51,67 +46,7 @@ const loaderSlice = createSlice({
   },
 });
 
-const cartSlice = createSlice({
-  name: "cart",
-  initialState: {
-    cartItems: [],
-    totalPrice: 0,
-  },
-  reducers: {
-    setCart: (state, action) => {
-      state.cartItems = action.payload.items || [];
-      state.totalPrice =
-        action.payload.totalPrice ??
-        state.cartItems.reduce((sum, i) => sum + i.price * i.quantity, 0);
-    },
-    addToCart: (state, action) => {
-      const existing = state.cartItems.find(
-        (it) => it.productId === action.payload.id
-      );
-      if (existing) {
-        existing.quantity = (existing.quantity || 0) + 1;
-      } else {
-        state.cartItems.push({
-          id: action.payload.id,
-          productId: action.payload.id,
-          name: action.payload.name,
-          price: action.payload.price,
-          image: action.payload.image,
-          quantity: 1,
-        });
-      }
-      state.totalPrice = state.cartItems.reduce(
-        (sum, i) => sum + i.price * i.quantity,
-        0
-      );
-    },
-    removeFromCart: (state, action) => {
-      state.cartItems = state.cartItems.filter(
-        (i) => i.id !== action.payload.id
-      );
-      state.totalPrice = state.cartItems.reduce(
-        (sum, i) => sum + i.price * i.quantity,
-        0
-      );
-    },
-    updateQuantity: (state, action) => {
-      const item = state.cartItems.find(
-        (i) => i.productId === action.payload.productId
-      );
-      if (item) item.quantity = action.payload.quantity;
-      state.totalPrice = state.cartItems.reduce(
-        (sum, i) => sum + i.price * i.quantity,
-        0
-      );
-    },
-    clearCart: (state) => {
-      state.cartItems = [];
-      state.totalPrice = 0;
-    },
-  },
-});
-
-const searchSlice = createSlice({
+const searchSlice = createSlice( {
   name: "search",
   initialState: {
     keyword: "",
@@ -126,15 +61,7 @@ const searchSlice = createSlice({
 export const { toggleLang } = langSlice.actions;
 export const { toggleTheme } = themeSlice.actions;
 export const { showLoader, hideLoader } = loaderSlice.actions;
-export const {
-  setCart,
-  addToCart,
-  removeFromCart,
-  updateQuantity,
-  clearCart,
-} = cartSlice.actions;
-export const { setSearch } = searchSlice.actions;
-
+export const { setSearch } = searchSlice.actions
 
 ///////////////////
 
@@ -187,13 +114,9 @@ const Store = configureStore({
     myLang: langSlice.reducer,
     myFavorites: favoritesSlice.reducer,
     loader: loaderSlice.reducer,
-<<<<<<< HEAD
     cart: cartSlice.reducer,
-    search: searchSlice.reducer,
-=======
     cart: cartReducer,
     search: searchSlice.reducer
->>>>>>> 3870cb47bfdffb74774ac4b86bc2974168330b7b
   },
 });
 

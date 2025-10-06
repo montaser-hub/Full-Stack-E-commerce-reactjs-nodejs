@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import Search from "../SharedElements/search.jsx";
 import Text from "../SharedElements/Text.jsx";
 import { axiosInstance } from "../AxiosInstance/AxiosInstance";
-import { setCart } from "../../ReduxToolkit/Store.jsx";
+import { setCart } from "../../ReduxToolkit/cartSlice.jsx";
 import { useSearchParams } from "react-router-dom";
 import { setSearch } from "../../ReduxToolkit/Store";
 

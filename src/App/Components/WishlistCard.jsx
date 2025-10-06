@@ -5,7 +5,7 @@ import ForwardTo from "../SharedElements/ForwardTo";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import Alert from "../SharedElements/Alert";
-import { addToCart } from "../../ReduxToolkit/Store";
+import { addToCart } from "../../ReduxToolkit/cartSlice";
 import { axiosInstance } from "../AxiosInstance/AxiosInstance";
 
 import { FaTrash } from "react-icons/fa";
@@ -36,14 +36,9 @@ function WishlistCard(props) {
     setShowToast( true );
     setLoading(false);
   };
-<<<<<<< HEAD
-  const myContent = useSelector((state) => state.myLang.content)
-
-=======
       
   const myContent = useSelector((state)=> state.myLang.content)
   
->>>>>>> 3870cb47bfdffb74774ac4b86bc2974168330b7b
   return (
     <div className="relative w-72 h-[460px] bg-white rounded-lg border border-gray-200 shadow-md hover:shadow-lg transition-shadow duration-300 flex flex-col dark:bg-neutral-800 dark:border-neutral-800">
       {/* Image */}
