@@ -1,16 +1,19 @@
 import { useState, useEffect, useCallback } from "react";
-import { useParams, Link, useNavigate } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import Spinner from "../SharedElements/spinner";
 import Text from "../SharedElements/Text";
 import Alert from "../SharedElements/Alert";
 import OrderSummary from "../Components/OrderSummary";
 import { axiosInstance } from "../AxiosInstance/AxiosInstance";
+import { useDispatch } from "react-redux";
+import { showLoader, hideLoader } from "../../ReduxToolkit/Store";
 
 const OrderConfirmation = () => {
   const { orderId } = useParams();
-  const navigate = useNavigate();
   const [order, setOrder] = useState(null);
   const [alert, setAlert] = useState(null);
+
+  const dispatch = useDispatch();
 
 
   useEffect(() => {
@@ -36,7 +39,12 @@ const OrderConfirmation = () => {
       setAlert({ type: "error", message: "Failed to load order details." });
     } finally {
       dispatch(hideLoader());
+      const delay = new Promise((resolve) => setTimeout(resolve, 1000));
+
       const resPromise = axiosInstance.get(`/orders/${orderId}`);
+      const [res] = await Promise.all([resPromise, delay]);
+
+      setOrder(res.data);
     }
   }, [orderId, dispatch]);
 

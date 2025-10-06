@@ -19,7 +19,6 @@ const Cart = () => {
   const cartState = useSelector((state) => state.cart);
   const [alert, setAlert] = useState(null);
   const subtotal = cartState?.totalPrice;
-console.log("cartState:", cartState);
   const handleRemoveItem = async (productId) => {
     const prevItems = [...cartState.cartItems];
     dispatch(removeFromCart(productId));
@@ -33,10 +32,10 @@ console.log("cartState:", cartState);
         type: "error",
         message: err?.response?.data?.message || "Failed to remove item",
       });
-      dispatch( setCart( {
+      dispatch(setCart({
         items: prevItems,
         totalPrice: prevItems.reduce((sum, i) => sum + i.price * i.quantity, 0),
-        }));
+      }));
     }
   };
 
@@ -89,7 +88,7 @@ console.log("cartState:", cartState);
       });
     }
   };
-      const mycartContent = useSelector((state)=> state.myLang.content)
+  const mycartContent = useSelector((state) => state.myLang.content)
   return (
     <div className="p-4 relative">
       {alert && (
@@ -113,7 +112,7 @@ console.log("cartState:", cartState);
         <div className="lg:col-span-2 space-y-4">
           {cartState.cartItems.length > 0 ? (
             cartState.cartItems.map((item) => (
-              <ShoppingCard
+              < ShoppingCard
                 key={item.productId}
                 src={item.src || "./not_foundimage.png"}
                 alt={item.name}
@@ -123,7 +122,7 @@ console.log("cartState:", cartState);
                 onUpdate={(newQty) =>
                   handleUpdateQuantity(item.productId, newQty, item.id)
                 }
-                onRemove={() => handleRemoveItem(item.id, item.productId)}
+                onRemove={() => handleRemoveItem(item.id)}
               />
             ))
           ) : (
