@@ -9,8 +9,11 @@ import Text from "../SharedElements/Text";
 import { addToCart } from "../../ReduxToolkit/Store";
 import Alert from "../SharedElements/Alert";
 import { useState } from "react";
+import { axiosInstance } from "../../App/AxiosInstance/AxiosInstance";
 
 function ProductCard(props) {
+  const [loading, setLoading] = useState(false);
+
   const dispatch = useDispatch();
   const favoriteProducts = useSelector(
     (state) => state.myFavorites.favoriteProducts
@@ -19,8 +22,8 @@ function ProductCard(props) {
     (product) => product.id === props.id
   );
   const [showToast, setShowToast] = useState(false);
-  const [ showFavToast, setShowFavToast ] = useState( false );
-  
+  const [showFavToast, setShowFavToast] = useState(false);
+
   const product = {
     id: props.id,
     image: props.image,
@@ -150,10 +153,14 @@ function ProductCard(props) {
                 as="span"
                 MyClass="flex items-center justify-center gap-2 w-full text-white"
                 content={
-                  <>
-                    <FiShoppingCart className="w-5 h-5" />
-                    Add to Cart
-                  </>
+                  loading ? (
+                    "Adding..."
+                  ) : (
+                    <>
+                      <FiShoppingCart className="w-5 h-5" />
+                      Add to Cart
+                    </>
+                  )
                 }
               />
             }

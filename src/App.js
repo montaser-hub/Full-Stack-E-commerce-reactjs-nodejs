@@ -72,13 +72,6 @@ const App = () => {
   const myTheme = useSelector((state) => state.theme); // "light" or "dark"
   const { lang } = useSelector((state) => state.myLang); // "en" or "ar"
 
-  useEffect(() => {
-    localStorage.setItem(
-      "token",
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4YjU3N2VlYjhmNDU2YTRkYTUzZjYwZCIsImlhdCI6MTc1OTYxNzA4MSwiZXhwIjoxNzU5NzAzNDgxfQ.1mjAzi9vfAVh7OAKI2Gs48_-N8ghu-jQdSgl90efAFA"
-    );
-  }, []);
-
   return (
     <div
       className={

@@ -4,28 +4,16 @@ import { showLoader, hideLoader } from "../../ReduxToolkit/Store.jsx";
 
 export const axiosInstance = axios.create({
   baseURL: process.env.REACT_APP_API_BASE_URL || "http://localhost:3000",
+  withCredentials: true,
 });
 
 axiosInstance.interceptors.request.use(
   function (config) {
-    console.log("Request URL:", config.baseURL + config.url);
-    console.log("Token:", localStorage.getItem("token"));
+    // console.log("Request URL:", config.baseURL + config.url);
     store.dispatch(showLoader());
-
-    // Add global params (optional, currently empty)
     config.params = {
       ...(config.params || {}),
     };
-
-    // Example token (better to fetch from localStorage/sessionStorage)
-    const mytoken =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4YjU3N2VlYjhmNDU2YTRkYTUzZjYwZCIsImlhdCI6MTc1OTY0NDAzNiwiZXhwIjoxNzU5NzMwNDM2fQ.r42hcyY237qV0ouULcS6IUS8qUf6e3cGmmY9ufTXMBU";//localStorage.getItem("token");
-    
-    if (mytoken) {
-      config.headers["Authorization"] = `Bearer ${mytoken}`;
-    } else {
-      console.warn("No token found in localStorage");
-    }
     return config;
   },
   function (error) {
@@ -36,10 +24,13 @@ axiosInstance.interceptors.request.use(
 
 axiosInstance.interceptors.response.use(
   function (response) {
+    // console.log("Response Cookies:", document.cookie);
+
     store.dispatch(hideLoader());
     return response;
   },
   function (error) {
+    // console.error("Response Cookies:", document.cookie);
     store.dispatch(hideLoader());
     console.error("API error:", error.response?.status, error.response?.data);
     return Promise.reject(error);

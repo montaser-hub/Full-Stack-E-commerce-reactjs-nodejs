@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import ShoppingCard from "../Components/ShoppingCard";
@@ -37,6 +37,35 @@ console.log("cartState:", cartState);
         items: prevItems,
         totalPrice: prevItems.reduce((sum, i) => sum + i.price * i.quantity, 0),
         }));
+    }
+  };
+
+  const handleUpdateQuantity = async (productId, newQuantity, itemId) => {
+    if (newQuantity < 1) {
+      return handleRemoveItem(itemId, productId);
+    }
+    try {
+      const res = await axiosInstance.put(`/carts/items/${productId}`, {
+        quantity: newQuantity,
+      });
+      dispatch(
+        setCart({
+          items: cartState.cartItems.map((i) =>
+            i.productId === productId ? { ...i, quantity: newQuantity } : i
+          ),
+        })
+      );
+      setAlert({
+        type: "success",
+        message: res.data.message || "Quantity updated successfully",
+      });
+    } catch (err) {
+      console.error("update quantity failed:", err);
+      setAlert({
+        type: "error",
+        message:
+          err?.response?.data?.message || "Failed to update item quantity",
+      });
     }
   };
 
@@ -91,7 +120,10 @@ console.log("cartState:", cartState);
                 productName={item.name}
                 price={item.price}
                 quantity={item.quantity}
-                onRemove={() => handleRemoveItem(item.productId)}
+                onUpdate={(newQty) =>
+                  handleUpdateQuantity(item.productId, newQty, item.id)
+                }
+                onRemove={() => handleRemoveItem(item.id, item.productId)}
               />
             ))
           ) : (
@@ -109,13 +141,14 @@ console.log("cartState:", cartState);
             discount={`$0`}
             total={`$${subtotal > 0 ? subtotal + 50 : 0}`}
             onPlaceOrder={handlePlaceOrder}
+            showButton={false}
           />
           <Button
             myClass="mt-4 max-w-md bg-gradient-to-r from-[rgb(67,94,72)] to-[rgb(87,114,92)] text-white hover:from-[rgb(57,84,62)]
             hover:to-[rgb(77,104,82)] active:scale-95  inline-block px-8 py-3 rounded-full font-semibold shadow-lg transition-all 
             duration-300 hover:scale-105 hover:shadow-xl"
             content={mycartContent.returnShopping}
-            onClick={() => navigate("/home")}
+            onClick={() => navigate("/checkout")}
           />
         </div>
       </div>

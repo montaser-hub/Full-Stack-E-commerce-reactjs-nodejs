@@ -36,13 +36,15 @@ function Register() {
       else if (!/^[\w.-]+@[\w.-]+\.[a-zA-Z]{2,}$/.test(value))
         error = content.invalidEmail;
     }
-   if (name === "password") {
-  if (!value) {
-    error = content.reqpassword;
-  } else if (!/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*]).{8,}$/.test(value)) {
-    error = content.passErrPattern; 
-  }
-}
+    if (name === "password") {
+      if (!value) {
+        error = content.reqpassword;
+      } else if (
+        !/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*]).{8,}$/.test(value)
+      ) {
+        error = content.passErrPattern;
+      }
+    }
 
     if (name === "confirmPassword") {
       if (!value) error = content.reqpassword;
@@ -62,7 +64,6 @@ function Register() {
   async function handleSubmit(e) {
     e.preventDefault();
 
-    // Run validation for all fields
     const nameError = validateField("name", info.name);
     const emailError = validateField("email", info.email);
     const passwordError = validateField("password", info.password);
@@ -84,9 +85,8 @@ function Register() {
         role: "user",
       });
       const token = res.data.verifyToken;
-       await axiosInstance.put(`/users/confirm/${token}`);
+      await axiosInstance.put(`/users/confirm/${token}`);
 
-      token && localStorage.setItem( "token", token );
       setShowToast({
         type: "success",
         show: true,
@@ -108,9 +108,14 @@ function Register() {
   }
 
   return (
-    <div className={`min-h-screen flex items-center justify-center ${myTheme === "dark" ? "bg-neutral-900" : "bg-gray-100"}`}>
-      <div className={`bg-white dark:bg-neutral-800 p-8 rounded-xl shadow-md w-full max-w-md`}>
-        {/* Logo */}
+    <div
+      className={`min-h-screen flex items-center justify-center ${
+        myTheme === "dark" ? "bg-neutral-900" : "bg-gray-100"
+      }`}
+    >
+      <div
+        className={`bg-white dark:bg-neutral-800 p-8 rounded-xl shadow-md w-full max-w-md`}
+      >
         <img
           src={myTheme === "dark" ? "/logo-white.png" : "/logo-balck.png"}
           alt="Logo"
@@ -118,7 +123,6 @@ function Register() {
           loading="lazy"
         />
 
-        {/* Title */}
         <Text
           as="h2"
           content={content.regTitle}
@@ -131,7 +135,6 @@ function Register() {
         />
 
         <form onSubmit={handleSubmit} className="space-y-4">
-          {/* Name */}
           <Input
             label={content.nameinput}
             type="text"
@@ -155,7 +158,6 @@ function Register() {
             />
           )}
 
-          {/* Email */}
           <Input
             label={content.inputemail}
             type="email"
@@ -179,7 +181,6 @@ function Register() {
             />
           )}
 
-          {/* Password */}
           <Input
             label={content.regpassword}
             type="password"
@@ -204,7 +205,6 @@ function Register() {
             />
           )}
 
-          {/* Confirm Password */}
           <Input
             label={content.confirmPassword}
             type="password"
@@ -229,7 +229,6 @@ function Register() {
             />
           )}
 
-          {/* Submit */}
           <Button
             type="submit"
             color="bg-blue-600 hover:bg-blue-700 text-white"
@@ -242,7 +241,6 @@ function Register() {
           />
         </form>
 
-        {/* Login Link */}
         <div className="text-center mt-4">
           <Text
             as="p"
@@ -263,7 +261,6 @@ function Register() {
         </div>
       </div>
 
-      {/* Toast */}
       {showToast.show && (
         <Alert
           type={showToast.type}

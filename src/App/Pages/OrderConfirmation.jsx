@@ -1,26 +1,44 @@
 import { useState, useEffect, useCallback } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import Spinner from "../SharedElements/spinner";
 import Text from "../SharedElements/Text";
-import Button from "../SharedElements/Button";
 import Alert from "../SharedElements/Alert";
 import OrderSummary from "../Components/OrderSummary";
-import { axiosInstance } from "../AxiosInstance/TestAxiosInstance";
+import { axiosInstance } from "../AxiosInstance/AxiosInstance";
+import { showLoader, hideLoader } from "../../ReduxToolkit/Store";
 
 const OrderConfirmation = () => {
   const { orderId } = useParams();
-  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [order, setOrder] = useState(null);
   const [alert, setAlert] = useState(null);
 
+  useEffect(() => {
+    let cleanId = orderId.startsWith(":") ? orderId.slice(1) : orderId;
+    const url = new URL(window.location.href);
+    if (url.searchParams.has("token") || url.searchParams.has("PayerID")) {
+      window.history.replaceState({}, document.title, `/order-confirmation/${cleanId}`);
+    }
+  }, [orderId]);
+
   const fetchOrder = useCallback(async () => {
     try {
-      const res = await axiosInstance.get(`/orders/${orderId}`);
+      dispatch(showLoader());
+
+      const delay = new Promise((resolve) => setTimeout(resolve, 10000));
+
+      const resPromise = axiosInstance.get(`/orders/${orderId}`);
+
+      const [res] = await Promise.all([resPromise, delay]);
+
       setOrder(res.data);
     } catch (err) {
       setAlert({ type: "error", message: "Failed to load order details." });
+    } finally {
+      dispatch(hideLoader());
     }
-  }, [orderId]);
+  }, [orderId, dispatch]);
 
   useEffect(() => {
     fetchOrder();
@@ -81,11 +99,12 @@ const OrderConfirmation = () => {
               showButton={false}
             />
           </div>
-          <Button
-            content="Back to Home"
-            onClick={() => navigate("/")}
-            myClass="w-full bg-[rgb(67,94,72)] hover:bg-[rgb(57,84,62)] text-white py-2 rounded-lg mt-6"
-          />
+          <Link
+            to="/home"
+            className="block text-center w-full bg-[rgb(67,94,72)] hover:bg-[rgb(57,84,62)] text-white py-2 rounded-lg mt-6"
+          >
+            Back to Home
+          </Link>
         </div>
       </div>
     </div>

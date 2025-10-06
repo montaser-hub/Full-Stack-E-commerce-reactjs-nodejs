@@ -10,7 +10,7 @@ const OrderSummary = ({
   total,
   showDescription = true,
   showButton = true,
-  onPlaceOrder,
+  onPlaceOrder = () =>{},
 }) => {
       const mycartContent = useSelector((state)=> state.myLang.content)
   const summaryRows = [
