@@ -30,20 +30,23 @@ function Register() {
   function validateField(name, value) {
     let error = "";
 
-    if (name === "name" && !value) error = content.reqname;
+    if (name === "name") {
+      if (!value) error = content.reqname;
+      else if (value.length < 3) error = "Name must be at least 3 characters long.";
+    }
+
     if (name === "email") {
       if (!value) error = content.emailRequired;
       else if (!/^[\w.-]+@[\w.-]+\.[a-zA-Z]{2,}$/.test(value))
         error = content.invalidEmail;
     }
+
     if (name === "password") {
-      if (!value) {
-        error = content.reqpassword;
-      } else if (
+      if (!value) error = content.reqpassword;
+      else if (
         !/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*]).{8,}$/.test(value)
-      ) {
+      )
         error = content.passErrPattern;
-      }
     }
 
     if (name === "confirmPassword") {
@@ -72,8 +75,7 @@ function Register() {
       info.confirmPassword
     );
 
-    if (nameError || emailError || passwordError || confirmPasswordError)
-      return;
+    if (nameError || emailError || passwordError || confirmPasswordError) return;
 
     setLoading(true);
     try {
@@ -84,6 +86,7 @@ function Register() {
         passwordConfirm: info.confirmPassword,
         role: "user",
       });
+
       const token = res.data.verifyToken;
       await axiosInstance.put(`/users/confirm/${token}`);
 
@@ -95,13 +98,44 @@ function Register() {
       setTimeout(() => navigate("/login"), 1500);
     } catch (err) {
       console.error("Signup error:", err);
-      setShowToast({
-        type: "error",
-        show: true,
-        message:
-          err.response?.data?.message ||
-          "Registration failed. Please try again.",
-      });
+
+      const backendErrors = err.response?.data?.errors;
+      const backendMessage =
+        err.response?.data?.message ||
+        err.response?.data?.error ||
+        "Registration failed. Please try again.";
+
+      // errors: { name: { message: "..."} , email: {...} }
+      if (backendErrors) {
+        const formattedErrors = {};
+        for (const key in backendErrors) {
+          formattedErrors[key] = backendErrors[key]?.message || backendMessage;
+        }
+        setErrors((prev) => ({ ...prev, ...formattedErrors }));
+      } else if (
+        backendMessage.toLowerCase().includes("name") ||
+        backendMessage.toLowerCase().includes("email") ||
+        backendMessage.toLowerCase().includes("password")
+      ) {
+        const field = ["name", "email", "password"].find((f) =>
+          backendMessage.toLowerCase().includes(f)
+        );
+        if (field) {
+          setErrors((prev) => ({ ...prev, [field]: backendMessage }));
+        } else {
+          setShowToast({
+            type: "error",
+            show: true,
+            message: backendMessage,
+          });
+        }
+      } else {
+        setShowToast({
+          type: "error",
+          show: true,
+          message: backendMessage,
+        });
+      }
     } finally {
       setLoading(false);
     }
@@ -109,9 +143,8 @@ function Register() {
 
   return (
     <div
-      className={`min-h-screen flex items-center justify-center ${
-        myTheme === "dark" ? "bg-neutral-900" : "bg-gray-100"
-      }`}
+      className={`min-h-screen flex items-center justify-center ${myTheme === "dark" ? "bg-neutral-900" : "bg-gray-100"
+        }`}
     >
       <div
         className={`bg-white dark:bg-neutral-800 p-8 rounded-xl shadow-md w-full max-w-md`}
@@ -135,65 +168,57 @@ function Register() {
         />
 
         <form onSubmit={handleSubmit} className="space-y-4">
+          {/* Name */}
           <Input
             label={content.nameinput}
             type="text"
             name="name"
             value={info.name}
             onChange={handleChange}
-            myClass={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-              errors.name
-                ? "border-red-500"
-                : info.name
+            myClass={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.name
+              ? "border-red-500"
+              : info.name
                 ? "border-green-500"
                 : "border-gray-300"
-            } dark:bg-neutral-700 dark:text-white`}
+              } dark:bg-neutral-700 dark:text-white`}
             placeholder={content.namePlaceholder}
           />
           {errors.name && (
-            <Text
-              as="p"
-              content={errors.name}
-              MyClass="text-red-500 text-sm mt-1"
-            />
+            <Text as="p" content={errors.name} MyClass="text-red-500 text-sm mt-1" />
           )}
 
+          {/* Email */}
           <Input
             label={content.inputemail}
             type="email"
             name="email"
             value={info.email}
             onChange={handleChange}
-            myClass={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-              errors.email
-                ? "border-red-500"
-                : info.email
+            myClass={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.email
+              ? "border-red-500"
+              : info.email
                 ? "border-green-500"
                 : "border-gray-300"
-            } dark:bg-neutral-700 dark:text-white`}
+              } dark:bg-neutral-700 dark:text-white`}
             placeholder={content.regEmailPlaceholder}
           />
           {errors.email && (
-            <Text
-              as="p"
-              content={errors.email}
-              MyClass="text-red-500 text-sm mt-1"
-            />
+            <Text as="p" content={errors.email} MyClass="text-red-500 text-sm mt-1" />
           )}
 
+          {/* Password */}
           <Input
             label={content.regpassword}
             type="password"
             name="password"
             value={info.password}
             onChange={handleChange}
-            myClass={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-              errors.password
-                ? "border-red-500"
-                : info.password
+            myClass={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.password
+              ? "border-red-500"
+              : info.password
                 ? "border-green-500"
                 : "border-gray-300"
-            } dark:bg-neutral-700 dark:text-white`}
+              } dark:bg-neutral-700 dark:text-white`}
             placeholder={content.regpasswordPlaceholder}
             showToggle
           />
@@ -205,19 +230,19 @@ function Register() {
             />
           )}
 
+          {/* Confirm Password */}
           <Input
             label={content.confirmPassword}
             type="password"
             name="confirmPassword"
             value={info.confirmPassword}
             onChange={handleChange}
-            myClass={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-              errors.confirmPassword
-                ? "border-red-500"
-                : info.confirmPassword
+            myClass={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.confirmPassword
+              ? "border-red-500"
+              : info.confirmPassword
                 ? "border-green-500"
                 : "border-gray-300"
-            } dark:bg-neutral-700 dark:text-white`}
+              } dark:bg-neutral-700 dark:text-white`}
             placeholder={content.confirmPasswordPlaceholder}
             showToggle
           />
