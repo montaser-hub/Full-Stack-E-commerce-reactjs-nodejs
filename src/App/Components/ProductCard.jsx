@@ -6,7 +6,7 @@ import { HiHeart } from "react-icons/hi";
 import Button from "../SharedElements/Button";
 import { FiShoppingCart } from "react-icons/fi";
 import Text from "../SharedElements/Text";
-import { addToCart } from "../../ReduxToolkit/Store";
+import { addToCart } from "../../ReduxToolkit/cartSlice";
 import Alert from "../SharedElements/Alert";
 import { useState } from "react";
 import { axiosInstance } from "../../App/AxiosInstance/AxiosInstance";

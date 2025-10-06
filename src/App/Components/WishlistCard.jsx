@@ -5,7 +5,7 @@ import ForwardTo from "../SharedElements/ForwardTo";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import Alert from "../SharedElements/Alert";
-import { addToCart } from "../../ReduxToolkit/Store";
+import { addToCart } from "../../ReduxToolkit/cartSlice";
 import { axiosInstance } from "../AxiosInstance/AxiosInstance";
     
 import { FaTrash } from "react-icons/fa";

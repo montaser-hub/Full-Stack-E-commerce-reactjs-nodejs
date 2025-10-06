@@ -3,11 +3,8 @@ import { FaPlus, FaMinus, FaTrash } from "react-icons/fa";
 import Modal from "../SharedElements/Modal";
 import ConfirmDelete from "../SharedElements/ConfirmDelete";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  setCart,
-  updateQuantity,
-} from "../../ReduxToolkit/Store";
 import { axiosInstance } from "../AxiosInstance/AxiosInstance";
+import { fetchCart, setCart, updateQuantity } from "../../ReduxToolkit/cartSlice.jsx";
 const ShoppingCard = ({
   src,
   alt = "product",
@@ -15,11 +12,12 @@ const ShoppingCard = ({
   price,
   quantity,
   onRemove,
+  productId,
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [ alert, setAlert ] = useState( null );
   const dispatch = useDispatch();
-  const cartState = useSelector((state) => state.cart);
+   const cartState = useSelector((state) => state.cart);
   const handleRemoveClick = () => setIsModalOpen(true);
   const handleConfirmDelete = () => {
     onRemove();
@@ -41,7 +39,7 @@ const handleQuantityChange = async (productId, quantity) => {
         message:
         err?.response?.data?.message || "Failed to update item quantity",
       });
-
+      dispatch(fetchCart());
       // revert state if API fails
       dispatch(setCart({ items: cartState.cartItems.map((i) => i.productId === productId ? { ...i, quantity } : i) }));
     }
@@ -70,7 +68,7 @@ const handleQuantityChange = async (productId, quantity) => {
         <div className="flex justify-center sm:w-1/3">
           <div className="flex items-center space-x-2">
             <button
-              onClick={() => handleQuantityChange(quantity - 1)}
+              onClick={() => handleQuantityChange(productId, quantity - 1)}
               className="px-3 py-1 rounded border border-gray-300 hover:bg-gray-100 dark:hover:bg-neutral-600"
             >
               <FaMinus />
@@ -79,7 +77,7 @@ const handleQuantityChange = async (productId, quantity) => {
               {quantity}
             </span>
             <button
-              onClick={() => handleQuantityChange(quantity + 1)}
+              onClick={() => handleQuantityChange(productId, quantity + 1)}
               className="px-3 py-1 rounded border border-gray-300 hover:bg-gray-100 dark:hover:bg-neutral-600"
             >
               <FaPlus />

@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { addFavorite, addToCart, removeFavorite } from "../../ReduxToolkit/Store"; 
+import { addFavorite, removeFavorite } from "../../ReduxToolkit/Store"; 
 import Button from "../SharedElements/Button";
 import Text from "../SharedElements/Text";
 import { CiHeart } from "react-icons/ci"; 
@@ -8,6 +8,7 @@ import { FiShoppingCart } from "react-icons/fi";
 import { useState } from "react";
 import { axiosInstance } from "../AxiosInstance/AxiosInstance";
 import Alert from "../SharedElements/Alert";
+import {addToCart} from "../../ReduxToolkit/cartSlice"
 
 function ProductDetailsCard({ id, image, title, description, price, category, stock }) {
   const dispatch = useDispatch();

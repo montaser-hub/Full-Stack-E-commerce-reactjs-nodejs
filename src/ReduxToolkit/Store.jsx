@@ -46,64 +46,6 @@ const loaderSlice = createSlice({
   },
 } );
 
-const cartSlice = createSlice({
-  name: "cart",
-  initialState: {
-    cartItems: [],
-    totalPrice: 0,
-  },
-  reducers: {
-    setCart: (state, action) => {
-      state.cartItems = action.payload.items || [];
-      state.totalPrice =
-        action.payload.totalPrice ??
-        state.cartItems.reduce((sum, i) => sum + i.price * i.quantity, 0);
-    },
-    addToCart: ( state, action ) => {
-      const existing = state.cartItems.find(
-        (it) => it.productId === action.payload.id
-      );
-      if (existing) {
-        existing.quantity = (existing.quantity || 0) + 1;
-      } else {
-        state.cartItems.push({
-          id: action.payload.id,
-          productId: action.payload.id,
-          name: action.payload.name,
-          price: action.payload.price,
-          image: action.payload.image,
-          quantity: 1,
-        });
-      }
-      state.totalPrice = state.cartItems.reduce(
-        (sum, i) => sum + i.price * i.quantity,
-        0
-      );
-    },
-    removeFromCart: (state, action) => {
-      state.cartItems = state.cartItems.filter((i) => i.id  !== action.payload.id );
-      state.totalPrice = state.cartItems.reduce(
-        (sum, i) => sum + i.price * i.quantity,
-        0
-      );
-    },
-    updateQuantity: (state, action) => {
-      const item = state.cartItems.find(
-        (i) => i.productId === action.payload.productId
-      );
-      if (item) item.quantity = action.payload.quantity;
-      state.totalPrice = state.cartItems.reduce(
-        (sum, i) => sum + i.price * i.quantity,
-        0
-      );
-    },
-    clearCart: (state) => {
-      state.cartItems = [];
-      state.totalPrice = 0;
-    },
-  },
-} );
-
 const searchSlice = createSlice( {
   name: "search",
   initialState: {
@@ -119,7 +61,6 @@ const searchSlice = createSlice( {
 export const { toggleLang } = langSlice.actions; // button click -> action dispatch
 export const { toggleTheme } = themeSlice.actions; // button click -> action dispatch
 export const { showLoader, hideLoader } = loaderSlice.actions;
-export const { setCart, addToCart, removeFromCart, updateQuantity, clearCart } = cartSlice.actions;
 export const { setSearch } = searchSlice.actions
 
 // Favorites
