@@ -1,69 +1,34 @@
 import { useDispatch, useSelector } from "react-redux";
-
-import { axiosInstance } from "../AxiosInstance/AxiosInstance";
-import { addFavorite, addToCart, removeFavorite } from "../../ReduxToolkit/Store"; 
-import {addToCart} from "../../ReduxToolkit/cartSlice"
-
+import { addFavorite, removeFavorite } from "../../ReduxToolkit/Store"; 
 import Button from "../SharedElements/Button";
 import Text from "../SharedElements/Text";
-import { CiHeart } from "react-icons/ci";
-import { HiHeart } from "react-icons/hi";
+import { CiHeart } from "react-icons/ci"; 
+import { HiHeart } from "react-icons/hi"; 
 import { FiShoppingCart } from "react-icons/fi";
-
-import {
-  addFavorite,
-  removeFavorite,
-  setFavoritesLoading,
-} from "../../ReduxToolkit/Store";
-import Alert from "../SharedElements/Alert";
 import { useState } from "react";
+import { axiosInstance } from "../AxiosInstance/AxiosInstance";
+import Alert from "../SharedElements/Alert";
+import {addToCart} from "../../ReduxToolkit/cartSlice"
 
 function ProductDetailsCard({ id, image, title, description, price, category, stock }) {
   const dispatch = useDispatch();
-  const { favoriteProducts } = useSelector((state) => state.myFavorites);
-  const [showFavToast, setShowFavToast] = useState(false);
-
+  const favoriteProducts = useSelector(state => state.myFavorites.favoriteProducts);
   const [showToast, setShowToast] = useState(false);
   const [ setLoading] = useState(false);
   const isFavorite = favoriteProducts.some(product => product?.id?.toString() === id?.toString());
 
-  const handleToggleFavorite = async () => {
-    try {
-      dispatch(setFavoritesLoading(true));
-      if (isFavorite) {
-        await axiosInstance.delete(`/wishlist/${id}`, { withCredentials: true });
-        dispatch(removeFavorite(id));
-        setShowFavToast("removed");
-      } else {
-        const product = {
-          id,
-          image,
-          title,
-          description,
-          price,
-          category,
-        };
-        await axiosInstance.post(
-          "/wishlist",
-          {
-            items: [
-              {
-                productId: id,
-                productName: title,
-                productImage: image,
-                price,
-              },
-            ],
-          },
-          { withCredentials: true }
-        );
-        dispatch(addFavorite(product));
-        setShowFavToast("added");
-      }
-    } catch (err) {
-      console.error("Error updating wishlist:", err);
-    } finally {
-      dispatch(setFavoritesLoading(false));
+  const handleToggleFavorite = () => {
+    if (isFavorite) {
+      dispatch(removeFavorite(id)); 
+    } else {
+      dispatch(addFavorite({ 
+        id: id ? id.toString() : null,
+        image,
+        title,
+        description,
+        price, 
+        category: category || "Unknown",
+      }));
     }
   };
 
@@ -84,7 +49,7 @@ function ProductDetailsCard({ id, image, title, description, price, category, st
   };
   return (
     <div className="flex flex-col md:flex-row bg-white dark:bg-neutral-800 rounded-2xl shadow-md overflow-hidden transition-shadow hover:shadow-lg w-full max-w-4xl mx-auto">
-      {/* Product Image */}
+      
       <div className="relative md:w-1/2 h-96 bg-gray-50 dark:bg-neutral-800 flex items-center justify-center">
         <img
           src={image}
@@ -92,19 +57,15 @@ function ProductDetailsCard({ id, image, title, description, price, category, st
           className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
           loading="lazy"
         />
-        {id && (
-          <Button
-            myClass="absolute top-4 right-4 w-10 h-10 bg-white/70 rounded-full border border-gray-300 flex items-center justify-center hover:bg-white/90 shadow-sm"
-            onClick={handleToggleFavorite}
-            content={
-              isFavorite ? (
-                <HiHeart className="w-5 h-5 text-rose-500 transition-colors duration-200" />
-              ) : (
-                <CiHeart className="w-5 h-5 text-neutral-900 hover:text-rose-500 transition-colors duration-200" />
-              )
-            }
-          />
-        )}
+        {id && (<Button
+          myClass="absolute top-4 right-4 w-10 h-10 bg-white/70 rounded-full border border-gray-300 flex items-center justify-center hover:bg-white/90 shadow-sm"
+          onClick={handleToggleFavorite}
+          content={isFavorite
+            ? <HiHeart className="w-5 h-5 text-rose-500 transition-colors duration-200"/>
+            : <CiHeart className="w-5 h-5 text-neutral-900 hover:text-rose-500 transition-colors duration-200"/>
+          }
+        />)}  
+        
       </div>
           {showToast && (
             <Alert
@@ -114,67 +75,32 @@ function ProductDetailsCard({ id, image, title, description, price, category, st
               onClose={() => setShowToast(false)}
             />
           )}
-
       <div className="md:w-1/2 p-6 flex flex-col justify-between">
         <div className="space-y-3">
-          <Text as="h1" content={title} MyClass="text-2xl font-bold text-neutral-900 dark:text-white" />
-          <Text as="p" content={description} MyClass="text-gray-600 dark:text-gray-300" />
-          <Text
-            as="p"
-            content={`Category: ${category || "Unknown"}`}
-            MyClass="text-sm font-medium text-gray-500 dark:text-gray-400"
-          />
-          {price && (
-            <Text
-              as="p"
-              content={`Price: ${price}`}
-              MyClass="text-xl font-bold text-blue-600 dark:text-blue-400"
-            />
-          )}
+          <Text as="h1" content={title} MyClass="text-2xl font-bold text-neutral-900 dark:text-white"/>
+          <Text as="p" content={description} MyClass="text-gray-600 dark:text-gray-300"/>
+          <Text as="p" content={`Category: ${category || "Unknown"}`} MyClass="text-sm font-medium text-gray-500 dark:text-gray-400"/>
+          {price && (<Text as="p" content={`Price: ${price}`} MyClass="text-xl font-bold text-blue-600 dark:text-blue-400"/>)}
           {stock !== undefined && (
-            <Text
-              as="p"
-              content={`Stock: ${stock} available`}
-              MyClass="text-sm text-gray-500 dark:text-gray-400"
-            />
+            <Text as="p" content={`Stock: ${stock} available`} MyClass="text-sm text-gray-500 dark:text-gray-400"/>
           )}
         </div>
         
 
         <div className="mt-6">
-          {id && (
-            <Button
-              myClass="w-full h-12 flex items-center justify-center gap-2 font-medium bg-gradient-to-r from-[rgb(67,94,72)] to-[rgb(87,114,92)] rounded-xl shadow-md hover:from-[rgb(57,84,62)] hover:to-[rgb(77,104,82)] active:scale-95 transition-all duration-200"
-              onClick={() => console.log("Add to Cart clicked!")}
-              content={
-                <Text
-                  as="span"
-                  MyClass="flex items-center justify-center gap-2 w-full text-white"
-                  content={
-                    <>
-                      <FiShoppingCart className="w-5 h-5" /> Add to Cart
-                    </>
-                  }
-                />
-              }
-            />
-          )}
+          {id && (<Button
+            myClass="w-full h-12 flex items-center justify-center gap-2 font-medium bg-gradient-to-r from-[rgb(67,94,72)] to-[rgb(87,114,92)] rounded-xl shadow-md hover:from-[rgb(57,84,62)] hover:to-[rgb(77,104,82)] active:scale-95 transition-all duration-200"
+            onClick={handleAddToCart}
+            content={
+              <Text
+                as="span"
+                MyClass="flex items-center justify-center gap-2 w-full text-white"
+                content={<><FiShoppingCart className="w-5 h-5"/> Add to Cart</>}
+              />
+            }
+          /> )}
         </div>
       </div>
-
-      {/* Toast */}
-      {showFavToast && (
-        <Alert
-          type={showFavToast === "removed" ? "error" : "success"}
-          message={
-            showFavToast === "removed"
-              ? `${title} removed from favorites!`
-              : `${title} added to favorites!`
-          }
-          duration={2000}
-          onClose={() => setShowFavToast(false)}
-        />
-      )}
     </div>
   );
 }
