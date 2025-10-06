@@ -32,18 +32,11 @@ function WishlistCard(props) {
       },
       { withCredentials: true }
     );
-    dispatch(addToCart({id:productId, price}));
-    setShowToast( true );
+    dispatch(addToCart({ id: productId, price }));
+    setShowToast(true);
     setLoading(false);
   };
-<<<<<<< HEAD
   const myContent = useSelector((state) => state.myLang.content)
-
-=======
-      
-  const myContent = useSelector((state)=> state.myLang.content)
-  
->>>>>>> 3870cb47bfdffb74774ac4b86bc2974168330b7b
   return (
     <div className="relative w-72 h-[460px] bg-white rounded-lg border border-gray-200 shadow-md hover:shadow-lg transition-shadow duration-300 flex flex-col dark:bg-neutral-800 dark:border-neutral-800">
       {/* Image */}
@@ -78,8 +71,8 @@ function WishlistCard(props) {
                     <Text
                       as="p"
                       content={`Description: ${description?.length > 20
-                          ? `${description.slice(0, 20)}...`
-                          : description
+                        ? `${description.slice(0, 20)}...`
+                        : description
                         }`}
                       MyClass="text-sm"
                     />
