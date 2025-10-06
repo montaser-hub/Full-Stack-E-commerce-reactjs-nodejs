@@ -13,7 +13,7 @@ function ProductDetailsCard({ id, image, title, description, price, category, st
   const dispatch = useDispatch();
   const favoriteProducts = useSelector(state => state.myFavorites.favoriteProducts);
   const [showToast, setShowToast] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [ setLoading] = useState(false);
   const isFavorite = favoriteProducts.some(product => product?.id?.toString() === id?.toString());
 
   const handleToggleFavorite = () => {

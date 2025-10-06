@@ -26,7 +26,6 @@ import Register from "./App/Pages/Register";
 import Wishlist from "./App/Pages/Wishlist";
 import Checkout from "./App/Pages/Checkout";
 import OrderConfirmation from "./App/Pages/OrderConfirmation";
-import PaymentSuccess from "./App/Pages/PaymentSuccess";
 import PaymentCancel from "./App/Pages/PaymentCancel";
 import Loader from "./App/SharedElements/spinner.jsx";
 import LandingPage from "./App/Pages/LandingPage.jsx";
