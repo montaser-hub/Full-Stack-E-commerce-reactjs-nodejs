@@ -1,11 +1,11 @@
-// action, reducer , store
-import { configureStore, createSlice } from "@reduxjs/toolkit";
+import { configureStore, createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { axiosInstance } from "../App/AxiosInstance/AxiosInstance";
 import en from "../Locals/en";
 import ar from "../Locals/ar";
 
 const themeSlice = createSlice({
-  name: "handleTheme", // type of action
-  initialState: "light", // initial state
+  name: "handleTheme",
+  initialState: "light",
   reducers: {
     toggleTheme: (state) => (state === "light" ? "dark" : "light"),
   },
@@ -43,7 +43,7 @@ const loaderSlice = createSlice({
       state.isLoading = false;
     },
   },
-} );
+});
 
 const cartSlice = createSlice({
   name: "cart",
@@ -58,7 +58,7 @@ const cartSlice = createSlice({
         action.payload.totalPrice ??
         state.cartItems.reduce((sum, i) => sum + i.price * i.quantity, 0);
     },
-    addToCart: ( state, action ) => {
+    addToCart: (state, action) => {
       const existing = state.cartItems.find(
         (it) => it.productId === action.payload.productId
       );
@@ -80,7 +80,9 @@ const cartSlice = createSlice({
       );
     },
     removeFromCart: (state, action) => {
-      state.cartItems = state.cartItems.filter((i) => i.id  !== action.payload.id );
+      state.cartItems = state.cartItems.filter(
+        (i) => i.id !== action.payload.id
+      );
       state.totalPrice = state.cartItems.reduce(
         (sum, i) => sum + i.price * i.quantity,
         0
@@ -101,9 +103,9 @@ const cartSlice = createSlice({
       state.totalPrice = 0;
     },
   },
-} );
+});
 
-const searchSlice = createSlice( {
+const searchSlice = createSlice({
   name: "search",
   initialState: {
     keyword: "",
@@ -112,41 +114,66 @@ const searchSlice = createSlice( {
     setSearch: (state, action) => {
       state.keyword = action.payload;
     },
-  }
-})
+  },
+});
 
-export const { toggleLang } = langSlice.actions; // button click -> action dispatch
-export const { toggleTheme } = themeSlice.actions; // button click -> action dispatch
+export const { toggleLang } = langSlice.actions;
+export const { toggleTheme } = themeSlice.actions;
 export const { showLoader, hideLoader } = loaderSlice.actions;
-export const { setCart, addToCart, removeFromCart, updateQuantity, clearCart } = cartSlice.actions;
-export const { setSearch } = searchSlice.actions
+export const {
+  setCart,
+  addToCart,
+  removeFromCart,
+  updateQuantity,
+  clearCart,
+} = cartSlice.actions;
+export const { setSearch } = searchSlice.actions;
 
-// Favorites
-const initialState = {
-  favoriteProducts: [],
-};
+
+///////////////////
 
 const favoritesSlice = createSlice({
   name: "favorites",
-  initialState,
+  initialState: {
+    favoriteProducts: [],
+    loading: false,
+  },
   reducers: {
+    setFavorites: (state, action) => {
+      state.favoriteProducts = action.payload || [];
+    },
     addFavorite: (state, action) => {
-      const productExists = state.favoriteProducts.some(
-        (product) => product.id === action.payload.id
-      );
-      if (!productExists) {
-        state.favoriteProducts.push(action.payload);
-      }
+      const payload = action.payload;
+      const id =
+        payload?.id ||
+        payload?.productId ||
+        (payload?.productId?._id ? payload.productId._id : undefined);
+      const exists = state.favoriteProducts.some((p) => {
+        const pid = p?.id || p?.productId || (p?.productId?._id ? p.productId._id : undefined);
+        return pid == id;
+      });
+      if (!exists) state.favoriteProducts.push(payload);
     },
     removeFavorite: (state, action) => {
-      state.favoriteProducts = state.favoriteProducts.filter(
-        (product) => product.id !== action.payload
-      );
+      const id = action.payload;
+      state.favoriteProducts = state.favoriteProducts.filter((p) => {
+        const pid = p?.id || p?.productId || (p?.productId?._id ? p.productId._id : undefined);
+        return pid != id;
+      });
+    },
+    setFavoritesLoading: (state, action) => {
+      state.loading = !!action.payload;
     },
   },
 });
 
-export const { addFavorite, removeFavorite } = favoritesSlice.actions;
+export const { setFavorites, addFavorite, removeFavorite, setFavoritesLoading } =
+  favoritesSlice.actions;
+
+// keep backward-compatible names used in other components
+export const addWishlistItem = addFavorite;
+export const removeWishlistItem = removeFavorite;
+
 
 const Store = configureStore({
   reducer: {
@@ -155,8 +182,9 @@ const Store = configureStore({
     myFavorites: favoritesSlice.reducer,
     loader: loaderSlice.reducer,
     cart: cartSlice.reducer,
-    search: searchSlice.reducer
+    search: searchSlice.reducer,
   },
 });
+
 
 export default Store;

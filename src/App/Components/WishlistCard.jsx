@@ -7,7 +7,7 @@ import { useState } from "react";
 import Alert from "../SharedElements/Alert";
 import { addToCart } from "../../ReduxToolkit/Store";
 import { axiosInstance } from "../AxiosInstance/AxiosInstance";
-    
+
 import { FaTrash } from "react-icons/fa";
 function WishlistCard(props) {
   const [loading, setLoading] = useState(false);
@@ -18,9 +18,10 @@ function WishlistCard(props) {
 
   const title = props.title || "No Title";
   const description = props.description || "No Description";
-  const image = props.image ;
+  const image = props.image;
   const category = props.category || "Uncategorized";
   const price = props.price ?? "N/A";
+  console.log(props);
 
   const handleAddToCart = async () => {
     setLoading(true);
@@ -38,8 +39,8 @@ function WishlistCard(props) {
       setLoading(false);
     }
   };
-  const myContent = useSelector((state)=> state.myLang.content)
-  
+  const myContent = useSelector((state) => state.myLang.content)
+
   return (
     <div className="relative w-72 h-[460px] bg-white rounded-lg border border-gray-200 shadow-md hover:shadow-lg transition-shadow duration-300 flex flex-col dark:bg-neutral-800 dark:border-neutral-800">
       {/* Image */}
@@ -67,18 +68,16 @@ function WishlistCard(props) {
                   <div>
                     <Text
                       as="span"
-                      content={`Name: ${
-                        title?.length > 15 ? `${title.slice(0, 15)}...` : title
-                      }`}
+                      content={`Name: ${title?.length > 15 ? `${title.slice(0, 15)}...` : title
+                        }`}
                       MyClass="font-bold"
                     />
                     <Text
                       as="p"
-                      content={`Description: ${
-                        description?.length > 20
+                      content={`Description: ${description?.length > 20
                           ? `${description.slice(0, 20)}...`
                           : description
-                      }`}
+                        }`}
                       MyClass="text-sm"
                     />
                   </div>
@@ -124,7 +123,7 @@ function WishlistCard(props) {
                   ) : (
                     <>
                       <FiShoppingCart className="w-5 h-5" />
-                       {myContent.addtocart}
+                      {myContent.addtocart}
                     </>
                   )
 
@@ -153,14 +152,14 @@ function WishlistCard(props) {
           />
         </div>
       </div>
-        {showToast && (
-              <Alert
-                type="success"
-                message={`${props.title} added to cart!`}
-                duration={2000}
-                onClose={() => setShowToast(false)}
-              />
-            )}
+      {showToast && (
+        <Alert
+          type="success"
+          message={`${props.title} added to cart!`}
+          duration={2000}
+          onClose={() => setShowToast(false)}
+        />
+      )}
     </div>
   );
 }

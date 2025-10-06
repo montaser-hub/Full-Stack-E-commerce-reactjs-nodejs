@@ -26,39 +26,48 @@ import Register from "./App/Pages/Register";
 import Wishlist from "./App/Pages/Wishlist";
 import Checkout from "./App/Pages/Checkout";
 import OrderConfirmation from "./App/Pages/OrderConfirmation";
-import PaymentSuccess from "./App/Pages/PaymentSuccess";
 import PaymentCancel from "./App/Pages/PaymentCancel";
 import Loader from "./App/SharedElements/spinner.jsx";
 import LandingPage from "./App/Pages/LandingPage.jsx";
+import ProtectRoute from "./App/Auth/ProtectedRoute";
+import AdminRoute from "./App/Auth/AdminRoute";
+import ScrollToTop from "./App/Components/ScrollToTop"
+
 
 // Define router
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path="/" element={<RouteLayout />}>
+    <Route path="/" element={<><ScrollToTop /> <RouteLayout /></>}>
       <Route index element={<LandingPage />} />
-      <Route path="home" element={<Home />} />
-      <Route path="checkout" element={<Checkout />} />
-      <Route
-        path="order-confirmation/:orderId"
-        element={<OrderConfirmation />}
-      />
-      <Route path="payments/cancel" element={<PaymentCancel />} />
       <Route path="register" element={<Register />} />
       <Route path="login" element={<Login />} />
-      <Route path="home" element={<Home />} />
-      <Route path="cart" element={<Cart />} />
-      <Route path="wishlist" element={<Wishlist />} />
-      <Route path="orders" element={<Orders />} />
-      <Route path="products/:id" element={<ProductDetails />} />
 
-      <Route path="dashboard" element={<DashboardLayout />}>
-        {/* Dashboard Pages */}
-        <Route index element={<DashboardHome />} />
-        <Route path="products" element={<ManageProducts />} />
-        <Route path="orders" element={<ManageOrders />} />
-        <Route path="categories" element={<ManageCategories />} />
-        <Route path="settings" element={<Settings />} />
-        <Route path="analytics" element={<Analytics />} />
+
+      <Route element={<ProtectRoute />}>
+        <Route path="home" element={<Home />} />
+        <Route path="checkout" element={<Checkout />} />
+        <Route
+          path="order-confirmation/:orderId"
+          element={<OrderConfirmation />}
+        />
+        <Route path="payments/cancel" element={<PaymentCancel />} />
+        <Route path="home" element={<Home />} />
+        <Route path="cart" element={<Cart />} />
+        <Route path="wishlist" element={<Wishlist />} />
+        <Route path="orders" element={<Orders />} />
+        <Route path="products/:id" element={<ProductDetails />} />
+      </Route>
+
+      <Route element={<AdminRoute />}>
+        <Route path="dashboard" element={<DashboardLayout />}>
+          {/* Dashboard Pages */}
+          <Route index element={<DashboardHome />} />
+          <Route path="products" element={<ManageProducts />} />
+          <Route path="orders" element={<ManageOrders />} />
+          <Route path="categories" element={<ManageCategories />} />
+          <Route path="settings" element={<Settings />} />
+          <Route path="analytics" element={<Analytics />} />
+        </Route>
       </Route>
       {/* Error page */}
       <Route path="*" element={<ErrorPage />} />
@@ -79,6 +88,7 @@ const App = () => {
       }
       dir={lang === "ar" ? "rtl" : "ltr"}
     >
+
       <Loader />
       <RouterProvider router={router} />
     </div>
