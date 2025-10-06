@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { axiosInstance } from "../AxiosInstance/AxiosInstance";
+import { addFavorite, removeFavorite } from "../../ReduxToolkit/Store";
 import ForwardTo from "../SharedElements/ForwardTo";
 import { CiHeart } from "react-icons/ci";
 import { HiHeart } from "react-icons/hi";
@@ -8,26 +8,20 @@ import { FiShoppingCart } from "react-icons/fi";
 import Text from "../SharedElements/Text";
 import { addToCart } from "../../ReduxToolkit/cartSlice";
 import Alert from "../SharedElements/Alert";
-import { addToCart } from "../../ReduxToolkit/Store";
 import { useState } from "react";
-import {
-  addFavorite,
-  removeFavorite,
-  setFavoritesLoading,
-} from "../../ReduxToolkit/Store";
+import { axiosInstance } from "../../App/AxiosInstance/AxiosInstance";
 
 function ProductCard(props) {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
-  const { favoriteProducts } = useSelector((state) => state.myFavorites);
+  const favoriteProducts = useSelector(
+    (state) => state.myFavorites.favoriteProducts
+  );
+  const isFavorite = favoriteProducts.some(
+    (product) => product.id === props.id
+  );
   const [showToast, setShowToast] = useState(false);
   const [showFavToast, setShowFavToast] = useState(false);
-
-  const isFavorite = favoriteProducts.some(
-    (product) =>
-      product.id?.toString() === props.id?.toString() ||
-      product.productId?._id?.toString() === props.id?.toString()
-  );
 
   const product = {
     id: props.id,
@@ -36,37 +30,16 @@ function ProductCard(props) {
     description: props.description,
     price: props.price,
     category: props.categoryId?.name || "Unknown Category",
-    quantity: props.stock,
+    quantity: props.quantity,
   };
 
-  const handleToggleFavorite = async () => {
-    try {
-      dispatch(setFavoritesLoading(true));
-      if (isFavorite) {
-        await axiosInstance.delete(`/wishlist/${props.id}`, { withCredentials: true });
-        dispatch(removeFavorite(props.id));
-        setShowFavToast("removed");
-      } else {
-        await axiosInstance.post(
-          "/wishlist",
-          {
-            items: [
-              {
-                productId: product.id,
-              },
-            ],
-          },
-          { withCredentials: true }
-        );
-        console.log(product.id);
-
-        dispatch(addFavorite(product));
-        setShowFavToast("added");
-      }
-    } catch (err) {
-      console.error("Error updating wishlist:", err);
-    } finally {
-      dispatch(setFavoritesLoading(false));
+  const handleToggleFavorite = () => {
+    if (isFavorite) {
+      dispatch(removeFavorite(props.id));
+      setShowFavToast("removed");
+    } else {
+      dispatch(addFavorite(product));
+      setShowFavToast("added");
     }
   };
 
@@ -88,14 +61,14 @@ function ProductCard(props) {
   return (
     <div className="relative w-60 bg-white rounded-lg border shadow-md hover:shadow-lg transition-shadow duration-300 dark:bg-neutral-800 dark:border-neutral-800">
       {/* Image And Heart Icon*/}
-      <div className="relative w-full h-60 rounded-t-lg overflow-hidden flex items-center justify-center bg-gray-50 dark:bg-neutral-800">
+      <div className="relative w-full h-60 rounded-t-lg overflow-hidden flex items-center justify-center bg-gray-50  dark:bg-neutral-800">
         <img
           src={props.image || "./not_foundimage.png"}
           alt={props.title}
-          className="w-full h-full object-cover block transition-transform duration-300 hover:scale-105 max-h-full max-w-full mx-auto"
+          className="w-full h-full object-cover block transition-transform duration-300 hover:scale-105 max-h-full max-w-full  mx-auto "
           loading="lazy"
           onError={(e) => {
-            e.currentTarget.src = "./not_foundimage.png";
+            e.currentTarget.image = "./not_foundimage.png";
           }}
         />
         <Button
@@ -112,11 +85,11 @@ function ProductCard(props) {
       </div>
 
       {/* Details */}
-      <div className="p-4 flex flex-col justify-between h-[220px]">
+      <div className="p-4 flex flex-col justify-between h-[220px] ">
         <div>
           <Text
             as="h3"
-            MyClass="text-neutral-900 text-lg font-semibold dark:text-white"
+            MyClass="text-neutral-900 text-lg font-semibold  dark:text-white"
             content={
               <ForwardTo
                 to={`/products/${props.id}`}
@@ -126,18 +99,20 @@ function ProductCard(props) {
                   <div>
                     <Text
                       as="span"
-                      content={`Name: ${props.title.length > 15
-                        ? `${props.title.slice(0, 15)}...`
-                        : props.title
-                        }`}
+                      content={`Name: ${
+                        props.title.length > 15
+                          ? `${props.title.slice(0, 15)}...`
+                          : props.title
+                      }`}
                       MyClass="font-bold block"
                     />
                     <Text
                       as="p"
-                      content={`Description: ${props.description.length > 10
-                        ? `${props.description.slice(0, 10)}...`
-                        : props.description
-                        }`}
+                      content={`Description: ${
+                        props.description.length > 10
+                          ? `${props.description.slice(0, 10)}...`
+                          : props.description
+                      }`}
                       MyClass="text-sm mt-1"
                     />
                   </div>
@@ -148,8 +123,10 @@ function ProductCard(props) {
           <div className="flex items-center justify-between mt-2 dark:text-white font-semibold">
             <Text
               as="span"
-              content={`Category: ${props.categoryId?.name || "Unknown Category"}`}
-              MyClass="text-sm"
+              content={`Category: ${
+                props.categoryId?.name || "Unknown Category"
+              }`}
+              MyClass=" text-sm"
             />
           </div>
           <div className="flex items-center justify-between mt-2">
@@ -165,10 +142,10 @@ function ProductCard(props) {
         <div className="mt-4 w-full">
           <Button
             myClass={`w-full h-12 flex items-center justify-center gap-2 font-medium 
-                      bg-gradient-to-r from-[rgb(67,94,72)] to-[rgb(87,114,92)]
-                      rounded-xl shadow-md 
-                      hover:from-[rgb(57,84,62)] hover:to-[rgb(77,104,82)] 
-                      active:scale-95 transition-all duration-200`}
+                    bg-gradient-to-r from-[rgb(67,94,72)] to-[rgb(87,114,92)]
+                    rounded-xl shadow-md 
+                    hover:from-[rgb(57,84,62)] hover:to-[rgb(77,104,82)] 
+                    active:scale-95 transition-all duration-200`}
             onClick={handleAddToCart}
             content={
               <Text
@@ -189,20 +166,10 @@ function ProductCard(props) {
           />
         </div>
       </div>
-
-      {/* ✅ Alerts */}
-      {showToast === "added" && (
+      {showToast && (
         <Alert
           type="success"
           message={`${props.title} added to cart!`}
-          duration={2000}
-          onClose={() => setShowToast(false)}
-        />
-      )}
-      {showToast === "out" && (
-        <Alert
-          type="error"
-          message="Out of stock!"
           duration={2000}
           onClose={() => setShowToast(false)}
         />

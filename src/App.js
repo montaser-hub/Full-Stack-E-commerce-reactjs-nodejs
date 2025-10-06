@@ -29,48 +29,37 @@ import OrderConfirmation from "./App/Pages/OrderConfirmation";
 import PaymentCancel from "./App/Pages/PaymentCancel";
 import Loader from "./App/SharedElements/spinner.jsx";
 import LandingPage from "./App/Pages/LandingPage.jsx";
-
-import ProtectRoute from "./App/Auth/ProtectedRoute";
-import AdminRoute from "./App/Auth/AdminRoute";
-import ScrollToTop from "./App/Components/ScrollToTop"
 import { useEffect } from "react";
 import { fetchCart } from "./ReduxToolkit/cartSlice.jsx";
-
 
 // Define router
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path="/" element={<><ScrollToTop /> <RouteLayout /></>}>
+    <Route path="/" element={<RouteLayout />}>
       <Route index element={<LandingPage />} />
+      <Route path="home" element={<Home />} />
+      <Route path="checkout" element={<Checkout />} />
+      <Route
+        path="order-confirmation/:orderId"
+        element={<OrderConfirmation />}
+      />
+      <Route path="payments/cancel" element={<PaymentCancel />} />
       <Route path="register" element={<Register />} />
       <Route path="login" element={<Login />} />
+      <Route path="home" element={<Home />} />
+      <Route path="cart" element={<Cart />} />
+      <Route path="wishlist" element={<Wishlist />} />
+      <Route path="orders" element={<Orders />} />
+      <Route path="products/:id" element={<ProductDetails />} />
 
-
-      <Route element={<ProtectRoute />}>
-        <Route path="home" element={<Home />} />
-        <Route path="checkout" element={<Checkout />} />
-        <Route
-          path="order-confirmation/:orderId"
-          element={<OrderConfirmation />}
-        />
-        <Route path="payments/cancel" element={<PaymentCancel />} />
-        <Route path="home" element={<Home />} />
-        <Route path="cart" element={<Cart />} />
-        <Route path="wishlist" element={<Wishlist />} />
-        <Route path="orders" element={<Orders />} />
-        <Route path="products/:id" element={<ProductDetails />} />
-      </Route>
-
-      <Route element={<AdminRoute />}>
-        <Route path="dashboard" element={<DashboardLayout />}>
-          {/* Dashboard Pages */}
-          <Route index element={<DashboardHome />} />
-          <Route path="products" element={<ManageProducts />} />
-          <Route path="orders" element={<ManageOrders />} />
-          <Route path="categories" element={<ManageCategories />} />
-          <Route path="settings" element={<Settings />} />
-          <Route path="analytics" element={<Analytics />} />
-        </Route>
+      <Route path="dashboard" element={<DashboardLayout />}>
+        {/* Dashboard Pages */}
+        <Route index element={<DashboardHome />} />
+        <Route path="products" element={<ManageProducts />} />
+        <Route path="orders" element={<ManageOrders />} />
+        <Route path="categories" element={<ManageCategories />} />
+        <Route path="settings" element={<Settings />} />
+        <Route path="analytics" element={<Analytics />} />
       </Route>
       {/* Error page */}
       <Route path="*" element={<ErrorPage />} />
@@ -96,7 +85,6 @@ const App = () => {
       }
       dir={lang === "ar" ? "rtl" : "ltr"}
     >
-
       <Loader />
       <RouterProvider router={router} />
     </div>
