@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { addFavorite, removeFavorite } from "../../ReduxToolkit/Store"; 
+import { addFavorite, setFavoritesLoading, removeFavorite } from "../../ReduxToolkit/Store"; 
 import Button from "../SharedElements/Button";
 import Text from "../SharedElements/Text";
 import { CiHeart } from "react-icons/ci"; 
@@ -12,25 +12,53 @@ import {addToCart} from "../../ReduxToolkit/cartSlice"
 
 function ProductDetailsCard({ id, image, title, description, price, category, stock }) {
   const dispatch = useDispatch();
-  const favoriteProducts = useSelector(state => state.myFavorites.favoriteProducts);
+  const { favoriteProducts } = useSelector( state => state.myFavorites );
+  const [showFavToast, setShowFavToast] = useState(false);
   const [showToast, setShowToast] = useState(false);
   const [ setLoading] = useState(false);
   const isFavorite = favoriteProducts.some(product => product?.id?.toString() === id?.toString());
 
-  const handleToggleFavorite = () => {
-    if (isFavorite) {
-      dispatch(removeFavorite(id)); 
-    } else {
-      dispatch(addFavorite({ 
-        id: id ? id.toString() : null,
-        image,
-        title,
-        description,
-        price, 
-        category: category || "Unknown",
-      }));
-    }
-  };
+   const handleToggleFavorite = async () => {
+     try {
+       dispatch(setFavoritesLoading(true));
+       if (isFavorite) {
+         await axiosInstance.delete(`/wishlist/${id}`, {
+           withCredentials: true,
+         });
+         dispatch(removeFavorite(id));
+         setShowFavToast("removed");
+       } else {
+         const product = {
+           id,
+           image,
+           title,
+           description,
+           price,
+           category,
+         };
+         await axiosInstance.post(
+           "/wishlist",
+           {
+             items: [
+               {
+                 productId: id,
+                 productName: title,
+                 productImage: image,
+                 price,
+               },
+             ],
+           },
+           { withCredentials: true }
+         );
+         dispatch(addFavorite(product));
+         setShowFavToast("added");
+       }
+     } catch (err) {
+       console.error("Error updating wishlist:", err);
+     } finally {
+       dispatch(setFavoritesLoading(false));
+     }
+   };
 
   
   const handleAddToCart = async () => {
@@ -101,6 +129,18 @@ function ProductDetailsCard({ id, image, title, description, price, category, st
           /> )}
         </div>
       </div>
+      {showFavToast && (
+        <Alert
+          type={showFavToast === "removed" ? "error" : "success"}
+          message={
+            showFavToast === "removed"
+              ? `${title} removed from favorites!`
+              : `${title} added to favorites!`
+          }
+          duration={2000}
+          onClose={() => setShowFavToast(false)}
+        />
+      )}
     </div>
   );
 }

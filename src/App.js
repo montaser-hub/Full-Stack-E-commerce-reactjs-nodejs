@@ -29,13 +29,24 @@ import OrderConfirmation from "./App/Pages/OrderConfirmation";
 import PaymentCancel from "./App/Pages/PaymentCancel";
 import Loader from "./App/SharedElements/spinner.jsx";
 import LandingPage from "./App/Pages/LandingPage.jsx";
+import ProtectRoute from "./App/Auth/ProtectedRoute";
+import AdminRoute from "./App/Auth/AdminRoute";
+import ScrollToTop from "./App/Components/ScrollToTop";
 import { useEffect } from "react";
 import { fetchCart } from "./ReduxToolkit/cartSlice.jsx";
+
 
 // Define router
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path="/" element={<RouteLayout />}>
+    <Route
+      path="/"
+      element={
+        <>
+          <ScrollToTop /> <RouteLayout />
+        </>
+      }
+    >
       <Route index element={<LandingPage />} />
       <Route path="home" element={<Home />} />
       <Route path="checkout" element={<Checkout />} />
@@ -46,12 +57,19 @@ const router = createBrowserRouter(
       <Route path="payments/cancel" element={<PaymentCancel />} />
       <Route path="register" element={<Register />} />
       <Route path="login" element={<Login />} />
+      <Route element={<ProtectRoute />}></Route>
       <Route path="home" element={<Home />} />
+      <Route path="checkout" element={<Checkout />} />
+      <Route
+        path="order-confirmation/:orderId"
+        element={<OrderConfirmation />}
+      />
+      <Route path="payments/cancel" element={<PaymentCancel />} />
       <Route path="cart" element={<Cart />} />
       <Route path="wishlist" element={<Wishlist />} />
       <Route path="orders" element={<Orders />} />
       <Route path="products/:id" element={<ProductDetails />} />
-
+      <Route element={<AdminRoute />}>
       <Route path="dashboard" element={<DashboardLayout />}>
         {/* Dashboard Pages */}
         <Route index element={<DashboardHome />} />
@@ -60,6 +78,7 @@ const router = createBrowserRouter(
         <Route path="categories" element={<ManageCategories />} />
         <Route path="settings" element={<Settings />} />
         <Route path="analytics" element={<Analytics />} />
+        </Route>
       </Route>
       {/* Error page */}
       <Route path="*" element={<ErrorPage />} />

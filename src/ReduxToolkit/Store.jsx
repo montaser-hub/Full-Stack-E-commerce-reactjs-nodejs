@@ -1,5 +1,6 @@
 // action, reducer , store
-import { configureStore, createSlice } from "@reduxjs/toolkit";
+import { configureStore, createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { axiosInstance } from "../App/AxiosInstance/AxiosInstance";
 import cartReducer from './cartSlice'
 import en from "../Locals/en";
 import ar from "../Locals/ar";
@@ -63,32 +64,57 @@ export const { toggleTheme } = themeSlice.actions; // button click -> action dis
 export const { showLoader, hideLoader } = loaderSlice.actions;
 export const { setSearch } = searchSlice.actions
 
-// Favorites
-const initialState = {
-  favoriteProducts: [],
-};
-
 const favoritesSlice = createSlice({
   name: "favorites",
-  initialState,
+  initialState: {
+    favoriteProducts: [],
+    loading: false,
+  },
   reducers: {
+    setFavorites: (state, action) => {
+      state.favoriteProducts = action.payload || [];
+    },
     addFavorite: (state, action) => {
-      const productExists = state.favoriteProducts.some(
-        (product) => product.id === action.payload.id
-      );
-      if (!productExists) {
-        state.favoriteProducts.push(action.payload);
-      }
+      const payload = action.payload;
+      const id =
+        payload?.id ||
+        payload?.productId ||
+        (payload?.productId?._id ? payload.productId._id : undefined);
+      const exists = state.favoriteProducts.some((p) => {
+        const pid =
+          p?.id ||
+          p?.productId ||
+          (p?.productId?._id ? p.productId._id : undefined);
+        return pid === id;
+      });
+      if (!exists) state.favoriteProducts.push(payload);
     },
     removeFavorite: (state, action) => {
-      state.favoriteProducts = state.favoriteProducts.filter(
-        (product) => product.id !== action.payload
-      );
+      const id = action.payload;
+      state.favoriteProducts = state.favoriteProducts.filter((p) => {
+        const pid =
+          p?.id ||
+          p?.productId ||
+          (p?.productId?._id ? p.productId._id : undefined);
+        return pid !== id;
+      });
+    },
+    setFavoritesLoading: (state, action) => {
+      state.loading = !!action.payload;
     },
   },
 });
 
-export const { addFavorite, removeFavorite } = favoritesSlice.actions;
+export const {
+  setFavorites,
+  addFavorite,
+  removeFavorite,
+  setFavoritesLoading,
+} = favoritesSlice.actions;
+
+// keep backward-compatible names used in other components
+export const addWishlistItem = addFavorite;
+export const removeWishlistItem = removeFavorite;
 
 const Store = configureStore({
   reducer: {
