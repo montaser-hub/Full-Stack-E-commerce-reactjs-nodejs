@@ -69,6 +69,7 @@ function ProductCard(props) {
     }
   };
 
+<<<<<<< HEAD
   const handleAddToCart = () => {
     if (product.quantity === 0) {
       setShowToast("out");
@@ -76,6 +77,21 @@ function ProductCard(props) {
     }
     dispatch(addToCart(product));
     setShowToast("added");
+=======
+  const handleAddToCart = async () => {
+    setLoading(true);
+    await axiosInstance.post(
+      "/carts",
+      {
+        titleCart: "My Cart",
+        items: [{ productId: product.id, quantity: 1 }],
+      },
+      { withCredentials: true }
+    );
+    dispatch(addToCart({ id:product.id, price:product.price }));
+    setShowToast(true);
+    setLoading(false);
+>>>>>>> 3870cb47bfdffb74774ac4b86bc2974168330b7b
   };
 
   return (

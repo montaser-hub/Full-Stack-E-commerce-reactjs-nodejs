@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import { useState } from "react";
+=======
+import {  useState } from "react";
+>>>>>>> 3870cb47bfdffb74774ac4b86bc2974168330b7b
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import ShoppingCard from "../Components/ShoppingCard";
@@ -112,7 +116,7 @@ const Cart = () => {
         <div className="lg:col-span-2 space-y-4">
           {cartState.cartItems.length > 0 ? (
             cartState.cartItems.map((item) => (
-              < ShoppingCard
+              <ShoppingCard
                 key={item.productId}
                 src={item.src || "./not_foundimage.png"}
                 alt={item.name}
@@ -122,7 +126,7 @@ const Cart = () => {
                 onUpdate={(newQty) =>
                   handleUpdateQuantity(item.productId, newQty, item.id)
                 }
-                onRemove={() => handleRemoveItem(item.id)}
+                onRemove={() => handleRemoveItem(item.productId)}
               />
             ))
           ) : (
@@ -146,7 +150,7 @@ const Cart = () => {
             myClass="mt-4 max-w-md bg-gradient-to-r from-[rgb(67,94,72)] to-[rgb(87,114,92)] text-white hover:from-[rgb(57,84,62)]
             hover:to-[rgb(77,104,82)] active:scale-95  inline-block px-8 py-3 rounded-full font-semibold shadow-lg transition-all 
             duration-300 hover:scale-105 hover:shadow-xl"
-            content={mycartContent.returnShopping}
+            content={mycartContent.placeOrder}
             onClick={() => navigate("/checkout")}
           />
         </div>

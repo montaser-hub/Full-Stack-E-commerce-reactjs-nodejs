@@ -115,6 +115,7 @@ function Wishlist() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 justify-items-center">
           {favoriteProducts.map((item) => (
             <WishlistCard
+<<<<<<< HEAD
               key={item.productId?._id || item.id}
               id={item.productId?._id || item.id}
               image={item.productImage || item.productId?.image || "./not_foundimage.png"}
@@ -123,6 +124,17 @@ function Wishlist() {
               price={item.price || item.productId?.price || 0}
               category={item.category || item.productId?.category?.name}
               onRemove={() => handleRemove(item)}
+=======
+              key={item.id}
+              id={item.id}
+              image={item.image}
+              title={item.title}
+              description={item.description}
+              price={item.price}
+              category={item.category}
+              onRemove={ () => handleRemove( item ) }
+              quantity={item.quantity}
+>>>>>>> 3870cb47bfdffb74774ac4b86bc2974168330b7b
             />
           ))}
         </div>

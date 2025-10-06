@@ -5,7 +5,7 @@ import {
   Route,
   RouterProvider,
 } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 // Layouts & Pages
 import ErrorPage from "./App/Pages/ErrorPage";
@@ -29,10 +29,15 @@ import OrderConfirmation from "./App/Pages/OrderConfirmation";
 import PaymentCancel from "./App/Pages/PaymentCancel";
 import Loader from "./App/SharedElements/spinner.jsx";
 import LandingPage from "./App/Pages/LandingPage.jsx";
+<<<<<<< HEAD
 import ProtectRoute from "./App/Auth/ProtectedRoute";
 import AdminRoute from "./App/Auth/AdminRoute";
 import ScrollToTop from "./App/Components/ScrollToTop"
 
+=======
+import { useEffect } from "react";
+import { fetchCart } from "./ReduxToolkit/cartSlice.jsx";
+>>>>>>> 3870cb47bfdffb74774ac4b86bc2974168330b7b
 
 // Define router
 const router = createBrowserRouter(
@@ -78,7 +83,12 @@ const router = createBrowserRouter(
 const App = () => {
   const myTheme = useSelector((state) => state.theme); // "light" or "dark"
   const { lang } = useSelector((state) => state.myLang); // "en" or "ar"
+  const dispatch = useDispatch();
 
+  useEffect(() => {
+    dispatch(fetchCart());
+  }, [ dispatch ] );
+  
   return (
     <div
       className={

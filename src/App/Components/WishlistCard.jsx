@@ -11,7 +11,6 @@ import { axiosInstance } from "../AxiosInstance/AxiosInstance";
 import { FaTrash } from "react-icons/fa";
 function WishlistCard(props) {
   const [loading, setLoading] = useState(false);
-
   const dispatch = useDispatch();
   const [showToast, setShowToast] = useState(false);
   const productId = props.id;
@@ -25,22 +24,26 @@ function WishlistCard(props) {
 
   const handleAddToCart = async () => {
     setLoading(true);
-    try {
-      await axiosInstance.post(
-        "/carts",
-        { items: [{ productId, quantity: 1 }] },
-        { withCredentials: true }
-      );
-      dispatch(addToCart(productId));
-      setShowToast(true);
-    } catch (err) {
-      console.error("Failed to add to cart:", err);
-    } finally {
-      setLoading(false);
-    }
+    await axiosInstance.post(
+      "/carts",
+      {
+        titleCart: "My Cart",
+        items: [{ productId, quantity: 1 }],
+      },
+      { withCredentials: true }
+    );
+    dispatch(addToCart({id:productId, price}));
+    setShowToast( true );
+    setLoading(false);
   };
+<<<<<<< HEAD
   const myContent = useSelector((state) => state.myLang.content)
 
+=======
+      
+  const myContent = useSelector((state)=> state.myLang.content)
+  
+>>>>>>> 3870cb47bfdffb74774ac4b86bc2974168330b7b
   return (
     <div className="relative w-72 h-[460px] bg-white rounded-lg border border-gray-200 shadow-md hover:shadow-lg transition-shadow duration-300 flex flex-col dark:bg-neutral-800 dark:border-neutral-800">
       {/* Image */}
