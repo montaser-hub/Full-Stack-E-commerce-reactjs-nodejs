@@ -4,6 +4,7 @@ import Button from "../SharedElements/Button";
 import Text from "../SharedElements/Text";
 import Alert from "../SharedElements/Alert";
 import { useSelector } from "react-redux";
+import { FaTrash } from "react-icons/fa";
 
 export default function ProductForm({ onSuccess }) {
   const [form, setForm] = useState({
@@ -161,23 +162,37 @@ export default function ProductForm({ onSuccess }) {
                 className="p-2 rounded-xl border flex-1"
               />
               {idx > 0 && (
-                <Button content="Remove" myClass={`w-40 h-12 flex items-center justify-center gap-2 font-medium 
-                    bg-gradient-to-r from-[rgb(200,20,20)] to-[rgb(200,20,20)]
-                    rounded-xl shadow-md 
-                    hover:from-[rgb(57,84,62)] hover:to-[rgb(77,104,82)] 
-                    active:scale-95 transition-all duration-200`} onClick={() => removeImageField(idx)} />
+                <Button 
+                myClass={`bg-red-500 text-white px-4 py-2 rounded-lg text-sm hover:bg-red-600 transition-colors duration-200`}
+                onClick={() => removeImageField(idx)}
+                content={
+                          <Text
+                            as="span"
+                            MyClass="flex items-center justify-center gap-2 w-full text-white"
+                            content={
+                              <>
+                                <FaTrash className="w-5 h-5" />
+                                Remove
+                              </>
+                            }
+                          />
+                        }
+                    />
               )}
             </div>
           ))}
-          <Button content="Add Image" myClass={`w-40 h-12 flex items-center justify-center gap-2 font-medium 
-                    bg-gradient-to-r from-[rgb(67,94,72)] to-[rgb(87,114,92)]
-                    rounded-xl shadow-md 
-                    hover:from-[rgb(57,84,62)] hover:to-[rgb(77,104,82)] 
-                    active:scale-95 transition-all duration-200`} onClick={addImageField} />
+          <Button content="Add Image" myClass={`text-white w-40 h-12 flex items-center justify-center gap-2 font-medium 
+                    bg-gradient-to-r from-[rgb(67,94,72)] to-[rgb(87,114,92)] rounded-xl shadow-md 
+                    hover:from-[rgb(57,84,62)] hover:to-[rgb(77,104,82)] active:scale-95 transition-all duration-200`} 
+                    onClick={addImageField} />
         </div>
 
         <div className="px-6 py-4 border-t flex justify-end">
-          <Button type="submit" color="bg-green-600" myClass="text-white px-6 py-3 rounded-xl" content="Add Product" />
+          <Button 
+            type="submit"   
+            myClass="bg-gradient-to-r from-[rgb(67,94,72)] to-[rgb(87,114,92)] text-white px-4 py-2 rounded-xl 
+                shadow-md hover:from-[rgb(57,84,62)] hover:to-[rgb(77,104,82)] active:scale-95 transition-all" 
+            content="Add Product" />
         </div>
       </form>
     </div>

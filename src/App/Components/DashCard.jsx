@@ -1,4 +1,3 @@
-import React from "react";
 import Text from "../SharedElements/Text";
 import { useSelector } from "react-redux";
 

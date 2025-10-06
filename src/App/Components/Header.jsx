@@ -150,7 +150,11 @@ export default function Navbar() {
                 <li key={key}>
                   <NavLink
                     to={`/${key}`}
-                    className="font-bold text-black/60 hover:text-[#c9c357] dark:text-white dark:hover:text-white underline"
+                    className={({ isActive }) =>
+                        isActive
+                          ? "block px-2 py-1 font-bold underline text-[#c9c357] dark:text-white rounded-md"
+                          : "block px-2 py-1 font-bold text-black/60 hover:text-[#c9c357] dark:text-white dark:hover:text-white"
+                      }
                   >
                     {content[key]}
                   </NavLink>
@@ -165,18 +169,19 @@ export default function Navbar() {
                     to={`/${key}`}
                     className={({ isActive }) =>
                       isActive
-                        ? "font-bold underline text-[#c9c357] dark:text-white"
-                        : "font-bold text-black/60 hover:text-[#c9c357] dark:text-white dark:hover:text-white"
+                        ? "font-bold underline text-[#c9c357] dark:text-[#c9c357]"
+                        : "font-bold text-black/60 hover:text-[#c9c357] dark:text-white dark:hover:text-[#c9c357] transition-colors duration-300"
                     }
                   >
                     {content[key]}
                   </NavLink>
+                  {/* Wishlist count */}
                   {key === "Wishlist" && favoriteProductsCount > 0 && (
                     <Text
                       as="span"
                       content={favoriteProductsCount}
                       MyClass={`absolute top-0 ${
-                        lang === "ar" ? "right-0" : "-left-3"
+                        lang === "ar" ? "right-0" : "-left-5"
                       } -translate-y-1/2 translate-x-1/2 rounded-full bg-red-600 px-1.5 py-0.5 text-[0.6rem] font-bold text-white`}
                     />
                   )}
@@ -186,7 +191,7 @@ export default function Navbar() {
                       as="span"
                       content={cartItems.length}
                       MyClass={`absolute top-0 ${
-                        lang === "ar" ? "right-0" : "-left-3"
+                        lang === "ar" ? "right-0" : "-left-5"
                       } -translate-y-1/2 translate-x-1/2 rounded-full bg-red-600 px-1.5 py-0.5 text-[0.6rem] font-bold text-white`}
                     />
                   )}
@@ -221,7 +226,7 @@ export default function Navbar() {
                       <Text
                         as="span"
                         content={favoriteProductsCount}
-                        MyClass="absolute top-1 -left-4 rounded-full bg-red-600 px-1.5 py-0.5 text-[0.6rem] font-bold text-white"
+                        MyClass="absolute top-5 -left-4 rounded-full bg-red-600 px-1.5 py-0.5 text-[0.6rem] font-bold text-white"
                       />
                     )}
                   </li>
