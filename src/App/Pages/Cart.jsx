@@ -112,7 +112,7 @@ const Cart = () => {
         <div className="lg:col-span-2 space-y-4">
           {cartState.cartItems.length > 0 ? (
             cartState.cartItems.map((item) => (
-              < ShoppingCard
+              <ShoppingCard
                 key={item.productId}
                 src={item.src || "./not_foundimage.png"}
                 alt={item.name}
@@ -122,7 +122,7 @@ const Cart = () => {
                 onUpdate={(newQty) =>
                   handleUpdateQuantity(item.productId, newQty, item.id)
                 }
-                onRemove={() => handleRemoveItem(item.id)}
+                onRemove={() => handleRemoveItem(item.productId)}
               />
             ))
           ) : (

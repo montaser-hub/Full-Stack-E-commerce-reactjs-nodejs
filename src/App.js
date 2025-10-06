@@ -5,7 +5,7 @@ import {
   Route,
   RouterProvider,
 } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 // Layouts & Pages
 import ErrorPage from "./App/Pages/ErrorPage";
@@ -30,6 +30,8 @@ import PaymentSuccess from "./App/Pages/PaymentSuccess";
 import PaymentCancel from "./App/Pages/PaymentCancel";
 import Loader from "./App/SharedElements/spinner.jsx";
 import LandingPage from "./App/Pages/LandingPage.jsx";
+import { useEffect } from "react";
+import { fetchCart } from "./ReduxToolkit/cartSlice.jsx";
 
 // Define router
 const router = createBrowserRouter(
@@ -69,7 +71,12 @@ const router = createBrowserRouter(
 const App = () => {
   const myTheme = useSelector((state) => state.theme); // "light" or "dark"
   const { lang } = useSelector((state) => state.myLang); // "en" or "ar"
+  const dispatch = useDispatch();
 
+  useEffect(() => {
+    dispatch(fetchCart());
+  }, [ dispatch ] );
+  
   return (
     <div
       className={

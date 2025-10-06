@@ -81,38 +81,6 @@ export default function Navbar() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [] );
 
-  useEffect(() => {
-    const fetchCart = async () => {
-      try {
-        const query = searchParams.get("query");
-        if (query && query !== searchKeyword) {
-          dispatch(setSearch(query));
-        }
-
-        const res = await axiosInstance.get(`/carts?query=${searchKeyword}`);
-        const data = res.data.data;
-        console.log("Cart fetched:", data);
-        dispatch(
-          setCart({
-            items: data.items.map((i) => ({
-              id: i._id,
-              productId: i.productId._id,
-              name: i.productId.name,
-              price: i.productId.price,
-              src: i.productId.images[0],
-              quantity: i.quantity,
-            })),
-            totalPrice: data.subTotal,
-          })
-        );
-      } catch (err) {
-        console.error("Failed to load cart:", err);
-      }
-    };
-
-    fetchCart();
-  }, [dispatch, searchParams, searchKeyword]);
-
   const navLinks = ["Home", "Wishlist", "Cart", "Orders"];
 
   return (

@@ -1,15 +1,19 @@
 import { useDispatch, useSelector } from "react-redux";
-import { addFavorite, removeFavorite } from "../../ReduxToolkit/Store"; 
+import { addFavorite, addToCart, removeFavorite } from "../../ReduxToolkit/Store"; 
 import Button from "../SharedElements/Button";
 import Text from "../SharedElements/Text";
 import { CiHeart } from "react-icons/ci"; 
 import { HiHeart } from "react-icons/hi"; 
 import { FiShoppingCart } from "react-icons/fi";
+import { useState } from "react";
+import { axiosInstance } from "../AxiosInstance/AxiosInstance";
+import Alert from "../SharedElements/Alert";
 
 function ProductDetailsCard({ id, image, title, description, price, category, stock }) {
   const dispatch = useDispatch();
   const favoriteProducts = useSelector(state => state.myFavorites.favoriteProducts);
-
+  const [showToast, setShowToast] = useState(false);
+  const [loading, setLoading] = useState(false);
   const isFavorite = favoriteProducts.some(product => product?.id?.toString() === id?.toString());
 
   const handleToggleFavorite = () => {
@@ -27,6 +31,21 @@ function ProductDetailsCard({ id, image, title, description, price, category, st
     }
   };
 
+  
+  const handleAddToCart = async () => {
+      setLoading(true);
+      await axiosInstance.post(
+        "/carts",
+        {
+          titleCart: "My Cart",
+          items: [{ productId: id, quantity: 1 }],
+        },
+        { withCredentials: true }
+      );console.log(id, price)
+      dispatch(addToCart({ id, price }));
+      setShowToast(true);
+      setLoading(false);
+  };
   return (
     <div className="flex flex-col md:flex-row bg-white dark:bg-neutral-800 rounded-2xl shadow-md overflow-hidden transition-shadow hover:shadow-lg w-full max-w-4xl mx-auto">
       
@@ -47,7 +66,14 @@ function ProductDetailsCard({ id, image, title, description, price, category, st
         />)}  
         
       </div>
-
+          {showToast && (
+            <Alert
+              type="success"
+              message={`${title} added to cart!`}
+              duration={2000}
+              onClose={() => setShowToast(false)}
+            />
+          )}
       <div className="md:w-1/2 p-6 flex flex-col justify-between">
         <div className="space-y-3">
           <Text as="h1" content={title} MyClass="text-2xl font-bold text-neutral-900 dark:text-white"/>
@@ -58,11 +84,12 @@ function ProductDetailsCard({ id, image, title, description, price, category, st
             <Text as="p" content={`Stock: ${stock} available`} MyClass="text-sm text-gray-500 dark:text-gray-400"/>
           )}
         </div>
+        
 
         <div className="mt-6">
           {id && (<Button
             myClass="w-full h-12 flex items-center justify-center gap-2 font-medium bg-gradient-to-r from-[rgb(67,94,72)] to-[rgb(87,114,92)] rounded-xl shadow-md hover:from-[rgb(57,84,62)] hover:to-[rgb(77,104,82)] active:scale-95 transition-all duration-200"
-            onClick={() => console.log("Add to Cart clicked!")}
+            onClick={handleAddToCart}
             content={
               <Text
                 as="span"

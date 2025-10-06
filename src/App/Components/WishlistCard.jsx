@@ -11,7 +11,6 @@ import { axiosInstance } from "../AxiosInstance/AxiosInstance";
 import { FaTrash } from "react-icons/fa";
 function WishlistCard(props) {
   const [loading, setLoading] = useState(false);
-
   const dispatch = useDispatch();
   const [showToast, setShowToast] = useState(false);
   const productId = props.id;
@@ -24,20 +23,19 @@ function WishlistCard(props) {
 
   const handleAddToCart = async () => {
     setLoading(true);
-    try {
-      await axiosInstance.post(
-        "/carts",
-        { items: [{ productId, quantity: 1 }] },
-        { withCredentials: true }
-      );
-      dispatch(addToCart(productId));
-      setShowToast(true);
-    } catch (err) {
-      console.error("Failed to add to cart:", err);
-    } finally {
-      setLoading(false);
-    }
+    await axiosInstance.post(
+      "/carts",
+      {
+        titleCart: "My Cart",
+        items: [{ productId, quantity: 1 }],
+      },
+      { withCredentials: true }
+    );
+    dispatch(addToCart({id:productId, price}));
+    setShowToast( true );
+    setLoading(false);
   };
+      
   const myContent = useSelector((state)=> state.myLang.content)
   
   return (

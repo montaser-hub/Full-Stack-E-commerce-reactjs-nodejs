@@ -13,7 +13,6 @@ import { axiosInstance } from "../../App/AxiosInstance/AxiosInstance";
 
 function ProductCard(props) {
   const [loading, setLoading] = useState(false);
-
   const dispatch = useDispatch();
   const favoriteProducts = useSelector(
     (state) => state.myFavorites.favoriteProducts
@@ -44,19 +43,19 @@ function ProductCard(props) {
     }
   };
 
-  const handleAddToCart = () => {
-    if (product.quantity === 0) {
-      return (
-        <Alert
-          type="failed"
-          message="Out of stock!"
-          duration={2000}
-          onClose={() => setShowToast(false)}
-        />
-      );
-    }
-    dispatch(addToCart(product));
+  const handleAddToCart = async () => {
+    setLoading(true);
+    await axiosInstance.post(
+      "/carts",
+      {
+        titleCart: "My Cart",
+        items: [{ productId: product.id, quantity: 1 }],
+      },
+      { withCredentials: true }
+    );
+    dispatch(addToCart({ id:product.id, price:product.price }));
     setShowToast(true);
+    setLoading(false);
   };
 
   return (

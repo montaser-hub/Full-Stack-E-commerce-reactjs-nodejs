@@ -50,7 +50,8 @@ function Wishlist() {
               description={item.description}
               price={item.price}
               category={item.category}
-              onRemove={() => handleRemove(item)}
+              onRemove={ () => handleRemove( item ) }
+              quantity={item.quantity}
             />
           ))}
         </div>
