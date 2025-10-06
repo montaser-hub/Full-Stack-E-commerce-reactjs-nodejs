@@ -77,9 +77,9 @@ export default function Orders() {
     .filter((order) =>
       searchQuery
         ? order.id.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          order.items.some((item) =>
-            item.productName.toLowerCase().includes(searchQuery.toLowerCase())
-          )
+        order.items.some((item) =>
+          item.productName.toLowerCase().includes(searchQuery.toLowerCase())
+        )
         : true
     );
 
