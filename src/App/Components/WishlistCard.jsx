@@ -14,7 +14,7 @@ function WishlistCard(props) {
 
   const title = props.title || "No Title";
   const description = props.description || "No Description";
-  const image = props.image || "https://via.placeholder.com/300x300";
+  const image = props.image ;
   const category = props.category || "Uncategorized";
   const price = props.price ?? "N/A";
 
@@ -29,8 +29,9 @@ function WishlistCard(props) {
       {/* Image */}
       <div className="relative w-full h-64 rounded-t-lg overflow-hidden flex items-center justify-center bg-gray-50 dark:bg-neutral-800">
         <img
-          src={image}
+          src={image || "./not_foundimage.png"}
           alt={title}
+          onError={(e) => (e.target.src = "./not_foundimage.png")}
           className="w-full h-full object-cover transition-transform duration-300 hover:scale-105 max-h-full max-w-full mx-auto"
         />
       </div>
