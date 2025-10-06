@@ -46,7 +46,7 @@ export default function CategoryForm({ onSuccess }) {
   return (
     <div className="relative flex justify-center items-center py-10 px-4">
       {/* ✅ Toast Alert (Fixed globally) */}
-       {showToast.show && (
+        {showToast.show && (
 
         <div className="absolute top-4 left-1/2 -translate-x-1/2 w-[90%] sm:w-[60%] z-50">
 
@@ -138,9 +138,8 @@ export default function CategoryForm({ onSuccess }) {
         <div className="px-6 py-4 border-t flex justify-end">
           <Button
             type="submit"
-            color="bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800"
-            myClass="text-white px-6 py-3 rounded-xl shadow-md font-medium transition-transform active:scale-95"
-            content="Add Category"
+            myClass={`bg-gradient-to-r from-[rgb(67,94,72)] to-[rgb(87,114,92)] text-white px-4 py-2 rounded-xl 
+                        shadow-md hover:from-[rgb(57,84,62)] hover:to-[rgb(77,104,82)] active:scale-95 transition-all`}            content="Add Category"
           />
         </div>
       </form>

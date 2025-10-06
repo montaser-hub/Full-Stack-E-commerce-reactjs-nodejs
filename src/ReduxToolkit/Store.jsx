@@ -43,8 +43,8 @@ const loaderSlice = createSlice({
       state.isLoading = false;
     },
   },
-});
-/* -------------------- Cart Slice -------------------- */
+} );
+
 const cartSlice = createSlice({
   name: "cart",
   initialState: {
@@ -58,21 +58,19 @@ const cartSlice = createSlice({
         action.payload.totalPrice ??
         state.cartItems.reduce((sum, i) => sum + i.price * i.quantity, 0);
     },
-    addToCart: (state, action) => {
+    addToCart: ( state, action ) => {
       const existing = state.cartItems.find(
-        (it) =>
-          it.id === action.payload.id ||
-          it.productId === action.payload.productId
+        (it) => it.productId === action.payload.productId
       );
       if (existing) {
         existing.quantity = (existing.quantity || 0) + 1;
       } else {
         state.cartItems.push({
           id: action.payload.id || `local-${Date.now()}`,
-          productId: action.payload.productId,
+          productId: action.payload.id,
           name: action.payload.name,
           price: action.payload.price,
-          src: action.payload.src,
+          image: action.payload.image,
           quantity: 1,
         });
       }
@@ -82,33 +80,46 @@ const cartSlice = createSlice({
       );
     },
     removeFromCart: (state, action) => {
-      state.cartItems = state.cartItems.filter((i) => i.id !== action.payload);
+      state.cartItems = state.cartItems.filter((i) => i.id  !== action.payload.id );
       state.totalPrice = state.cartItems.reduce(
         (sum, i) => sum + i.price * i.quantity,
         0
       );
     },
-    // updateQuantity: (state, action) => {
-    //   const item = state.cartItems.find((i) => i.id === action.payload.id);
-    //   if (item) item.quantity = action.payload.quantity;
-    //   state.totalPrice = state.cartItems.reduce(
-    //     (sum, i) => sum + i.price * i.quantity,
-    //     0
-    //   );
-    // },
+    updateQuantity: (state, action) => {
+      const item = state.cartItems.find(
+        (i) => i.productId === action.payload.productId
+      );
+      if (item) item.quantity = action.payload.quantity;
+      state.totalPrice = state.cartItems.reduce(
+        (sum, i) => sum + i.price * i.quantity,
+        0
+      );
+    },
     clearCart: (state) => {
       state.cartItems = [];
       state.totalPrice = 0;
     },
   },
-});
+} );
+
+const searchSlice = createSlice( {
+  name: "search",
+  initialState: {
+    keyword: "",
+  },
+  reducers: {
+    setSearch: (state, action) => {
+      state.keyword = action.payload;
+    },
+  }
+})
 
 export const { toggleLang } = langSlice.actions; // button click -> action dispatch
 export const { toggleTheme } = themeSlice.actions; // button click -> action dispatch
 export const { showLoader, hideLoader } = loaderSlice.actions;
-
-export const { setCart, addToCart, removeFromCart, updateQuantity, clearCart } =
-  cartSlice.actions;
+export const { setCart, addToCart, removeFromCart, updateQuantity, clearCart } = cartSlice.actions;
+export const { setSearch } = searchSlice.actions
 
 // Favorites
 const initialState = {
@@ -144,6 +155,7 @@ const Store = configureStore({
     myFavorites: favoritesSlice.reducer,
     loader: loaderSlice.reducer,
     cart: cartSlice.reducer,
+    search: searchSlice.reducer
   },
 });
 

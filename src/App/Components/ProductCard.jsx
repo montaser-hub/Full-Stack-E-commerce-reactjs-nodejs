@@ -29,8 +29,9 @@ function ProductCard(props) {
     image: props.image,
     title: props.title,
     description: props.description,
-    price: props.Price,
+    price: props.price,
     category: props.categoryId?.name || "Unknown Category",
+    quantity: props.quantity,
   };
 
   const handleToggleFavorite = () => {
@@ -43,21 +44,19 @@ function ProductCard(props) {
     }
   };
 
-  const handleAddToCart = async () => {
-    setLoading(true);
-    try {
-      await axiosInstance.post(
-        "/carts",
-        { items: [{ productId: props.id, quantity: 1 }] },
-        { withCredentials: true }
+  const handleAddToCart = () => {
+    if (product.quantity === 0) {
+      return (
+        <Alert
+          type="failed"
+          message="Out of stock!"
+          duration={2000}
+          onClose={() => setShowToast(false)}
+        />
       );
-      dispatch(addToCart(product));
-      setShowToast(true);
-    } catch (err) {
-      console.error("Failed to add to cart:", err);
-    } finally {
-      setLoading(false);
     }
+    dispatch(addToCart(product));
+    setShowToast(true);
   };
 
   return (
@@ -70,7 +69,7 @@ function ProductCard(props) {
           className="w-full h-full object-cover block transition-transform duration-300 hover:scale-105 max-h-full max-w-full  mx-auto "
           loading="lazy"
           onError={(e) => {
-            e.currentTarget.src = "./not_foundimage.png";
+            e.currentTarget.image = "./not_foundimage.png";
           }}
         />
         <Button
@@ -134,7 +133,7 @@ function ProductCard(props) {
           <div className="flex items-center justify-between mt-2">
             <Text
               as="span"
-              content={props.Price}
+              content={props.price}
               MyClass="text-blue-600 text-xl font-bold dark:text-blue-400"
             />
           </div>

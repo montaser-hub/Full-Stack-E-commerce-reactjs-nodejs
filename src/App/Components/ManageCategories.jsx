@@ -4,6 +4,8 @@ import { axiosInstance } from "../AxiosInstance/AxiosInstance";
 import Button from "../SharedElements/Button";
 import Alert from "../SharedElements/Alert";
 import Modal from "../SharedElements/Modal"; // ✅ استدعاء المودال
+import Text from "../SharedElements/Text";
+import { FaTrash } from "react-icons/fa";
 
 export default function ManageCategoryRow({ cat, onAction }) {
   const [editing, setEditing] = useState(false);
@@ -167,13 +169,25 @@ export default function ManageCategoryRow({ cat, onAction }) {
         <td className="p-3 flex flex-wrap gap-2 justify-start md:justify-center">
           <Button
             content="Edit"
-            myClass="bg-gradient-to-r from-[rgb(67,94,72)] to-[rgb(87,114,92)] text-white px-4 py-2 rounded-md text-sm font-medium shadow-md hover:from-[rgb(57,84,62)] hover:to-[rgb(77,104,82)] transition-transform active:scale-95"
+            myClass={`bg-gradient-to-r from-[rgb(67,94,72)] to-[rgb(87,114,92)] text-white px-4 py-2 rounded-xl 
+                      shadow-md hover:from-[rgb(57,84,62)] hover:to-[rgb(77,104,82)] active:scale-95 transition-all`}            
             onClick={() => setEditing(true)}
           />
           <Button
-            content="Delete"
-            myClass="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md text-sm font-medium shadow-md transition-transform active:scale-95"
+            myClass={`bg-red-500 text-white px-4 py-2 rounded-lg text-sm hover:bg-red-600 transition-colors duration-200`}
             onClick={() => setConfirmDelete(true)}
+            content={
+                    <Text
+                      as="span"
+                      MyClass="flex items-center justify-center gap-2 w-full text-white"
+                      content={
+                        <>
+                          <FaTrash className="w-5 h-5" />
+                          Remove
+                        </>
+                      }
+                    />
+                  }
           />
         </td>
       </tr>

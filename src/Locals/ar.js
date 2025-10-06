@@ -1,4 +1,5 @@
 const ar = {
+  // Header
   Home: "الرئيسية",
   Wishlist: "المفضلة",
   Cart: "عربة التسوق",
@@ -56,8 +57,11 @@ const ar = {
   btnRegister: "تسجيل",
   accExists: "لديك حساب بالفعل ؟ ",
   passErrPattern: " كلمة المرور يجب ان يكون على الاقل 8 حروف و تحتوي على حرف كبير وحرف صغير ورقم ورمز خاص .",
-
-   // Wishlist
+  fromLastMonth: "من الشهر الماضي",
+  // Wishlist Card
+  addtocart: "اضافة الى السلة",
+  remove: "حذف",
+  // Wishlist
   wishlistTitle: "قائمة رغباتك",
   wishlistDescEmpty: "قائمة رغباتك فارغة. ابدأ بإضافة المنتجات التي تحبها!",
   wishlistDescNotEmpty: "هذه هي المنتجات التي حفظتها لاحقًا. هل أنت جاهز لامتلاكها؟",
@@ -67,6 +71,26 @@ const ar = {
   cancel: "إلغاء",
   delete: "حذف",
   wishlistItemRemoved: "تمت إزالة المنتج من قائمة الرغبات.",
+  // Cart Shopping
+  cartTitle: "سلة التسوق الخاصة بك",
+  cartDescEmpty: "سلة التسوق فارغة، ابدأ بإضافة المنتجات التي تحبها!",
+  modalConfirmDeleteTitleCart: "تأكيد الحذف",
+  modalConfirmDeleteMessageCart: "هل تريد حذف هذا المنتج من سلة التسوق الخاصة بك؟",
+  returnShopping: "العوده للتسوق",
+  // Order Summary
+  orderSummaryTitle: "ملخص الطلب",
+  orderSummaryDescription: "قم بمراجعة العناصر والتكلفة الكلية قبل تقديم الطلب.",
+  summarySubtotal: "المجموع الفرعي",
+  summaryShipping: "الشحن",
+  summaryDiscount: "الخصم",
+  summaryTotal: "المجموع الكلي",
+  placeOrder: "تقديم الطلب",
+  // Orders
+  ordertitle: "طلباتك",
+  dropdownallorders: "كل الطلبات",
+  dropdownpendingorders: "قيد الانتظار",
+  dropdowncompletedorders: "مكتملة",
+  dropdowncancelledorders: "ملغية",
   //Footer
   siteName: "وودي",
   siteTagline: "لأثاث طبيعي",
@@ -77,16 +101,40 @@ const ar = {
   footerAbout: "من نحن",
   footerCustomer: "العملاء",
   footerServicesItems: ["شراء وبيع", "الحجز", "سياسة الإرجاع"],
+  living: "غرفة المعيشه",
+  office: "مكتب",
+  dinning: "غرفة الطعام",
+  Bedroom: "غرفة النوم",
+  Kitchen: "مطبخ",
+  staff: "طاقم العمل",
+  ourWorks: "اعمالنا",
+  careers: "الوظائف",
+  reviews: "المراجعات والتقييمات",
+  log: "تسجيل الدخول",
+  reg: "التسجيل",
+  contactUs: "اتصل بنا",
+  help:"المساعدة والدعم",
   copyrightText: "© 2025 وودي. جميع الحقوق محفوظة.",
-
-// Dashboard Home
+  // NotFound Page
+  oops:"أوووه!",
+  notfoundtitle: "صفحة غير موجودة",
+  notfoundmessage1: "الصفحة التي تبحث عنها غير موجودة،",
+  notfoundmessage2: "قد تكون تم نقلها او تم حذفها.",
+  notfoundmessage3: "يرجى التحقق من الرابط او العودة إلى الصفحة الرئيسية.",
+  // Dashboard Sidebar
+  dashboardhome: "الإداره",
+  manageproducts: "إداره المنتجات",
+  managecategories: "إداره التصنيفات",
+  manageorders: "إداره الطلبات",
+  analytics: "التحليلات",
+  settings: "الإعدادت",
+  // Dashboard Home
   dashboardWelcome: "مرحباً بعودتك، أيها المدير!",
   dashboardOverview: "إليك نظرة سريعة على أداء منصتك للتجارة الإلكترونية.",
   totalProducts: "إجمالي المنتجات",
   totalOrders: "إجمالي الطلبات",
   totalSales: "إجمالي المبيعات",
   activeUsers: "المستخدمون النشطون",
-  fromLastMonth: "من الشهر الماضي",
 };
 
 export default ar;

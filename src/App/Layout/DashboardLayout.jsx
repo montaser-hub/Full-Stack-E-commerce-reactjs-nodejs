@@ -6,8 +6,11 @@ import { LuShoppingCart } from "react-icons/lu";
 import { FaChartLine } from "react-icons/fa6";
 import { HiOutlineCog6Tooth } from "react-icons/hi2";
 import Text from "../SharedElements/Text.jsx";
+import { useSelector } from "react-redux";
 
 const DashboardLayout = () => {
+  const myDashContent = useSelector((state)=> state.myLang.content)
+
   return (
     <div className="min-h-screen flex flex-col md:grid md:grid-cols-12">
   {/* Sidebar */}
@@ -15,12 +18,12 @@ const DashboardLayout = () => {
     <nav>
       <ul className="space-y-2">
         {[
-          { to: "/dashboard", icon: MdOutlineDashboard, label: "Dashboard", end: true },
-          { to: "/dashboard/products", icon: IoCubeOutline, label: "Manage Products" },
-          { to: "/dashboard/categories", icon: GrCubes, label: "Manage Categories" },
-          { to: "/dashboard/orders", icon: LuShoppingCart, label: "Manage Orders" },
-          { to: "/dashboard/analytics", icon: FaChartLine, label: "Analytics" },
-          { to: "/dashboard/settings", icon: HiOutlineCog6Tooth, label: "Settings" },
+          { to: "/dashboard", icon: MdOutlineDashboard, label: myDashContent.dashboardhome, end: true },
+          { to: "/dashboard/products", icon: IoCubeOutline, label: myDashContent.manageproducts },
+          { to: "/dashboard/categories", icon: GrCubes, label: myDashContent.managecategories },
+          { to: "/dashboard/orders", icon: LuShoppingCart, label: myDashContent.manageorders },
+          { to: "/dashboard/analytics", icon: FaChartLine, label: myDashContent.analytics },
+          { to: "/dashboard/settings", icon: HiOutlineCog6Tooth, label: myDashContent.settings },
         ].map((item) => (
           <li key={item.to}>
             <NavLink

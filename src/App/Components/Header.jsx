@@ -5,6 +5,9 @@ import { useSelector, useDispatch } from "react-redux";
 import Search from "../SharedElements/search.jsx";
 import Text from "../SharedElements/Text.jsx";
 import { axiosInstance } from "../AxiosInstance/AxiosInstance";
+import { setCart } from "../../ReduxToolkit/Store.jsx";
+import { useSearchParams } from "react-router-dom";
+import { setSearch } from "../../ReduxToolkit/Store";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -28,7 +31,18 @@ export default function Navbar() {
   const hamburgerRef = useRef(null);
   const userRef = useRef(null);
   const [setLastClickedLink] = useState(null);
-  const notifRef = useRef(null);
+  const notifRef = useRef( null );
+  const cartItems = useSelector( ( state ) => state.cart.cartItems );
+  const searchKeyword = useSelector( ( state ) => state.search.keyword );
+  
+  
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const handleSearch = (keyword) => {
+    dispatch(setSearch(keyword));
+    setSearchParams({ query: keyword });
+  };
+
 
   const handleLinkClick = (key) => {
     setLastClickedLink(key);
@@ -65,19 +79,51 @@ export default function Navbar() {
 
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+  }, [] );
+
+  useEffect(() => {
+    const fetchCart = async () => {
+      try {
+        const query = searchParams.get("query");
+        if (query && query !== searchKeyword) {
+          dispatch(setSearch(query));
+        }
+
+        const res = await axiosInstance.get(`/carts?query=${searchKeyword}`);
+        const data = res.data.data;
+        console.log("Cart fetched:", data);
+        dispatch(
+          setCart({
+            items: data.items.map((i) => ({
+              id: i._id,
+              productId: i.productId._id,
+              name: i.productId.name,
+              price: i.productId.price,
+              src: i.productId.images[0],
+              quantity: i.quantity,
+            })),
+            totalPrice: data.subTotal,
+          })
+        );
+      } catch (err) {
+        console.error("Failed to load cart:", err);
+      }
+    };
+
+    fetchCart();
+  }, [dispatch, searchParams, searchKeyword]);
 
   const navLinks = ["Home", "Wishlist", "Cart", "Orders"];
 
   return (
-    <nav className="relative z-50 w-full bg-white dark:bg-neutral-900 shadow">
+    <nav className="fixed top-0 left-0 z-50 w-full bg-white dark:bg-neutral-900 shadow">
+      {/* Grid wrapper */}
       <div className="grid grid-cols-[auto_1fr_auto] items-center px-4 py-3 lg:px-8">
         <div className="flex items-center gap-4">
           {!isAuthPage && (
             <button
               onClick={() => setIsOpen(!isOpen)}
               className="lg:hidden border-0 bg-transparent text-black/60 dark:text-neutral-200 focus:outline-none"
-              aria-label="Toggle navigation"
             >
               <svg
                 className="w-7 stroke-current"
@@ -112,7 +158,11 @@ export default function Navbar() {
                 <li key={key}>
                   <NavLink
                     to={`/${key}`}
-                    className="font-bold text-black/60 hover:text-[#c9c357] dark:text-white dark:hover:text-white underline"
+                    className={({ isActive }) =>
+                        isActive
+                          ? "block px-2 py-1 font-bold underline text-[#c9c357] dark:text-white rounded-md"
+                          : "block px-2 py-1 font-bold text-black/60 hover:text-[#c9c357] dark:text-white dark:hover:text-white"
+                      }
                   >
                     {content[key]}
                   </NavLink>
@@ -127,18 +177,29 @@ export default function Navbar() {
                     to={`/${key}`}
                     className={({ isActive }) =>
                       isActive
-                        ? "font-bold underline text-[#c9c357] dark:text-white"
-                        : "font-bold text-black/60 hover:text-[#c9c357] dark:text-white dark:hover:text-white"
+                        ? "font-bold underline text-[#c9c357] dark:text-[#c9c357]"
+                        : "font-bold text-black/60 hover:text-[#c9c357] dark:text-white dark:hover:text-[#c9c357] transition-colors duration-300"
                     }
                   >
                     {content[key]}
                   </NavLink>
+                  {/* Wishlist count */}
                   {key === "Wishlist" && favoriteProductsCount > 0 && (
                     <Text
                       as="span"
                       content={favoriteProductsCount}
-                      MyClass={`absolute top-2 ${
-                        lang === "ar" ? "right-0" : "-left-3"
+                      MyClass={`absolute top-0 ${
+                        lang === "ar" ? "right-0" : "-left-5"
+                      } -translate-y-1/2 translate-x-1/2 rounded-full bg-red-600 px-1.5 py-0.5 text-[0.6rem] font-bold text-white`}
+                    />
+                  )}
+                  {/* Cart count */}
+                  {key === "Cart" && cartItems.length > 0 && (
+                    <Text
+                      as="span"
+                      content={cartItems.length}
+                      MyClass={`absolute top-0 ${
+                        lang === "ar" ? "right-0" : "-left-5"
                       } -translate-y-1/2 translate-x-1/2 rounded-full bg-red-600 px-1.5 py-0.5 text-[0.6rem] font-bold text-white`}
                     />
                   )}
@@ -172,7 +233,7 @@ export default function Navbar() {
                       <Text
                         as="span"
                         content={favoriteProductsCount}
-                        MyClass="absolute top-1 -left-4 rounded-full bg-red-600 px-1.5 py-0.5 text-[0.6rem] font-bold text-white"
+                        MyClass="absolute top-5 -left-4 rounded-full bg-red-600 px-1.5 py-0.5 text-[0.6rem] font-bold text-white"
                       />
                     )}
                   </li>
@@ -190,9 +251,7 @@ export default function Navbar() {
                 divClass="hidden sm:flex rounded-full border border-gray-200 hover:border-gray-400 w-full sm:w-64 md:w-80 lg:w-96 overflow-hidden"
                 inputClass="border-none focus:outline-none focus:ring-0 px-4 py-2 text-black placeholder-gray-400 w-full sm:w-64 md:w-80 lg:w-96"
                 placeholder={content.Search + "..."}
-                onSearch={(value) =>
-                  console.log("Searching from Navbar:", value)
-                }
+                onSearch={handleSearch}                
               />
 
               <div className="relative" ref={notifRef}>

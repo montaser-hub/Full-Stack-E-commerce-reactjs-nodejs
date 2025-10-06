@@ -1,3 +1,4 @@
+import { useSelector } from "react-redux";
 import ItemsOrder from "../SharedElements/ItemsOrder";
 import Text from "../SharedElements/Text";
 
@@ -11,34 +12,40 @@ const OrderSummary = ({
   showButton = true,
   onPlaceOrder = () =>{},
 }) => {
+      const mycartContent = useSelector((state)=> state.myLang.content)
   const summaryRows = [
     {
-      label: "Subtotal",
+      label: mycartContent.summarySubtotal,
       value: subtotal,
-      className: "text-gray-600 dark:text-white",
+      className: "text-blue-600 dark:text-blue-400",
+      labelClass: "text-lg dark:text-white",
     },
     {
-      label: "Shipping",
+      label: mycartContent.summaryShipping,
       value: shipping,
-      className: "text-gray-600 dark:text-white",
+      className: "text-blue-600 dark:text-blue-400",
+      labelClass: "text-lg dark:text-white",
     },
-    { label: "Discount", value: discount, className: "text-red-500" },
+    { label: mycartContent.summaryDiscount, value: discount, className: "text-red-600 dark:text-red-400" },
     {
-      label: "Order Total",
+      label: mycartContent.summaryTotal,
       value: total,
-      className: "text-lg font-bold text-[#4148c5] dark:text-white",
+      className: "text-lg font-bold text-blue-600 dark:text-blue-400",
       labelClass: "text-lg font-bold",
     },
   ];
 
   return (
     <div className="bg-white  text-gray-600  dark:text-white dark:bg-neutral-800 dark:border-neutral-700 shadow-md rounded-lg p-6 w-full max-w-md flex flex-col">
-      <Text as="h2" content="Order Summary" MyClass="text-xl font-bold mb-4" />
-
+      <Text 
+      as="h2" 
+      content= {mycartContent.orderSummaryTitle} 
+      MyClass="text-xl font-bold mb-4" 
+      />
       {showDescription && (
         <Text
           as="p"
-          content="Review your items and total cost before placing the order."
+          content={mycartContent.orderSummaryDescription}
           MyClass="text-gray-500 dark:text-white text-sm mb-4"
         />
       )}
@@ -75,7 +82,7 @@ const OrderSummary = ({
           className="mt-6 w-full bg-[rgb(67,94,72)] hover:bg-[rgb(57,84,62)]  py-2 rounded-lg text-white"
           onClick={onPlaceOrder}
         >
-          Place Order
+          {mycartContent.placeOrder}
         </button>
       )}
     </div>

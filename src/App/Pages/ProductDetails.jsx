@@ -31,7 +31,7 @@ export default function ProductDetails() {
       <div className="max-w-4xl w-full">
         <ProductDetailsCard
           id={product._id}
-          image={product.images[0]}
+          image={product.images[0] || "./not_foundimage.png"} 
           title={product.name}
           description={product.description}
           price={`$${product.price}`}

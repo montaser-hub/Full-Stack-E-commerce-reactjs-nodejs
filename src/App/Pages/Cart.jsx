@@ -6,46 +6,23 @@ import OrderSummary from "../Components/OrderSummary";
 import Text from "../SharedElements/Text";
 import Button from "../SharedElements/Button";
 import Alert from "../SharedElements/Alert";
-import { axiosInstance } from "../AxiosInstance/AxiosInstance";
-import { setCart, removeFromCart, clearCart } from "../../ReduxToolkit/Store";
+import { axiosInstance } from "../AxiosInstance/AxiosInstance.js";
+import {
+  setCart,
+  removeFromCart,
+  clearCart,
+} from "../../ReduxToolkit/Store";
 
 const Cart = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const cartState = useSelector((state) => state.cart);
   const [alert, setAlert] = useState(null);
-
-  const subtotal = 0 || "Subtotal coming from response => data.items.subTotal";
-
-  useEffect(() => {
-    const fetchCart = async () => {
-      try {
-        const res = await axiosInstance.get("/carts");
-        const cart = res.data.data;
-        dispatch(
-          setCart({
-            items: cart.items.map((item) => ({
-              id: item._id,
-              productId: item.productId._id,
-              name: item.productId.name,
-              price: item.priceAtTime,
-              src: item.productId.images?.[0],
-              quantity: item.quantity,
-            })),
-            totalPrice: cart.totalPrice,
-          })
-        );
-      } catch (err) {
-        console.error("fetch cart failed:", err);
-      }
-    };
-
-    fetchCart();
-  }, [dispatch]);
-
-  const handleRemoveItem = async (itemId, productId) => {
+  const subtotal = cartState?.totalPrice;
+console.log("cartState:", cartState);
+  const handleRemoveItem = async (productId) => {
     const prevItems = [...cartState.cartItems];
-    dispatch(removeFromCart(itemId));
+    dispatch(removeFromCart(productId));
 
     try {
       await axiosInstance.delete(`/carts/items/${productId}`);
@@ -56,12 +33,10 @@ const Cart = () => {
         type: "error",
         message: err?.response?.data?.message || "Failed to remove item",
       });
-      dispatch(
-        setCart({
-          items: prevItems,
-          totalPrice: prevItems.reduce((s, i) => s + i.price * i.quantity, 0),
-        })
-      );
+      dispatch( setCart( {
+        items: prevItems,
+        totalPrice: prevItems.reduce((sum, i) => sum + i.price * i.quantity, 0),
+        }));
     }
   };
 
@@ -96,7 +71,7 @@ const Cart = () => {
 
   const handlePlaceOrder = async () => {
     try {
-      const serverCart = await axiosInstance.get("/carts");
+      const serverCart = await axiosInstance.get("/carts");///get cart
       const cartId = serverCart.data.data._id;
       await axiosInstance.post("/orders", {
         cartId,
@@ -114,7 +89,7 @@ const Cart = () => {
       });
     }
   };
-
+      const mycartContent = useSelector((state)=> state.myLang.content)
   return (
     <div className="p-4 relative">
       {alert && (
@@ -129,7 +104,7 @@ const Cart = () => {
       <div className="flex justify-center mb-10">
         <Text
           as="h1"
-          content="Your Shopping Cart"
+          content={mycartContent.cartTitle}
           MyClass="text-[30px] leading-[36px] font-bold font-['Archivo']"
         />{" "}
       </div>
@@ -139,7 +114,7 @@ const Cart = () => {
           {cartState.cartItems.length > 0 ? (
             cartState.cartItems.map((item) => (
               <ShoppingCard
-                key={item.id}
+                key={item.productId}
                 src={item.src || "./not_foundimage.png"}
                 alt={item.name}
                 productName={item.name}
@@ -153,7 +128,7 @@ const Cart = () => {
             ))
           ) : (
             <div className="p-8 text-center text-gray-500">
-              Your cart is empty
+              {mycartContent.cartDescEmpty}
             </div>
           )}
         </div>
@@ -169,9 +144,11 @@ const Cart = () => {
             showButton={false}
           />
           <Button
-            content="Proceed to Checkout"
+            myClass="mt-4 max-w-md bg-gradient-to-r from-[rgb(67,94,72)] to-[rgb(87,114,92)] text-white hover:from-[rgb(57,84,62)]
+            hover:to-[rgb(77,104,82)] active:scale-95  inline-block px-8 py-3 rounded-full font-semibold shadow-lg transition-all 
+            duration-300 hover:scale-105 hover:shadow-xl"
+            content={mycartContent.returnShopping}
             onClick={() => navigate("/checkout")}
-            myClass="w-[20rem] bg-[rgb(67,94,72)] hover:bg-[rgb(57,84,62)] text-white py-2 rounded-lg mt-4"
           />
         </div>
       </div>

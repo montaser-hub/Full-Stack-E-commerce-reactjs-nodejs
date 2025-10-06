@@ -1,28 +1,8 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Input } from "./Input";
 import { FaSearch } from "react-icons/fa";
 
-/**
- * Search Component
- * -----------------------------
- * A reusable search bar with an input field and search icon.
- * Automatically navigates to the `/search` page with a query parameter
- * as the user types.
- *
- * Props:
- * - myClass:    Additional CSS/Tailwind classes for styling (optional).
- * - style:      Inline style object for container (optional).
- * - placeholder: Placeholder text for the search input (default: "Search...").
- *
- * Behavior:
- * - Updates local state `keyword` as user types.
- * - Uses React Router's `useNavigate` hook to redirect
- *   to `/search?query=<keyword>` dynamically.
- *
- * Example Usage:
- * <Search myClass="border rounded-md" placeholder="Search products..." />
- */
 export default function Search({
   context = "search",
   divClass,
@@ -31,16 +11,21 @@ export default function Search({
   placeholder,
   onSearch,
 }) {
-  const navigate = useNavigate(); // Hook for programmatic navigation
-  const [keyword, setKeyword] = useState(""); // Local input state
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [keyword, setKeyword] = useState("");
 
-  /**
-   * Redirect user to search results page with encoded query string
-   * @param {string} value - The search term entered by the user
-   */
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    if (params.has("query")) {
+      const route = context === "orders" ? "/orders" : "/home";
+      navigate(route, { replace: true }); 
+    }
+  }, [context, location.search, navigate]);
+
   const handleSearch = (value) => {
     const route = context === "orders" ? "/orders" : "/home";
-    if (value) {
+    if (value && value.trim() !== "") {
       navigate(`${route}?query=${encodeURIComponent(value)}`);
     } else {
       navigate(route);
@@ -50,41 +35,39 @@ export default function Search({
     }
   };
 
-  /**
-   * Handle input changes:
-   * - Update state
-   * - Trigger navigation instantly on typing
-   */
   const handleChange = (e) => {
     const value = e.target.value;
     setKeyword(value);
     handleSearch(value);
-    onSearch(value);
+  };
+
+  const handleBlur = () => {
+    if (!keyword.trim()) {
+      const route = context === "orders" ? "/orders" : "/home";
+      navigate(route);
+    }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSearch(keyword);
+    handleSearch(keyword);
   };
 
   return (
     <div
-      className={`relative flex items-center gap-2 w-full max-w-md ${
-        divClass || ""
-      }`}
+      className={`relative flex items-center gap-2 w-full max-w-md ${divClass || ""}`}
       style={style}
     >
-      {/* Search icon (positioned absolutely inside input) */}
-      <FaSearch className="absolute left-3 h-4 w-4 text-gray-400 pointer-events-none" />
-      <form onSubmit={handleSubmit}>
-        {/* Search input field */}
+      <FaSearch className="absolute z-50 left-3 h-4 w-4 text-gray-400 pointer-events-none" />
+      <form onSubmit={handleSubmit} className="w-full">
         <Input
           type="text"
-          myClass={`pl-10 ${inputClass || ""}`} // Padding to prevent overlap with icon
+          myClass={`pl-10 ${inputClass || ""}`}
           placeholder={placeholder || "Search..."}
           name="Search"
           value={keyword}
           onChange={handleChange}
+          onBlur={handleBlur}
         />
       </form>
     </div>
