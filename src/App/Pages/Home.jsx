@@ -87,16 +87,8 @@ export default function Home() {
     setMeta((prev) => ({ ...prev, page: 1 }));
   }, [searchKeyword, selectedCategories]);
 
-  // Calculate total pages dynamically
-  const totalPages = Math.ceil(filteredProducts.length / meta.limit) || 1;
-
-  // Paginate filtered results
-  const paginatedProducts = useMemo(() => {
-    const start = (meta.page - 1) * meta.limit;
-    const end = start + meta.limit;
-    return filteredProducts.slice(start, end);
-  }, [filteredProducts, meta.page, meta.limit]);
-
+  const paginatedProducts = filteredProducts; // backend already paginated
+  const totalPages = Math.ceil(meta.total / meta.limit) || 1;
   return (
     <main
       ref={topRef}

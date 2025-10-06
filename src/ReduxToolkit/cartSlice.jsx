@@ -1,4 +1,3 @@
-// ReduxToolkit/cartSlice.js
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { axiosInstance } from "../App/AxiosInstance/AxiosInstance";
 
@@ -8,6 +7,7 @@ export const fetchCart = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const res = await axiosInstance.get("/carts", { withCredentials: true });
+      console.log(res.data);
       return res.data.data;
     } catch (err) {
       return rejectWithValue(err.response?.data || err.message);
@@ -64,6 +64,17 @@ const cartSlice = createSlice({
         0
       );
     },
+    updateQuantity: (state, action) => {
+      const { productId, quantity } = action.payload;
+      const item = state.cartItems.find((i) => i.productId === productId);
+      if (item) {
+        item.quantity = quantity;
+      }
+      state.totalPrice = state.cartItems.reduce(
+        (sum, i) => sum + i.price * i.quantity,
+        0
+      );
+    },
 
     clearCart: (state) => {
       state.cartItems = [];
@@ -97,7 +108,7 @@ const cartSlice = createSlice({
   },
 });
 
-export const { setCart, addToCart, removeFromCart, clearCart } =
+export const { setCart, addToCart, removeFromCart, clearCart, updateQuantity } =
   cartSlice.actions;
 
 export default cartSlice.reducer;

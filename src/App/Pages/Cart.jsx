@@ -11,7 +11,7 @@ import {
   setCart,
   removeFromCart,
   clearCart,
-} from "../../ReduxToolkit/Store";
+} from "../../ReduxToolkit/cartSlice.jsx";
 
 const Cart = () => {
   const navigate = useNavigate();
@@ -111,9 +111,10 @@ const Cart = () => {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 space-y-4">
           {cartState.cartItems.length > 0 ? (
-            cartState.cartItems.map((item) => (
+            cartState.cartItems.map((item, index) => (
               <ShoppingCard
-                key={item.productId}
+                key={index}
+                productId={item.productId}
                 src={item.src || "./not_foundimage.png"}
                 alt={item.name}
                 productName={item.name}
